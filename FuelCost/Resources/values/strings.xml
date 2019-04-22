@@ -1,0 +1,12 @@
+<resources>
+  <string name="app_name">FuelCost</string>
+  <string name="action_settings">Settings</string>
+
+
+  <string name="planet_prompt">Wybierz paliwo</string>
+  <string-array name="planets_array">
+    <item>Gaz</item>
+    <item>Benzyna</item>
+    <item>Diesel</item>
+  </string-array>
+</resources>
