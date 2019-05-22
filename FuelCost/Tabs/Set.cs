@@ -33,7 +33,13 @@ namespace FuelCost
         EditText name;
         EditText consuption;
 
+        EditText lpgprice;
+        EditText pbprice;
+        EditText onprice;
+        
+
         VehicleData data = new VehicleData();
+
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -69,9 +75,15 @@ namespace FuelCost
             name = view.FindViewById<EditText>(Resource.Id.name);
             consuption = view.FindViewById<EditText>(Resource.Id.consuption);
 
+            lpgprice = view.FindViewById<EditText>(Resource.Id.lpgprice);
+            pbprice = view.FindViewById<EditText>(Resource.Id.pbprice);
+            onprice = view.FindViewById<EditText>(Resource.Id.onprice);
 
+            lpgprice.Text = LocalSet.LpgPrice.ToString();
+            pbprice.Text = LocalSet.PbPrice.ToString();
+            onprice.Text = LocalSet.OnPrice.ToString();
 
-
+            view.FindViewById<Button>(Resource.Id.button2).Click += Set_Click;
 
 
             Button btn = view.FindViewById<Button>(Resource.Id.button1);
@@ -86,42 +98,44 @@ namespace FuelCost
             // return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
-        private void Btn_Click(object sender, EventArgs e)
+        private void Set_Click(object sender, EventArgs e)
         {
-            new Thread(()=>
-            {
             try
             {
-                data.Name = name.Text;
-                data.consumption = float.Parse(consuption.Text);
-                data.Pbinjection = checkBox1.Checked;
+                new Thread(() =>
+                {
+                    LocalSet.LpgPrice = float.Parse(lpgprice.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                    LocalSet.PbPrice = float.Parse(pbprice.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                    LocalSet.OnPrice = float.Parse(onprice.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                }).Start();
             }
-            catch
-            { }
-
-            string raw = data.PrepareRaw();
-            Serialize(raw);
-        }).Start();
+            catch { }
 
         }
 
-    private void Serialize(string raw)
-    {
-        ISharedPreferences preferences = Android.App.Application.Context.GetSharedPreferences("Vehicles", FileCreationMode.Private);
-        int lenght = preferences.GetInt("lenght", 0);
-        lenght++;
+        private void Btn_Click(object sender, EventArgs e)
+        {
+            new Thread(() =>
+            {
+                try
+                {
+                    data.Name = name.Text;
+                    data.consumption = float.Parse(consuption.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                    data.Pbinjection = checkBox1.Checked;
 
-        var editor = preferences.Edit();
-        editor.PutString(lenght.ToString(), raw);
-        editor.PutInt("lenght", lenght);
-        editor.Commit();
+                    LocalSet.AddVehicle(data);
+                }
+                catch
+                { }
+            }).Start();
 
+        }
+
+
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
+            data.FuelType = planets[e.Position].Value;
+        }
     }
-
-    private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-    {
-        Spinner spinner = (Spinner)sender;
-        data.FuelType = planets[e.Position].Value;
-    }
-}
 }

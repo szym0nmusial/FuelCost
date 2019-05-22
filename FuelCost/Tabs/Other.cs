@@ -19,22 +19,82 @@ namespace FuelCost
 
         public VehicleData Data;
 
+        private EditText Cost;
+        private EditText Distance;
+        private float Price = 0;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
-             return inflater.Inflate(Resource.Layout.other, container, false);
 
-           // return base.OnCreateView(inflater, container, savedInstanceState);
+            var view = inflater.Inflate(Resource.Layout.lpg, container, false);
+
+            view.FindViewById<Button>(Resource.Id.del).Click += Del_Click;
+
+            if(Data.FuelType == VehicleData.FuelTypeEnum.diesel)
+            {
+                Price = LocalSet.OnPrice;
+            }
+            if (Data.FuelType == VehicleData.FuelTypeEnum.pb)
+            {
+                Price = LocalSet.PbPrice;
+            }
+
+            view.FindViewById<TextView>(Resource.Id.name).Text = Data?.Name;
+            view.FindViewById<TextView>(Resource.Id.typ).Text = Data?.FuelType.ToString();
+            view.FindViewById<TextView>(Resource.Id.cons).Text = Data?.consumption.ToString() + " l/100km";
+            view.FindViewById<TextView>(Resource.Id.price).Text = Price.ToString() + " zł/l";
+
+            Distance = view.FindViewById<EditText>(Resource.Id.distance);
+            Distance.TextChanged += Distance_Changed;
+
+           
+
+            Cost = view.FindViewById<EditText>(Resource.Id.cost);
+            Cost.TextChanged += Cost_Changed;
+            
+
+            return view;
+
+            // return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
-     
 
+
+        private void Del_Click(object sender, EventArgs e)
+        {
+            LocalSet.DelVehicle(Data);
+        }
+
+        private void Cost_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            try
+            {
+                Distance.TextChanged -= Distance_Changed;
+                var dist = float.Parse(Cost.Text) *100 / Price / Data.consumption;
+                Distance.Text = dist.ToString();
+                Distance.TextChanged += Distance_Changed;
+            }
+            catch
+            { }
+        }
+        
+        private void Distance_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            try
+            {
+                Cost.TextChanged -= Cost_Changed;
+                var cost = Data.consumption *0.01f * Price * float.Parse(Distance.Text);
+                Cost.Text = cost.ToString();
+                Cost.TextChanged += Cost_Changed;
+            }
+            catch { }
+        }
     }
 }
