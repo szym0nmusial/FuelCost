@@ -17,7 +17,7 @@ namespace FuelCost
         {
             base.OnCreate(savedInstanceState);
 
-            LocalSet.GetSetting();
+            //LocalSet.GetSetting();
             
 
             // Set our view from the "main" layout resource
@@ -29,13 +29,13 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
-            var viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
-            PrepareViewPager(viewPager);
+            //var viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
+            //PrepareViewPager(viewPager);
 
-            using (var tabs = FindViewById<TabLayout>(Resource.Id.tabs))
-            {
-                tabs.SetupWithViewPager(viewPager);
-            }
+            //using (var tabs = FindViewById<TabLayout>(Resource.Id.tabs))
+            //{
+            //    tabs.SetupWithViewPager(viewPager);
+            //}
         }
 
         private void PrepareViewPager(ViewPager viewPager)
