@@ -5,6 +5,7 @@ using Android.Support.V4.View;
 using Android.Support.Design.Widget;
 using Android.Support.V7.Widget;
 using System;
+using Android.Content;
 
 namespace FuelCost
 {
@@ -41,7 +42,7 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
-            FindViewById<Android.Support.Design.Widget.FloatingActionButton>(Resource.Id.fabBtn).Click += FabBtn_Click;
+            FindViewById<FloatingActionButton>(Resource.Id.fabBtn).Click += FabBtn_Click;
 
             //var viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
             //PrepareViewPager(viewPager);
@@ -67,6 +68,8 @@ namespace FuelCost
         private void FabBtn_Click(object sender, EventArgs e)
         {
             Android.Widget.Toast.MakeText(this, "Fab Btn Clicked", Android.Widget.ToastLength.Short).Show();
+            Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
+            StartActivity(AddVehicleIntent);
         }
 
         private void PrepareViewPager(ViewPager viewPager)

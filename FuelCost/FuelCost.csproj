@@ -59,6 +59,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddVehicleActicity.cs" />
     <Compile Include="FragmentAdapter.cs" />
     <Compile Include="LocalSet.cs" />
     <Compile Include="RecyclerViewAdapter.cs" />
