@@ -7,7 +7,7 @@ namespace FuelCost
 {
     static class LocalSet
     {
-        private static int Lenght;
+        public static int Lenght;
         private static List<VehicleData> VehicleDatas = new List<VehicleData>();
 
         private static ISharedPreferences VehicleSharedPreferences;
@@ -59,7 +59,8 @@ namespace FuelCost
         {
             new Thread(() =>
             {
-                Lenght++;
+                VehicleSharedPreferences = Application.Context.GetSharedPreferences("Vehicles", FileCreationMode.Private);
+                Lenght++;// exception
                 var editor = VehicleSharedPreferences.Edit();
                 editor.PutString(Lenght.ToString(), vehicle.PrepareRaw());
                 editor.PutInt("lenght", Lenght);

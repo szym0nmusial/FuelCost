@@ -11,13 +11,25 @@ namespace FuelCost
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-  
+
+
+        RecyclerView mRecycleView;
+        RecyclerView.LayoutManager mLayoutManager;
+        // PhotoAlbum mPhotoAlbum;
+        RecyclerViewAdapter mAdapter;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            //LocalSet.GetSetting();
+            LocalSet.GetSetting();
+            VehicleData vd = new VehicleData();
+            vd.Name = "tas";
+            vd.consumption = 11;
+            vd.FuelType = VehicleData.FuelTypeEnum.pb;
+
+            LocalSet.AddVehicle(vd);
             
 
             // Set our view from the "main" layout resource
@@ -38,6 +50,18 @@ namespace FuelCost
             //{
             //    tabs.SetupWithViewPager(viewPager);
             //}
+
+
+
+            mRecycleView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            mLayoutManager = new LinearLayoutManager(this);
+            mRecycleView.SetLayoutManager(mLayoutManager);
+            mAdapter = new RecyclerViewAdapter();
+            mRecycleView.SetAdapter(mAdapter);
+
+
+
+
         }
 
         private void FabBtn_Click(object sender, EventArgs e)
