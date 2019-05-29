@@ -29,6 +29,8 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
+            FindViewById<Android.Support.Design.Widget.FloatingActionButton>(Resource.Id.fabBtn).Click += FabBtn_Click;
+
             //var viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
             //PrepareViewPager(viewPager);
 
@@ -36,6 +38,11 @@ namespace FuelCost
             //{
             //    tabs.SetupWithViewPager(viewPager);
             //}
+        }
+
+        private void FabBtn_Click(object sender, EventArgs e)
+        {
+            Android.Widget.Toast.MakeText(this, "Fab Btn Clicked", Android.Widget.ToastLength.Short).Show();
         }
 
         private void PrepareViewPager(ViewPager viewPager)
