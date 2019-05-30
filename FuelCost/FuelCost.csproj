@@ -62,6 +62,7 @@
     <Compile Include="AddVehicleActicity.cs" />
     <Compile Include="FragmentAdapter.cs" />
     <Compile Include="LocalSet.cs" />
+    <Compile Include="MyItemTouchHelper.cs" />
     <Compile Include="RecyclerViewAdapter.cs" />
     <Compile Include="RecyclerViewViewHolder.cs" />
     <Compile Include="Tabs\Set.cs" />

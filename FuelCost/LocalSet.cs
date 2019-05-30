@@ -10,6 +10,8 @@ namespace FuelCost
         public static int Lenght;
         private static List<VehicleData> VehicleDatas = new List<VehicleData>();
 
+        
+
         private static ISharedPreferences VehicleSharedPreferences;
         private static ISharedPreferences PriceSharedPreferences;
 
@@ -17,11 +19,14 @@ namespace FuelCost
         private static float pb;
         private static float on;
 
+        static Thread GetSettingThread;
+
         /// <summary>
         /// Pobiera dane
         /// </summary>
         public static void GetSetting()
         {
+            GetSettingThread =
             new Thread(() =>
             {
                 VehicleSharedPreferences = Application.Context.GetSharedPreferences("Vehicles", FileCreationMode.Private);
@@ -33,7 +38,7 @@ namespace FuelCost
                     return;
                 }
                 Lenght++;
-
+                
                 for (int i = 1; i < Lenght; i++)
                 {
                     VehicleData temp = new VehicleData();
@@ -50,7 +55,9 @@ namespace FuelCost
                 lpg = PriceSharedPreferences.GetFloat("LpgPrice", 0);
                 pb = PriceSharedPreferences.GetFloat("PbPrice", 0);
                 on = PriceSharedPreferences.GetFloat("OnPrice", 0);
-            }).Start();
+            });
+            GetSettingThread.Start();
+            GetSettingThread.Join();
         }
 
         public static List<VehicleData> VehicleDataList { get { return VehicleDatas; } }
@@ -59,6 +66,11 @@ namespace FuelCost
         {
             new Thread(() =>
             {
+                try
+                {
+                    GetSettingThread.Join();
+                }
+                catch { }
                 VehicleSharedPreferences = Application.Context.GetSharedPreferences("Vehicles", FileCreationMode.Private);
                 Lenght++;// exception
                 var editor = VehicleSharedPreferences.Edit();

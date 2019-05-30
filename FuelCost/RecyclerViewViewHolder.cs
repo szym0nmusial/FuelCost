@@ -15,14 +15,18 @@ namespace FuelCost
 {
     public class RecyclerViewViewHolder : RecyclerView.ViewHolder
     {
-       // public ImageView Image { get; private set; }
-        public TextView Caption { get; private set; }
+        public TextView Name { get; private set; }
+        public TextView FuelType { get; private set; }
+        public TextView Consuption { get; private set; }
+        public TextView Price { get; private set; }
 
-        public RecyclerViewViewHolder(View itemView) : base(itemView)
+        public RecyclerViewViewHolder(View view) : base(view)
         {
             // Locate and cache view references:
-           // Image = itemView.FindViewById<ImageView>(Resource.Id.imageView);
-            Caption = itemView.FindViewById<TextView>(Resource.Id.textView);
+            Name = view.FindViewById<TextView>(Resource.Id.name);
+            FuelType = view.FindViewById<TextView>(Resource.Id.typ);
+            Consuption = view.FindViewById<TextView>(Resource.Id.cons);
+            Price = view.FindViewById<TextView>(Resource.Id.price);
         }
     }
 }
