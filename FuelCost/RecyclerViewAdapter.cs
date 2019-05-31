@@ -13,9 +13,9 @@ using Android.Widget;
 
 namespace FuelCost
 {
-    class RecyclerViewAdapter : RecyclerView.Adapter
+    public class RecyclerViewAdapter : RecyclerView.Adapter
     {
-        public override int ItemCount =>  LocalSet.VehicleDataList.ToArray().Length;
+        public override int ItemCount => LocalSet.VehicleDataList.ToArray().Length;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {

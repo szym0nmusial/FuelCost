@@ -128,7 +128,12 @@ namespace FuelCost
             }).Start();
         }
 
-
+        public static void DelVehicle(int position)
+        {
+            VehicleSharedPreferences.Edit().Remove(position.ToString()).Commit();
+            VehicleDatas.Remove(VehicleDatas[position]);
+            VehicleDatas.Sort();
+        }
         public static void DelVehicle(VehicleData data)
         {
             new Thread(() =>
