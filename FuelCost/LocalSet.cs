@@ -2,6 +2,7 @@
 using Android.Content;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FuelCost
 {
@@ -130,9 +131,13 @@ namespace FuelCost
 
         public static void DelVehicle(int position)
         {
-            VehicleSharedPreferences.Edit().Remove(position.ToString()).Commit();
-            VehicleDatas.Remove(VehicleDatas[position]);
-            VehicleDatas.Sort();
+            Task worker = new Task(() =>
+            {
+                VehicleSharedPreferences.Edit().Remove(position.ToString()).Commit();
+                VehicleDatas.Remove(VehicleDatas[position]);
+                VehicleDatas.Sort();
+            });
+            worker.Start();
         }
         public static void DelVehicle(VehicleData data)
         {

@@ -10,7 +10,7 @@ using Android.Support.V7.Widget.Helper;
 
 namespace FuelCost
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
     public class MainActivity : AppCompatActivity
     {
 
@@ -24,7 +24,7 @@ namespace FuelCost
         {
             base.OnCreate(savedInstanceState);
 
-            LocalSet.GetSetting();
+          //  LocalSet.GetSetting();
             VehicleData vd = new VehicleData();
             vd.Name = "tas";
             vd.consumption = 11;
