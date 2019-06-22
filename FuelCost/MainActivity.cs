@@ -69,48 +69,14 @@ namespace FuelCost
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(mRecycleView);
 
-            mAdapter.ItemClick += MAdapter_ItemClick;
-           
-
-            mRecycleView.SetOnClickListener(new SetOnClickListenerWork());
-
+            mAdapter.ItemClick += MAdapter_ItemClick;  
 
         }
-        /// <summary>
-        /// https://forums.xamarin.com/discussion/72639/implementing-java-interfaces-without-inheriting-java-lang-object-should-fail-early
-        /// </summary>
-        private class SetOnClickListenerWork : Java.Lang.Object, View.IOnClickListener
-        {
-            public IntPtr Handle => new IntPtr();//throw new NotImplementedException();
-
-            public void Dispose()
-            {
-               // throw new NotImplementedException();
-            }
-
-            public void OnClick(View v)
-            {
-               
-
-                 Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(v, 0, 0, 0, 0).ToBundle();
-
-               // Intent intent = new Intent(this, typeof(DetailsActivity));
-
-                
-
-               // StartActivity(intent);
-                //  throw new NotImplementedException();
-            }
-        }
-
-
-
 
         private void MAdapter_ItemClick(object sender, int e)
         {
             Intent intent = new Intent(this, typeof(DetailsActivity));
 
-          //  Bundle options = ActivityOptions.MakeScaleUpAnimation()
            // Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(MainActivity., 0, 0, 0, 0).ToBundle();
             StartActivity(intent);
         }
@@ -118,7 +84,6 @@ namespace FuelCost
 
         private void FabBtn_Click(object sender, EventArgs e)
         {
-
             Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
             StartActivity(AddVehicleIntent);
         }
