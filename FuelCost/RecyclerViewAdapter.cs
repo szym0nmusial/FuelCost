@@ -17,6 +17,8 @@ namespace FuelCost
     {
         public override int ItemCount => LocalSet.VehicleDataList.ToArray().Length;
 
+        public event EventHandler<int> ItemClick;
+
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             RecyclerViewViewHolder recyclerViewViewHolder = holder as RecyclerViewViewHolder;
@@ -58,8 +60,13 @@ namespace FuelCost
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.card, parent, false);
-            RecyclerViewViewHolder vh = new RecyclerViewViewHolder(itemView);
+            RecyclerViewViewHolder vh = new RecyclerViewViewHolder(itemView, OnClick);
             return vh;
+        }
+
+        private void OnClick(int position)
+        {
+            ItemClick?.Invoke(this, position);
         }
     }
 }

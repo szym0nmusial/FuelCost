@@ -7,6 +7,10 @@ using Android.Support.V7.Widget;
 using System;
 using Android.Content;
 using Android.Support.V7.Widget.Helper;
+using Android.Views;
+using Android.Util;
+using Android.Support.V4.App;
+
 
 namespace FuelCost
 {
@@ -23,7 +27,7 @@ namespace FuelCost
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            
           //  LocalSet.GetSetting();
             VehicleData vd = new VehicleData();
             vd.Name = "tas";
@@ -65,10 +69,52 @@ namespace FuelCost
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(mRecycleView);
 
-            //mRecycleView.SetOnClickListener()
-            //mRecycleView.
+            mAdapter.ItemClick += MAdapter_ItemClick;
+           
+
+            mRecycleView.SetOnClickListener(new SetOnClickListenerWork());
+
 
         }
+        /// <summary>
+        /// https://forums.xamarin.com/discussion/72639/implementing-java-interfaces-without-inheriting-java-lang-object-should-fail-early
+        /// </summary>
+        private class SetOnClickListenerWork : Java.Lang.Object, View.IOnClickListener
+        {
+            public IntPtr Handle => new IntPtr();//throw new NotImplementedException();
+
+            public void Dispose()
+            {
+               // throw new NotImplementedException();
+            }
+
+            public void OnClick(View v)
+            {
+               
+
+                 Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(v, 0, 0, 0, 0).ToBundle();
+
+               // Intent intent = new Intent(this, typeof(DetailsActivity));
+
+                
+
+               // StartActivity(intent);
+                //  throw new NotImplementedException();
+            }
+        }
+
+
+
+
+        private void MAdapter_ItemClick(object sender, int e)
+        {
+            Intent intent = new Intent(this, typeof(DetailsActivity));
+
+          //  Bundle options = ActivityOptions.MakeScaleUpAnimation()
+           // Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(MainActivity., 0, 0, 0, 0).ToBundle();
+            StartActivity(intent);
+        }
+
 
         private void FabBtn_Click(object sender, EventArgs e)
         {
