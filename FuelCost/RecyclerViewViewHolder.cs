@@ -20,6 +20,9 @@ namespace FuelCost
         public TextView Consuption { get; private set; }
         public TextView Price { get; private set; }
 
+        private EditText Cost;
+        private EditText Distance;
+
         public RecyclerViewViewHolder(View view) : base(view)
         {
             // Locate and cache view references:
@@ -27,6 +30,36 @@ namespace FuelCost
             FuelType = view.FindViewById<TextView>(Resource.Id.typ);
             Consuption = view.FindViewById<TextView>(Resource.Id.cons);
             Price = view.FindViewById<TextView>(Resource.Id.price);
+
+            Distance = view.FindViewById<EditText>(Resource.Id.distance);
+            Distance.TextChanged += Distance_Changed;
+            Cost = view.FindViewById<EditText>(Resource.Id.cost);
+            Cost.TextChanged += Cost_Changed;
+        }
+
+        private void Cost_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            try
+            {
+                Distance.TextChanged -= Distance_Changed;
+                var dist = float.Parse(Cost.Text) * 100 / float.Parse(Price.Text) / float.Parse(Consuption.Text);
+                Distance.Text = dist.ToString();
+                Distance.TextChanged += Distance_Changed;
+            }
+            catch
+            { }
+        }
+
+        private void Distance_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            try
+            {
+                Cost.TextChanged -= Cost_Changed;
+                var cost = float.Parse(Consuption.Text) * 0.01f * float.Parse(Price.Text) * float.Parse(Distance.Text);
+                Cost.Text = cost.ToString();
+                Cost.TextChanged += Cost_Changed;
+            }
+            catch { }
         }
     }
 }

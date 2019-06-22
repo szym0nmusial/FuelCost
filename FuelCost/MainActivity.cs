@@ -65,7 +65,8 @@ namespace FuelCost
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(mRecycleView);
 
-
+            //mRecycleView.SetOnClickListener()
+            //mRecycleView.
 
         }
 

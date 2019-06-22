@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddVehicleActicity.cs" />
+    <Compile Include="DetailsActivity.cs" />
     <Compile Include="FragmentAdapter.cs" />
     <Compile Include="LocalSet.cs" />
     <Compile Include="MyItemTouchHelper.cs" />
@@ -157,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\splash_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\card_exit.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
