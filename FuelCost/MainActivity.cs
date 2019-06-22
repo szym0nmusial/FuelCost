@@ -69,7 +69,7 @@ namespace FuelCost
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(mRecycleView);
 
-            mAdapter.ItemClick += MAdapter_ItemClick;
+          //  mAdapter.ItemClick += MAdapter_ItemClick;
            
 
             mRecycleView.SetOnClickListener(new SetOnClickListenerWork());
@@ -81,7 +81,7 @@ namespace FuelCost
         /// </summary>
         private class SetOnClickListenerWork : Java.Lang.Object, View.IOnClickListener
         {
-            public IntPtr Handle => new IntPtr();//throw new NotImplementedException();
+            public IntPtr Handle { get; }// => new IntPtr();
 
             public void Dispose()
             {
@@ -89,16 +89,15 @@ namespace FuelCost
             }
 
             public void OnClick(View v)
+
             {
                
 
-                 Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(v, 0, 0, 0, 0).ToBundle();
+                 Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(v, 0, 0, v.Width, v.Height).ToBundle();
 
-               // Intent intent = new Intent(this, typeof(DetailsActivity));
-
-                
-
-               // StartActivity(intent);
+                Intent intent = new Intent(v.Context, typeof(DetailsActivity));
+                   
+                v.Context.StartActivity(intent,options);
                 //  throw new NotImplementedException();
             }
         }

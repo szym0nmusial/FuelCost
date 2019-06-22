@@ -18,7 +18,7 @@ namespace FuelCost
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.lpg);
+            SetContentView(Resource.Layout.card);
             // Create your application here
         }
     }
