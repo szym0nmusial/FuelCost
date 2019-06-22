@@ -22,6 +22,7 @@ namespace FuelCost
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+          //  SetContentView(Resource.Layout.splash_screenv);
             Log.Debug(TAG, "SplashActivity.OnCreate");
             // Create your application here
         }
