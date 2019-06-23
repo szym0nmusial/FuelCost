@@ -76,7 +76,7 @@ namespace FuelCost
         private void MAdapter_ItemClick(object sender, int e)
         {
             Intent intent = new Intent(this, typeof(DetailsActivity));
-
+            intent.PutExtra("position", e);
            // Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(MainActivity., 0, 0, 0, 0).ToBundle();
             StartActivity(intent);
         }
