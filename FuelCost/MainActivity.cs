@@ -43,7 +43,7 @@ namespace FuelCost
             using (var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar))
             {
                 SetSupportActionBar(toolbar);
-                SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                SupportActionBar.SetDisplayHomeAsUpEnabled(false);
             }
 
             FindViewById<FloatingActionButton>(Resource.Id.fabBtn).Click += FabBtn_Click;
