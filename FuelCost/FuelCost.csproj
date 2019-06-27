@@ -61,15 +61,11 @@
   <ItemGroup>
     <Compile Include="AddVehicleActicity.cs" />
     <Compile Include="DetailsActivity.cs" />
-    <Compile Include="FragmentAdapter.cs" />
     <Compile Include="LocalSet.cs" />
     <Compile Include="MyItemTouchHelper.cs" />
     <Compile Include="RecyclerViewAdapter.cs" />
     <Compile Include="RecyclerViewViewHolder.cs" />
     <Compile Include="SplashActivity.cs" />
-    <Compile Include="Tabs\Set.cs" />
-    <Compile Include="Tabs\Other.cs" />
-    <Compile Include="Tabs\Lpg.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,21 +103,6 @@
     <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\lpg.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\other.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\set.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\values-v21\dimens.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
@@ -151,12 +132,6 @@
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\splash_logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\card_exit.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\card_details.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -169,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\fuelbg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\set.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

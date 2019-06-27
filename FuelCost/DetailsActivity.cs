@@ -49,7 +49,6 @@ namespace FuelCost
             }
                
 
-            // Locate and cache view references:
             Name = FindViewById<TextView>(Resource.Id.name);
             FuelType = FindViewById<TextView>(Resource.Id.typ);
             Consuption = FindViewById<TextView>(Resource.Id.cons);
@@ -91,9 +90,6 @@ namespace FuelCost
             FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
             Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString();
             Price.Text = cost.ToString();
-
-
-            // Create your application here
         }
 
         private void Toolbar_NavigationClick(object sender, Android.Support.V7.Widget.Toolbar.NavigationClickEventArgs e)

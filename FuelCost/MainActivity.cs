@@ -27,14 +27,6 @@ namespace FuelCost
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
-          //  LocalSet.GetSetting();
-            VehicleData vd = new VehicleData();
-            vd.Name = "tas";
-            vd.consumption = 11;
-            vd.FuelType = VehicleData.FuelTypeEnum.pb;
-
-            // LocalSet.AddVehicle(vd);
 
 
             // Set our view from the "main" layout resource
@@ -47,16 +39,6 @@ namespace FuelCost
             }
 
             FindViewById<FloatingActionButton>(Resource.Id.fabBtn).Click += FabBtn_Click;
-
-            //var viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
-            //PrepareViewPager(viewPager);
-
-            //using (var tabs = FindViewById<TabLayout>(Resource.Id.tabs))
-            //{
-            //    tabs.SetupWithViewPager(viewPager);
-            //}
-
-
 
             mRecycleView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
             mLayoutManager = new LinearLayoutManager(this);
@@ -87,13 +69,6 @@ namespace FuelCost
             Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
             StartActivity(AddVehicleIntent);
         }
-
-        private void PrepareViewPager(ViewPager viewPager)
-        {
-            var adapter = new FragmentAdapter(SupportFragmentManager);
-            viewPager.Adapter = adapter;
-        }
-
     }
 }
 

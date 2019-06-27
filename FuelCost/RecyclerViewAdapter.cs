@@ -16,15 +16,12 @@ namespace FuelCost
     public class RecyclerViewAdapter : RecyclerView.Adapter
     {
         public override int ItemCount => LocalSet.VehicleDataList.ToArray().Length;
-
         public event EventHandler<int> ItemClick;
-
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             RecyclerViewViewHolder recyclerViewViewHolder = holder as RecyclerViewViewHolder;
-            //  recyclerViewViewHolder.Caption.Text = LocalSet.VehicleDataList[position].Name;
-
             float Price = 0;
+
             switch (LocalSet.VehicleDataList[position].FuelType)
             {
                 case VehicleData.FuelTypeEnum.lpg:

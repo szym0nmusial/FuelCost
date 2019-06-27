@@ -19,7 +19,6 @@ namespace FuelCost
 {
     public class MyItemTouchHelper : ItemTouchHelper.Callback
     {
-
         Context Context;
         public RecyclerViewAdapter mAdapter;
 
@@ -27,8 +26,6 @@ namespace FuelCost
         {
             Context = context;
             mAdapter = adapter;
-            //  mAdapter = recyclerViewAdapter;
-            // you can pass any thing in your contractor , may be your RecyclerView adapter 
         }
         public override int GetMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
         {
@@ -53,7 +50,6 @@ namespace FuelCost
         public override void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
         {
             int position = viewHolder.AdapterPosition;
-            //LocalSet.DelVehicle(LocalSet.VehicleDataList[position]);
             LocalSet.DelVehicle(position);
             mAdapter.NotifyItemRemoved(position);
             mAdapter.NotifyItemRangeChanged(position, mAdapter.ItemCount);
@@ -101,11 +97,9 @@ namespace FuelCost
 
         private void clearCanvas(Canvas c, float left, float top, float right, float bottom)
         {
-
             Paint clearPaint = new Paint();
             clearPaint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
             c?.DrawRect(left, top, right, bottom, clearPaint);
         }
-
     }
 }
