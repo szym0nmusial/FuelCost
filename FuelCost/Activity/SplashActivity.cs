@@ -19,11 +19,7 @@ namespace FuelCost
     {
         static readonly string TAG = "X:" + typeof(SplashActivity).Name;
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            Log.Debug(TAG, "SplashActivity.OnCreate");
-        }
+
 
         protected override void OnResume()
         {

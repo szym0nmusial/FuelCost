@@ -46,7 +46,8 @@ namespace FuelCost
             mAdapter = new RecyclerViewAdapter();
             mRecycleView.SetAdapter(mAdapter);
 
-
+            mAdapter.NotifyDataSetChanged();
+            
             ItemTouchHelper.Callback callback = new MyItemTouchHelper(this, mAdapter);
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(mRecycleView);
@@ -61,6 +62,7 @@ namespace FuelCost
             intent.PutExtra("position", e);
            // Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(MainActivity., 0, 0, 0, 0).ToBundle();
             StartActivity(intent);
+            
         }
 
 
@@ -68,6 +70,8 @@ namespace FuelCost
         {
             Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
             StartActivity(AddVehicleIntent);
+          //  mAdapter.NotifyDataSetChanged();//price
+          //  mAdapter.NotifyItemRangeChanged(LocalSet.VehicleDataList.Capacity - 1, LocalSet.VehicleDataList.Capacity);
         }
     }
 }

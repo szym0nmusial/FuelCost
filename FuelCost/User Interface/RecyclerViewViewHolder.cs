@@ -23,6 +23,7 @@ namespace FuelCost
         private EditText Cost;
         private EditText Distance;
 
+        [Obsolete]
         public RecyclerViewViewHolder(View view, Action<int> listener) : base(view)
         {
             // Locate and cache view references:
@@ -36,7 +37,7 @@ namespace FuelCost
             Cost = view.FindViewById<EditText>(Resource.Id.cost);
             Cost.TextChanged += Cost_Changed;
 
-            view.Click += (sender, e) => listener(base.Position);
+            view.Click += (sender, e) => listener(Position);
 
         }
 

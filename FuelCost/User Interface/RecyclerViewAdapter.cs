@@ -20,38 +20,38 @@ namespace FuelCost
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             RecyclerViewViewHolder recyclerViewViewHolder = holder as RecyclerViewViewHolder;
-            float Price = 0;
+            double Price = 0;
 
             switch (LocalSet.VehicleDataList[position].FuelType)
             {
-                case VehicleData.FuelTypeEnum.lpg:
+                case VehicleData.FuelTypeEnum.Gas:
                     {
                         if (LocalSet.VehicleDataList[position].Pbinjection)
                         {
-                            Price = LocalSet.LpgPrice + (float)(LocalSet.PbPrice * 0.1);
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya] * 0.1);
                         }
                         else
                         {
-                            Price = LocalSet.LpgPrice;
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas];
                         }
                         break;
                     }
-                case VehicleData.FuelTypeEnum.pb:
+                case VehicleData.FuelTypeEnum.Benzya:
                     {
-                        Price = LocalSet.PbPrice;
+                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya];
                         break;
                     }
-                case VehicleData.FuelTypeEnum.diesel:
+                case VehicleData.FuelTypeEnum.Diesel:
                     {
-                        Price = LocalSet.OnPrice;
+                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel];
                         break;
                     }
             }
-
+            
             recyclerViewViewHolder.Name.Text = LocalSet.VehicleDataList[position].Name;
             recyclerViewViewHolder.FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
             recyclerViewViewHolder.Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString();
-            recyclerViewViewHolder.Price.Text = Price.ToString();
+            recyclerViewViewHolder.Price.Text = Price.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

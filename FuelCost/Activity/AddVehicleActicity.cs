@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -55,9 +56,9 @@ namespace FuelCost
 
             planets = new List<KeyValuePair<string, VehicleData.FuelTypeEnum>>
             {
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Gaz", VehicleData.FuelTypeEnum.lpg),
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Benzyna", VehicleData.FuelTypeEnum.pb),
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Diesel", VehicleData.FuelTypeEnum.diesel),
+                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Gaz", VehicleData.FuelTypeEnum.Gas),
+                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Benzyna", VehicleData.FuelTypeEnum.Benzya),
+                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Diesel", VehicleData.FuelTypeEnum.Diesel),
             };
 
             List<string> planetNames = new List<string>();
@@ -80,10 +81,13 @@ namespace FuelCost
             pbprice = FindViewById<EditText>(Resource.Id.pbprice);
             onprice = FindViewById<EditText>(Resource.Id.onprice);
 
-            lpgprice.Text = LocalSet.LpgPrice.ToString();
-            pbprice.Text = LocalSet.PbPrice.ToString();
-            onprice.Text = LocalSet.OnPrice.ToString();
-
+            try
+            {
+                lpgprice.Text = LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Gas]);
+                pbprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya]));
+                onprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel]));
+            }
+            catch { }
             FindViewById<Button>(Resource.Id.button2).Click += Set_Click;
 
 
@@ -99,9 +103,10 @@ namespace FuelCost
             {
                 new Thread(() =>
                 {
-                    LocalSet.LpgPrice = float.Parse(lpgprice.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                    LocalSet.PbPrice = float.Parse(pbprice.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                    LocalSet.OnPrice = float.Parse(onprice.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                LocalSet.Write(VehicleData.FuelTypeEnum.Gas,LocalSet.Convert(lpgprice.Text));
+                LocalSet.Write(VehicleData.FuelTypeEnum.Benzya,LocalSet.Convert(pbprice.Text));
+                LocalSet.Write(VehicleData.FuelTypeEnum.Diesel, LocalSet.Convert(onprice.Text));
+
                 }).Start();
             }
             catch { }

@@ -25,7 +25,7 @@ namespace FuelCost
         private EditText Cost;
         private EditText Distance;
 
-        private float cost = 0;
+        private double cost = 0;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -62,26 +62,26 @@ namespace FuelCost
             
             switch (LocalSet.VehicleDataList[position].FuelType)
             {
-                case VehicleData.FuelTypeEnum.lpg:
+                case VehicleData.FuelTypeEnum.Gas:
                     {
                         if (LocalSet.VehicleDataList[position].Pbinjection)
                         {
-                            cost = LocalSet.LpgPrice + (float)(LocalSet.PbPrice * 0.1);
+                            cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya] * 0.1);
                         }
                         else
                         {
-                            cost = LocalSet.LpgPrice;
+                            cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas];
                         }
                         break;
                     }
-                case VehicleData.FuelTypeEnum.pb:
+                case VehicleData.FuelTypeEnum.Benzya:
                     {
-                        cost = LocalSet.PbPrice;
+                        cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya];
                         break;
                     }
-                case VehicleData.FuelTypeEnum.diesel:
+                case VehicleData.FuelTypeEnum.Diesel:
                     {
-                        cost = LocalSet.OnPrice;
+                        cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel];
                         break;
                     }
             }
@@ -89,7 +89,7 @@ namespace FuelCost
             Name.Text = LocalSet.VehicleDataList[position].Name;
             FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
             Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString();
-            Price.Text = cost.ToString();
+            Price.Text = cost.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
         }
 
         private void Toolbar_NavigationClick(object sender, Android.Support.V7.Widget.Toolbar.NavigationClickEventArgs e)
