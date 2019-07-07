@@ -24,7 +24,7 @@ namespace FuelCost
         public string Name;
         public FuelTypeEnum FuelType;
         public bool Pbinjection; // only on lpg
-        public float consumption;
+        public double consumption;
 
         public void AddRaw(string raw)
         {

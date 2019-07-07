@@ -120,10 +120,10 @@ namespace FuelCost
                 try
                 {
                     data.Name = name.Text;
-                    data.consumption = float.Parse(consuption.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                    data.consumption = LocalSet.Convert(consuption.Text);
                     data.Pbinjection = checkBox1.Checked;
 
-                    LocalSet.AddVehicle(data);
+                    LocalSet.Write(data);
                 }
                 catch
                 { }

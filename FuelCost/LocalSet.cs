@@ -13,193 +13,35 @@ namespace FuelCost
 {
     static class LocalSet
     {
+        #region Var
         public static SqliteConnection connection;
         static string dbPath;
-
-        #region old
-
-
-
-
-
-        public static int Lenght;
         private static List<VehicleData> VehicleDatas = new List<VehicleData>();
-
-
-
-        private static ISharedPreferences VehicleSharedPreferences;
-        private static ISharedPreferences PriceSharedPreferences;
-
-        private static float lpg;
-        private static float pb;
-        private static float on;
-
-
-
+        public static List<VehicleData> VehicleDataList { get { return VehicleDatas; } }
         static public Dictionary<FuelTypeEnum, double> Prices = new Dictionary<FuelTypeEnum, double>();
-
-        static Thread GetSettingThread;
-
+        #endregion
         /// <summary>
         /// Pobiera dane
         /// </summary>
         public static void GetSetting()
         {
-
-            //for (; ; )
-            //{
-            //    string v = "";
-            //    try
-            //    {
-            //        Convert(v);
-            //    }
-            //    catch
-            //    { }
-            //}
-            Open();
-
- 
-
-            ReadPrices();
-
-            ReadVehicles();
-
-
-            GetSettingThread =
-            new Thread(() =>
+            var task = new Task(() =>
             {
-                VehicleSharedPreferences = Application.Context.GetSharedPreferences("Vehicles", FileCreationMode.Private);
-
-                Lenght = VehicleSharedPreferences.GetInt("lenght", 0);
-
-                if (Lenght == 0)
-                {
-                    return;
-                }
-                Lenght++;
-
-                for (int i = 1; i < Lenght; i++)
-                {
-                    VehicleData temp = new VehicleData();
-                    string text = VehicleSharedPreferences.GetString(i.ToString(), string.Empty);
-                    if (text != string.Empty)
-                    {
-                        temp.AddRaw(text);
-                        VehicleDatas.Add(temp);
-                    }
-                }
-
-                PriceSharedPreferences = Application.Context.GetSharedPreferences("Price", FileCreationMode.Private);
-
-                lpg = PriceSharedPreferences.GetFloat("LpgPrice", 0);
-                pb = PriceSharedPreferences.GetFloat("PbPrice", 0);
-                on = PriceSharedPreferences.GetFloat("OnPrice", 0);
+                Open();
+                ReadPrices();
+                ReadVehicles();
+                Console.WriteLine("Data ready");
             });
-            // GetSettingThread.Start();
-            // GetSettingThread.Join();
+            task.Start();
+            task.Wait();
         }
-
-        public static List<VehicleData> VehicleDataList { get { return VehicleDatas; } }
-
-        public static void AddVehicle(VehicleData vehicle)
-        {
-            new Thread(() =>
-            {
-                try
-                {
-                    GetSettingThread.Join();
-                }
-                catch { }
-                VehicleSharedPreferences = Application.Context.GetSharedPreferences("Vehicles", FileCreationMode.Private);
-                Lenght++;// exception
-                var editor = VehicleSharedPreferences.Edit();
-                editor.PutString(Lenght.ToString(), vehicle.PrepareRaw());
-                editor.PutInt("lenght", Lenght);
-                editor.Commit();
-                VehicleDatas.Add(vehicle);
-            });//.Start();
-
-
-            Write(vehicle);
-
-        }
-
-        //#region Prices
-        //public static float LpgPrice
-        //{
-        //    get
-        //    {
-        //        return lpg;
-        //    }
-        //    set
-        //    {
-        //        UpdatePrice("LpgPrice", value);
-        //        lpg = value;
-        //    }
-        //}
-        //public static float PbPrice
-        //{
-        //    get
-        //    {
-        //        return pb;
-        //    }
-        //    set
-        //    {
-        //        UpdatePrice("PbPrice", value);
-        //        lpg = value;
-        //    }
-        //}
-        //public static float OnPrice
-        //{
-        //    get
-        //    {
-        //        return on;
-        //    }
-        //    set
-        //    {
-        //        UpdatePrice("OnPrice", value);
-        //        lpg = value;
-        //    }
-        //}
-
-        //private static void UpdatePrice(string keyname, float value)
-        //{
-        //    new Thread(() =>
-        //    {
-        //        var editor = PriceSharedPreferences.Edit();
-        //        editor.PutFloat(keyname, value);
-        //        editor.Commit();
-        //    }).Start();
-        //}
-        //#endregion
 
         public static void DelVehicle(int position)
-        {
-            Task worker = new Task(() =>
-            {
-                VehicleSharedPreferences.Edit().Remove(position.ToString()).Commit();
-                VehicleDatas.Remove(VehicleDatas[position]);
-                VehicleDatas.Sort();
-            });
-            //  worker.Start();
+        {            
+            Write(string.Format("DELETE FROM main WHERE name='{0}'", VehicleDatas[position].Name));
+            VehicleDatas.Remove(VehicleDatas[position]);
         }
-        public static void DelVehicle(VehicleData data)
-        {
-            new Thread(() =>
-            {
-                for (int i = 0; i < VehicleDataList.Count; i++)
-                {
-                    if (VehicleDataList[i].Name == data.Name)
-                    {
-                        //im in 
-                        i++;
-                        VehicleSharedPreferences.Edit().Remove(i.ToString()).Commit();
-                        GetSetting();
-                    }
-                }
-            }).Start();
-        }
-        #endregion
+
         private static void Open()
         {
             // determine the path for the database file
@@ -216,7 +58,7 @@ namespace FuelCost
 
                 var commands = new[]
                 {
-                    "create table if not exists Main(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME          CHAR(50)      NOT NULL,FUELTYPE     INT           NOT NULL,PBINJECTION   BOOLEAN       NOT NULL,CONSUMPTION   FLOAT         NOT NULL );",
+                    "create table if not exists Main(ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME          CHAR(50)      NOT NULL,FUELTYPE     INT           NOT NULL,PBINJECTION   BOOLEAN       NOT NULL,CONSUMPTION   DOUBLE         NOT NULL );",
                     "create table if not exists Price(FUEL INTEGER, VALUE DOUBLE)",
                     "INSERT INTO Price (FUEL, VALUE) VALUES (0, '2.12')",
                     "INSERT INTO Price (FUEL, VALUE) VALUES (1, '5.10')",
@@ -265,10 +107,9 @@ namespace FuelCost
             connection.Close();
 
         }
-
         public static void Write(VehicleData vehicle)
         {
-            Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), vehicle.consumption.ToString()));
+            Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
         }
 
         public static void Write(VehicleData.FuelTypeEnum fuelType, double price)
@@ -276,7 +117,6 @@ namespace FuelCost
             Prices[fuelType] = price;
             Write(String.Format("UPDATE Price SET VALUE = '{1}' WHERE FUEL = {0}", (int)fuelType, Convert(price)));
         }
-
 
         public static void ReadVehicles()
         {
@@ -320,37 +160,11 @@ namespace FuelCost
             }
             connection.Close();
         }
-        static void ReadSql(string Command)
-        {
-            connection = new SqliteConnection("Data Source=" + dbPath);
-            try
-            {
-                connection.Open();
 
-                using (var contents = connection.CreateCommand())
-                {
-                    contents.CommandText = Command;
-                    var r = contents.ExecuteReader();
-                    while (r.Read())
-                    {
-                        Console.WriteLine(r.GetString(0));
-
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        public static string Convert (double value)//2,12 out 2.12
+        public static string Convert(double value)//2,12 out 2.12
         {
             string result = "";
-            if(value == -1)
+            if (value == -1)
             {
                 return result;
             }
@@ -366,7 +180,7 @@ namespace FuelCost
             return result;
         }
 
-       public static double Convert(string value) // 2,12
+        public static double Convert(string value) // 2,12
         {
             double result = -1;
             try
@@ -390,11 +204,10 @@ namespace FuelCost
             }
             catch (Exception e)
             {
-                Console.WriteLine("Input string: "+value +  "\nConvert Exception: " + e.Message);
+                Console.WriteLine("Input string: " + value + "\nConvert Exception: " + e.Message);
             }
             return result;
         }
 
-      
     }
 }

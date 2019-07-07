@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -21,6 +21,7 @@ namespace FuelCost
         public TextView Price { get; private set; }
 
         private EditText Cost;
+
         private EditText Distance;
 
         [Obsolete]
@@ -45,25 +46,30 @@ namespace FuelCost
         {
             try
             {
-                Distance.TextChanged -= Distance_Changed;
-                var dist = float.Parse(Cost.Text) * 100 / float.Parse(Price.Text) / float.Parse(Consuption.Text);
-                Distance.Text = dist.ToString();
-                Distance.TextChanged += Distance_Changed;
+                    Distance.TextChanged -= Distance_Changed;
+                    var dist = double.Parse(Cost.Text) * 100 / LocalSet.Convert(Price.Text) / double.Parse(Consuption.Text);
+                    Distance.Text = dist.ToString();
+                    Distance.TextChanged += Distance_Changed;
             }
-            catch
-            { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void Distance_Changed(object sender, Android.Text.TextChangedEventArgs e)
         {
             try
             {
-                Cost.TextChanged -= Cost_Changed;
-                var cost = float.Parse(Consuption.Text) * 0.01f * float.Parse(Price.Text) * float.Parse(Distance.Text);
-                Cost.Text = cost.ToString();
-                Cost.TextChanged += Cost_Changed;
+                    Cost.TextChanged -= Cost_Changed;
+                    var cost = double.Parse(Consuption.Text) * 0.01f * LocalSet.Convert(Price.Text) * double.Parse(Distance.Text);
+                    Cost.Text = cost.ToString();
+                    Cost.TextChanged += Cost_Changed;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
