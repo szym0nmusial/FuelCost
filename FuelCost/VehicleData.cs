@@ -17,7 +17,7 @@ namespace FuelCost
         public enum FuelTypeEnum
         {
             Gas = 0,
-            Benzya = 1,
+            Benzyna = 1,
             Diesel = 2,
         };
 

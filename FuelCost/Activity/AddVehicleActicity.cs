@@ -57,7 +57,7 @@ namespace FuelCost
             planets = new List<KeyValuePair<string, VehicleData.FuelTypeEnum>>
             {
                 new KeyValuePair<string, VehicleData.FuelTypeEnum>("Gaz", VehicleData.FuelTypeEnum.Gas),
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Benzyna", VehicleData.FuelTypeEnum.Benzya),
+                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Benzyna", VehicleData.FuelTypeEnum.Benzyna),
                 new KeyValuePair<string, VehicleData.FuelTypeEnum>("Diesel", VehicleData.FuelTypeEnum.Diesel),
             };
 
@@ -84,7 +84,7 @@ namespace FuelCost
             try
             {
                 lpgprice.Text = LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Gas]);
-                pbprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya]));
+                pbprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna]));
                 onprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel]));
             }
             catch { }
@@ -104,7 +104,7 @@ namespace FuelCost
                 new Thread(() =>
                 {
                 LocalSet.Write(VehicleData.FuelTypeEnum.Gas,LocalSet.Convert(lpgprice.Text));
-                LocalSet.Write(VehicleData.FuelTypeEnum.Benzya,LocalSet.Convert(pbprice.Text));
+                LocalSet.Write(VehicleData.FuelTypeEnum.Benzyna,LocalSet.Convert(pbprice.Text));
                 LocalSet.Write(VehicleData.FuelTypeEnum.Diesel, LocalSet.Convert(onprice.Text));
 
                 }).Start();
@@ -124,6 +124,10 @@ namespace FuelCost
                     data.Pbinjection = checkBox1.Checked;
 
                     LocalSet.Write(data);
+
+                    name.Text = "";
+                    consuption.Text = "";
+
                 }
                 catch
                 { }

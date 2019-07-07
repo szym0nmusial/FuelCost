@@ -66,7 +66,7 @@ namespace FuelCost
                     {
                         if (LocalSet.VehicleDataList[position].Pbinjection)
                         {
-                            cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya] * 0.1);
+                            cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
                         }
                         else
                         {
@@ -74,9 +74,9 @@ namespace FuelCost
                         }
                         break;
                     }
-                case VehicleData.FuelTypeEnum.Benzya:
+                case VehicleData.FuelTypeEnum.Benzyna:
                     {
-                        cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya];
+                        cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
                         break;
                     }
                 case VehicleData.FuelTypeEnum.Diesel:
