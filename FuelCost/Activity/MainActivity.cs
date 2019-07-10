@@ -10,14 +10,16 @@ using Android.Support.V7.Widget.Helper;
 using Android.Views;
 using Android.Util;
 using Android.Support.V4.App;
-
+using Android.Runtime;
+using System.Collections.Generic;
+using Android.Support.V7.Util;
 
 namespace FuelCost
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
     public class MainActivity : AppCompatActivity
     {
-
+        List<VehicleData> OldVehicleDataList = new List<VehicleData>();
 
         RecyclerView mRecycleView;
         RecyclerView.LayoutManager mLayoutManager;
@@ -69,9 +71,18 @@ namespace FuelCost
         private void FabBtn_Click(object sender, EventArgs e)
         {
             Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
-            StartActivity(AddVehicleIntent);
+            // StartActivity(AddVehicleIntent);
+            OldVehicleDataList = LocalSet.VehicleDataList;
+            StartActivityForResult(AddVehicleIntent, 1);
           //  mAdapter.NotifyDataSetChanged();//price
-          //  mAdapter.NotifyItemRangeChanged(LocalSet.VehicleDataList.Capacity - 1, LocalSet.VehicleDataList.Capacity);
+        }
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            mAdapter.NotifyDataSetChanged();//price
+            DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
+            result.DispatchUpdatesTo(mAdapter);            
         }
     }
 }

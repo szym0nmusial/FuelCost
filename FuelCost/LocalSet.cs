@@ -17,7 +17,7 @@ namespace FuelCost
         public static SqliteConnection connection;
         static string dbPath;
         private static List<VehicleData> VehicleDatas = new List<VehicleData>();
-        public static List<VehicleData> VehicleDataList { get { return VehicleDatas; } }
+        public static List<VehicleData> VehicleDataList { get { return VehicleDatas; } set { VehicleDatas = value; } }
         static public Dictionary<FuelTypeEnum, double> Prices = new Dictionary<FuelTypeEnum, double>();
         #endregion
         /// <summary>
@@ -37,9 +37,17 @@ namespace FuelCost
         }
 
         public static void DelVehicle(int position)
-        {            
-            Write(string.Format("DELETE FROM main WHERE name='{0}'", VehicleDatas[position].Name));
-            VehicleDatas.Remove(VehicleDatas[position]);
+        {
+            try
+            {
+                Write(string.Format("DELETE FROM main WHERE name='{0}'", VehicleDatas[position].Name));
+                VehicleDatas.Remove(VehicleDatas[position]);
+                VehicleDatas.Sort();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private static void Open()
@@ -109,7 +117,12 @@ namespace FuelCost
         }
         public static void Write(VehicleData vehicle)
         {
-            Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
+            try
+            {
+                VehicleDatas.Add(vehicle);
+                Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
+            }
+            catch { }
         }
 
         public static void Write(VehicleData.FuelTypeEnum fuelType, double price)

@@ -103,9 +103,9 @@ namespace FuelCost
             {
                 new Thread(() =>
                 {
-                LocalSet.Write(VehicleData.FuelTypeEnum.Gas,LocalSet.Convert(lpgprice.Text));
-                LocalSet.Write(VehicleData.FuelTypeEnum.Benzyna,LocalSet.Convert(pbprice.Text));
-                LocalSet.Write(VehicleData.FuelTypeEnum.Diesel, LocalSet.Convert(onprice.Text));
+                    LocalSet.Write(VehicleData.FuelTypeEnum.Gas, LocalSet.Convert(lpgprice.Text));
+                    LocalSet.Write(VehicleData.FuelTypeEnum.Benzyna, LocalSet.Convert(pbprice.Text));
+                    LocalSet.Write(VehicleData.FuelTypeEnum.Diesel, LocalSet.Convert(onprice.Text));
 
                 }).Start();
             }
@@ -116,22 +116,30 @@ namespace FuelCost
         private void Btn_Click(object sender, EventArgs e)
         {
             new Thread(() =>
-            {
-                try
-                {
-                    data.Name = name.Text;
-                    data.consumption = LocalSet.Convert(consuption.Text);
-                    data.Pbinjection = checkBox1.Checked;
+           {
+               try
+               {
+                   data.Name = name.Text;
+                   data.consumption = LocalSet.Convert(consuption.Text);
+                   data.Pbinjection = checkBox1.Checked;
 
-                    LocalSet.Write(data);
+                   LocalSet.Write(data);
 
-                    name.Text = "";
-                    consuption.Text = "";
+                   //var index = LocalSet.VehicleDataList.Count;
+                   //Intent intentdata = new Intent();
+                   //intentdata.PutExtra("index",  index );
+                   //SetResult(Result.Ok, intentdata);
 
-                }
-                catch
-                { }
-            }).Start();
+
+                   RunOnUiThread(() =>
+                   {
+                       name.Text = "";
+                       consuption.Text = "";
+                   });
+               }
+               catch
+               { }
+           }).Start();
 
         }
 
