@@ -22,14 +22,10 @@
   </style>
 
 
-  <style name="SegmentedControlButton" parent="@android:style/Widget.ImageButton">
-    <item name="android:minWidth">@dimen/segmented_control_min_width</item>
-    <item name="android:minHeight">@dimen/segmented_control_min_height</item>
+  <style name="SegmentedControlButton" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
     <item name="android:gravity">center</item>
-   
-
     <item name="android:layout_weight">1</item>
-
+<item name="colorAccent">@color/colorAccent</item>
 
   </style>
 

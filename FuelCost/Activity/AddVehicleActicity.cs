@@ -18,18 +18,19 @@ namespace FuelCost
     public class AddVehicleActicity : AppCompatActivity
     {
 
-      //  public VehicleData Data;
-        
+        //  public VehicleData Data;
 
-        
-        CheckBox addpb;
+
+
+        Android.Support.V7.Widget.SwitchCompat addpb;
         EditText name;
         EditText consuption;
         private VehicleData data = new VehicleData();
 
-        ImageButton Slpg;
-        ImageButton Spb;
-        ImageButton Son;
+        Button Slpg;
+        Button Spb;
+        Button Son;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,15 +45,15 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
+            
 
-
-            addpb = FindViewById<CheckBox>(Resource.Id.checkBox1);
+            addpb = FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.checkBox1);
             name = FindViewById<EditText>(Resource.Id.name);
             consuption = FindViewById<EditText>(Resource.Id.consuption);
 
-            Slpg = FindViewById<ImageButton>(Resource.Id.slpg);
-            Son = FindViewById<ImageButton>(Resource.Id.son);
-            Spb = FindViewById<ImageButton>(Resource.Id.spb);
+            Slpg = FindViewById<Button>(Resource.Id.slpg);
+            Son = FindViewById<Button>(Resource.Id.son);
+            Spb = FindViewById<Button>(Resource.Id.spb);
 
             Slpg.Click += S_Click;
             Son.Click += S_Click;
@@ -66,22 +67,26 @@ namespace FuelCost
 
         private void S_Click(object sender, EventArgs e)
         {
-            var obj = sender as ImageButton;
+            var obj = sender as Button;
             switch (obj.Id)
             {
                 case Resource.Id.slpg:
                     {
                         data.FuelType = VehicleData.FuelTypeEnum.Gas;
+                        addpb.Visibility = ViewStates.Visible;
+                        
                         break;
                     }
                 case Resource.Id.spb:
                     {
                         data.FuelType = VehicleData.FuelTypeEnum.Benzyna;
+                        addpb.Visibility = ViewStates.Gone;
                         break;
                     }
                 case Resource.Id.son:
                     {
                         data.FuelType = VehicleData.FuelTypeEnum.Diesel;
+                        addpb.Visibility = ViewStates.Gone;
                         break;
                     }
                 default:

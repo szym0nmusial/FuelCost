@@ -56,8 +56,9 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <EditText
+                    <EditText                    
                         android:id="@+id/name"
+                        style="@style/Widget.AppCompat.EditText"
                         android:hint="Nazwa pojazdu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -67,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25.5dp">
                     <EditText
+                        style="@style/Widget.AppCompat.EditText"
                         android:id="@+id/consuption"
                         android:hint="Spalanie"
                         android:inputType="numberDecimal|number"
@@ -74,6 +76,7 @@
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
                 <TextView
+                    
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
@@ -83,36 +86,40 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageButton
+                    <Button
                         android:text="Lpg"
                         android:id="@+id/slpg"
                         style="@style/SegmentedControlButton"
-                        android:background="@drawable/scb_bg"
+                      
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-                    <ImageButton
+                    <Button
                         android:text="Benzyna"
                         android:id="@+id/spb"
                         style="@style/SegmentedControlButton"
-                        android:background="@drawable/scb_bg"
+                      
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <ImageButton
+                    <Button
                         android:text="Diesel"
                         android:id="@+id/son"
                         style="@style/SegmentedControlButton"
-                        android:background="@drawable/scb_bg"
+                    
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
+                   
+                style="@style/Widget.AppCompat.CompoundButton.Switch"
                     android:text="Dostrysk Benzyny"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox1" />
+                    android:id="@+id/checkBox1" 
+                android:visibility="gone"/>
                 <Button
+                    style="@style/Widget.AppCompat.Button.Colored"
                     android:text="Dodaj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

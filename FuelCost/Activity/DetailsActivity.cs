@@ -88,8 +88,8 @@ namespace FuelCost
 
             Name.Text = LocalSet.VehicleDataList[position].Name;
             FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
-            Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString();
-            Price.Text = cost.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString("0.00");
+            Price.Text = cost.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
         }
 
         private void Toolbar_NavigationClick(object sender, Android.Support.V7.Widget.Toolbar.NavigationClickEventArgs e)
