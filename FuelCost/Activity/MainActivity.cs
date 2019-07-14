@@ -33,7 +33,7 @@ namespace FuelCost
         private static bool isFabOpen;
         private FloatingActionButton fab1;
         private FloatingActionButton fab2;
-       // private FloatingActionButton fab3;
+        private FloatingActionButton fab3;
         private FloatingActionButton fabMain;
         private View bgFabMenu;
 
@@ -69,10 +69,13 @@ namespace FuelCost
 
             fab1 = FindViewById<FloatingActionButton>(Resource.Id.fabcar);
             fab2 = FindViewById<FloatingActionButton>(Resource.Id.fabcash);
+            fab3 = FindViewById<FloatingActionButton>(Resource.Id.fabdev);
             fabMain = FindViewById<FloatingActionButton>(Resource.Id.fabBtn);
             bgFabMenu = FindViewById<View>(Resource.Id.bg_fab_menu);
 
-
+            fab1.Click += FabBtn1_Click;
+            fab2.Click += FabBtn2_Click;
+            fab3.Click += FabBtn3_Click;
 
 
             fabMain.Click += (o, e) =>
@@ -83,34 +86,46 @@ namespace FuelCost
                     CloseFabMenu();
             };
 
-            fab1.Click += (o, e) =>
-            {
-                CloseFabMenu();
-                Toast.MakeText(this, "Car!", ToastLength.Short).Show();
-                FabBtn_Click(o, e);
-            };
-
-            fab2.Click += (o, e) =>
-            {
-                CloseFabMenu();
-                Toast.MakeText(this, "Airballoon!", ToastLength.Short).Show();
-            };
-
             bgFabMenu.Click += (o, e) => CloseFabMenu();
+        }
 
+        private void FabBtn3_Click(object sender, EventArgs e)
+        {
+            CloseFabMenu();
+            Intent DebugIntent = new Intent(this, typeof(LogActivity));
+            StartActivityForResult(DebugIntent, 2);
+        }
 
+        private void FabBtn2_Click(object sender, EventArgs e)
+        {
+            CloseFabMenu();
+            Intent CostIntent = new Intent(this, typeof(CostActivity));
+            StartActivityForResult(CostIntent, 2);
+        }
 
+        private void FabBtn1_Click(object sender, EventArgs e)
+        {
+            CloseFabMenu();
+            Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
+            // StartActivity(AddVehicleIntent);
+            OldVehicleDataList = LocalSet.VehicleDataList;
+            StartActivityForResult(AddVehicleIntent, 1);
+            //  mAdapter.NotifyDataSetChanged();//price
         }
 
         private void ShowFabMenu()
         {
             isFabOpen = true;
+            fab3.Visibility = ViewStates.Visible;
             fab2.Visibility = ViewStates.Visible;
             fab1.Visibility = ViewStates.Visible;
             bgFabMenu.Visibility = ViewStates.Visible;
 
             fabMain.Animate().Rotation(135f);
             bgFabMenu.Animate().Alpha(1f);
+            fab3.Animate()
+                .TranslationY(-Resources.GetDimension(Resource.Dimension.standard_145))
+                .Rotation(0f);
             fab2.Animate()
                 .TranslationY(-Resources.GetDimension(Resource.Dimension.standard_100))
                 .Rotation(0f);
@@ -125,12 +140,36 @@ namespace FuelCost
 
             fabMain.Animate().Rotation(0f);
             bgFabMenu.Animate().Alpha(0f);
-            fab2.Animate()
+            fab3.Animate()
                 .TranslationY(0f)
                 .Rotation(90f);
-            fab1.Animate()
+            fab2.Animate()
                 .TranslationY(0f)
                 .Rotation(90f).SetListener(new FabAnimatorListener(bgFabMenu, fab1, fab2));
+            fab1.Animate()
+                .TranslationY(0f)
+                .Rotation(90f).SetListener(new FabAnimatorListener(bgFabMenu, fab1, fab2, fab3));
+        }
+
+       
+
+        private void MAdapter_ItemClick(object sender, int e)
+        {
+            Intent intent = new Intent(this, typeof(DetailsActivity));
+            intent.PutExtra("position", e);
+           // Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(MainActivity., 0, 0, 0, 0).ToBundle();
+            StartActivity(intent);            
+        }
+
+
+
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            mAdapter.NotifyDataSetChanged();//price
+            DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
+            result.DispatchUpdatesTo(mAdapter);            
         }
 
         private class FabAnimatorListener : Java.Lang.Object, Animator.IAnimatorListener
@@ -160,33 +199,6 @@ namespace FuelCost
             public void OnAnimationStart(Animator animation)
             {
             }
-        }
-
-        private void MAdapter_ItemClick(object sender, int e)
-        {
-            Intent intent = new Intent(this, typeof(DetailsActivity));
-            intent.PutExtra("position", e);
-           // Bundle options = ActivityOptionsCompat.MakeScaleUpAnimation(MainActivity., 0, 0, 0, 0).ToBundle();
-            StartActivity(intent);
-            
-        }
-
-
-        private void FabBtn_Click(object sender, EventArgs e)
-        {
-            Intent AddVehicleIntent = new Intent(this, typeof(AddVehicleActicity));
-            // StartActivity(AddVehicleIntent);
-            OldVehicleDataList = LocalSet.VehicleDataList;
-            StartActivityForResult(AddVehicleIntent, 1);
-          //  mAdapter.NotifyDataSetChanged();//price
-        }
-
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            mAdapter.NotifyDataSetChanged();//price
-            DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
-            result.DispatchUpdatesTo(mAdapter);            
         }
     }
 }

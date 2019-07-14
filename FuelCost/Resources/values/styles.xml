@@ -2,6 +2,8 @@
 
   <style name="AppTheme" parent="AppTheme.Base">
 
+    <item name="segmentedControlButtonStyle">@style/SegmentedControlButton</item>
+
   </style>
 
   <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -18,5 +20,18 @@
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowFullscreen">true</item>
   </style>
-  
+
+
+  <style name="SegmentedControlButton" parent="@android:style/Widget.ImageButton">
+    <item name="android:minWidth">@dimen/segmented_control_min_width</item>
+    <item name="android:minHeight">@dimen/segmented_control_min_height</item>
+    <item name="android:gravity">center</item>
+   
+
+    <item name="android:layout_weight">1</item>
+
+
+  </style>
+
+
 </resources>

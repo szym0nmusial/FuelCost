@@ -52,13 +52,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
+                <TextView
+                    android:text="Ceny Paliw"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1"
+                    android:foregroundGravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="20dp"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25.5dp">
                     <EditText
-                        android:id="@+id/name"
-                        android:hint="Nazwa pojazdu"
+                        android:id="@+id/lpgprice"
+                        android:hint="Gas"
+                        android:inputType="numberDecimal|number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -67,58 +77,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25.5dp">
                     <EditText
-                        android:id="@+id/consuption"
-                        android:hint="Spalanie"
+                        android:id="@+id/pbprice"
+                        android:hint="Benzyna"
                         android:inputType="numberDecimal|number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/planet_prompt" />
-                <LinearLayout
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:text="Lpg"
-                        android:id="@+id/slpg"
-                        style="@style/SegmentedControlButton"
-                        android:background="@drawable/scb_bg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <ImageButton
-                        android:text="Benzyna"
-                        android:id="@+id/spb"
-                        style="@style/SegmentedControlButton"
-                        android:background="@drawable/scb_bg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <ImageButton
-                        android:text="Diesel"
-                        android:id="@+id/son"
-                        style="@style/SegmentedControlButton"
-                        android:background="@drawable/scb_bg"
-                        android:layout_width="wrap_content"
+                    android:layout_marginTop="25.5dp">
+                    <EditText
+                        android:id="@+id/onprice"
+                        android:hint="Ropa"
+                        android:inputType="numberDecimal|number"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
 
-                </LinearLayout>
-                <CheckBox
-                    android:text="Dostrysk Benzyny"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/checkBox1" />
                 <Button
-                    android:text="Dodaj"
+                    android:text="Zmień"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button1" />
-
-
+                    android:id="@+id/button2" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

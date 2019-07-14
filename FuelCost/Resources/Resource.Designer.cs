@@ -895,6 +895,9 @@ namespace FuelCost
 			// aapt resource value: 0x7f0100b6
 			public const int seekBarStyle = 2130772150;
 			
+			// aapt resource value: 0x7f010165
+			public const int segmentedControlButtonStyle = 2130772325;
+			
 			// aapt resource value: 0x7f01007b
 			public const int selectableItemBackground = 2130772091;
 			
@@ -1236,44 +1239,44 @@ namespace FuelCost
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0a0053
-			public const int abc_background_cache_hint_selector_material_dark = 2131361875;
-			
-			// aapt resource value: 0x7f0a0054
-			public const int abc_background_cache_hint_selector_material_light = 2131361876;
-			
-			// aapt resource value: 0x7f0a0055
-			public const int abc_btn_colored_borderless_text_material = 2131361877;
-			
-			// aapt resource value: 0x7f0a0056
-			public const int abc_btn_colored_text_material = 2131361878;
-			
-			// aapt resource value: 0x7f0a0057
-			public const int abc_color_highlight_material = 2131361879;
-			
 			// aapt resource value: 0x7f0a0058
-			public const int abc_hint_foreground_material_dark = 2131361880;
+			public const int abc_background_cache_hint_selector_material_dark = 2131361880;
 			
 			// aapt resource value: 0x7f0a0059
-			public const int abc_hint_foreground_material_light = 2131361881;
+			public const int abc_background_cache_hint_selector_material_light = 2131361881;
+			
+			// aapt resource value: 0x7f0a005a
+			public const int abc_btn_colored_borderless_text_material = 2131361882;
+			
+			// aapt resource value: 0x7f0a005b
+			public const int abc_btn_colored_text_material = 2131361883;
+			
+			// aapt resource value: 0x7f0a005c
+			public const int abc_color_highlight_material = 2131361884;
+			
+			// aapt resource value: 0x7f0a005d
+			public const int abc_hint_foreground_material_dark = 2131361885;
+			
+			// aapt resource value: 0x7f0a005e
+			public const int abc_hint_foreground_material_light = 2131361886;
 			
 			// aapt resource value: 0x7f0a0004
 			public const int abc_input_method_navigation_guard = 2131361796;
 			
-			// aapt resource value: 0x7f0a005a
-			public const int abc_primary_text_disable_only_material_dark = 2131361882;
+			// aapt resource value: 0x7f0a005f
+			public const int abc_primary_text_disable_only_material_dark = 2131361887;
 			
-			// aapt resource value: 0x7f0a005b
-			public const int abc_primary_text_disable_only_material_light = 2131361883;
+			// aapt resource value: 0x7f0a0060
+			public const int abc_primary_text_disable_only_material_light = 2131361888;
 			
-			// aapt resource value: 0x7f0a005c
-			public const int abc_primary_text_material_dark = 2131361884;
+			// aapt resource value: 0x7f0a0061
+			public const int abc_primary_text_material_dark = 2131361889;
 			
-			// aapt resource value: 0x7f0a005d
-			public const int abc_primary_text_material_light = 2131361885;
+			// aapt resource value: 0x7f0a0062
+			public const int abc_primary_text_material_light = 2131361890;
 			
-			// aapt resource value: 0x7f0a005e
-			public const int abc_search_url_text = 2131361886;
+			// aapt resource value: 0x7f0a0063
+			public const int abc_search_url_text = 2131361891;
 			
 			// aapt resource value: 0x7f0a0005
 			public const int abc_search_url_text_normal = 2131361797;
@@ -1284,29 +1287,29 @@ namespace FuelCost
 			// aapt resource value: 0x7f0a0007
 			public const int abc_search_url_text_selected = 2131361799;
 			
-			// aapt resource value: 0x7f0a005f
-			public const int abc_secondary_text_material_dark = 2131361887;
-			
-			// aapt resource value: 0x7f0a0060
-			public const int abc_secondary_text_material_light = 2131361888;
-			
-			// aapt resource value: 0x7f0a0061
-			public const int abc_tint_btn_checkable = 2131361889;
-			
-			// aapt resource value: 0x7f0a0062
-			public const int abc_tint_default = 2131361890;
-			
-			// aapt resource value: 0x7f0a0063
-			public const int abc_tint_edittext = 2131361891;
-			
 			// aapt resource value: 0x7f0a0064
-			public const int abc_tint_seek_thumb = 2131361892;
+			public const int abc_secondary_text_material_dark = 2131361892;
 			
 			// aapt resource value: 0x7f0a0065
-			public const int abc_tint_spinner = 2131361893;
+			public const int abc_secondary_text_material_light = 2131361893;
 			
 			// aapt resource value: 0x7f0a0066
-			public const int abc_tint_switch_track = 2131361894;
+			public const int abc_tint_btn_checkable = 2131361894;
+			
+			// aapt resource value: 0x7f0a0067
+			public const int abc_tint_default = 2131361895;
+			
+			// aapt resource value: 0x7f0a0068
+			public const int abc_tint_edittext = 2131361896;
+			
+			// aapt resource value: 0x7f0a0069
+			public const int abc_tint_seek_thumb = 2131361897;
+			
+			// aapt resource value: 0x7f0a006a
+			public const int abc_tint_spinner = 2131361898;
+			
+			// aapt resource value: 0x7f0a006b
+			public const int abc_tint_switch_track = 2131361899;
 			
 			// aapt resource value: 0x7f0a0008
 			public const int accent_material_dark = 2131361800;
@@ -1344,11 +1347,17 @@ namespace FuelCost
 			// aapt resource value: 0x7f0a0013
 			public const int bright_foreground_material_light = 2131361811;
 			
+			// aapt resource value: 0x7f0a0056
+			public const int button_checked = 2131361878;
+			
 			// aapt resource value: 0x7f0a0014
 			public const int button_material_dark = 2131361812;
 			
 			// aapt resource value: 0x7f0a0015
 			public const int button_material_light = 2131361813;
+			
+			// aapt resource value: 0x7f0a0055
+			public const int button_pressed = 2131361877;
 			
 			// aapt resource value: 0x7f0a0000
 			public const int cardview_dark_background = 2131361792;
@@ -1371,11 +1380,14 @@ namespace FuelCost
 			// aapt resource value: 0x7f0a004c
 			public const int colorPrimaryDark = 2131361868;
 			
+			// aapt resource value: 0x7f0a0054
+			public const int control_border = 2131361876;
+			
 			// aapt resource value: 0x7f0a0040
 			public const int design_bottom_navigation_shadow_color = 2131361856;
 			
-			// aapt resource value: 0x7f0a0067
-			public const int design_error = 2131361895;
+			// aapt resource value: 0x7f0a006c
+			public const int design_error = 2131361900;
 			
 			// aapt resource value: 0x7f0a0041
 			public const int design_fab_shadow_end_color = 2131361857;
@@ -1401,8 +1413,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f0a0048
 			public const int design_snackbar_background_color = 2131361864;
 			
-			// aapt resource value: 0x7f0a0068
-			public const int design_tint_password_toggle = 2131361896;
+			// aapt resource value: 0x7f0a006d
+			public const int design_tint_password_toggle = 2131361901;
 			
 			// aapt resource value: 0x7f0a0016
 			public const int dim_foreground_disabled_material_dark = 2131361814;
@@ -1431,8 +1443,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f0a001e
 			public const int highlighted_text_material_light = 2131361822;
 			
-			// aapt resource value: 0x7f0a0052
-			public const int ic_launcher_background = 2131361874;
+			// aapt resource value: 0x7f0a0057
+			public const int ic_launcher_background = 2131361879;
 			
 			// aapt resource value: 0x7f0a001f
 			public const int material_blue_grey_800 = 2131361823;
@@ -1533,11 +1545,11 @@ namespace FuelCost
 			// aapt resource value: 0x7f0a003a
 			public const int switch_thumb_disabled_material_light = 2131361850;
 			
-			// aapt resource value: 0x7f0a0069
-			public const int switch_thumb_material_dark = 2131361897;
+			// aapt resource value: 0x7f0a006e
+			public const int switch_thumb_material_dark = 2131361902;
 			
-			// aapt resource value: 0x7f0a006a
-			public const int switch_thumb_material_light = 2131361898;
+			// aapt resource value: 0x7f0a006f
+			public const int switch_thumb_material_light = 2131361903;
 			
 			// aapt resource value: 0x7f0a003b
 			public const int switch_thumb_normal_material_dark = 2131361851;
@@ -1547,6 +1559,12 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f0a004d
 			public const int textColorPrimary = 2131361869;
+			
+			// aapt resource value: 0x7f0a0053
+			public const int text_hilite = 2131361875;
+			
+			// aapt resource value: 0x7f0a0052
+			public const int text_normal = 2131361874;
 			
 			// aapt resource value: 0x7f0a003d
 			public const int tooltip_background_dark = 2131361853;
@@ -1810,11 +1828,11 @@ namespace FuelCost
 			// aapt resource value: 0x7f070008
 			public const int cardview_default_radius = 2131165192;
 			
-			// aapt resource value: 0x7f0700b1
-			public const int codelab_fab_margin_bottom = 2131165361;
+			// aapt resource value: 0x7f0700b4
+			public const int codelab_fab_margin_bottom = 2131165364;
 			
-			// aapt resource value: 0x7f0700b0
-			public const int codelab_fab_margin_right = 2131165360;
+			// aapt resource value: 0x7f0700b3
+			public const int codelab_fab_margin_right = 2131165363;
 			
 			// aapt resource value: 0x7f07008e
 			public const int compat_button_inset_horizontal_material = 2131165326;
@@ -1830,6 +1848,9 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f070092
 			public const int compat_control_corner_material = 2131165330;
+			
+			// aapt resource value: 0x7f0700b2
+			public const int corner_radius = 2131165362;
 			
 			// aapt resource value: 0x7f0700a3
 			public const int custom_tab_layout_height = 2131165347;
@@ -2055,6 +2076,12 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f07009d
 			public const int notification_top_pad_large_text = 2131165341;
+			
+			// aapt resource value: 0x7f0700b1
+			public const int segmented_control_min_height = 2131165361;
+			
+			// aapt resource value: 0x7f0700b0
+			public const int segmented_control_min_width = 2131165360;
 			
 			// aapt resource value: 0x7f0700ae
 			public const int standard_100 = 2131165358;
@@ -2369,26 +2396,26 @@ namespace FuelCost
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020073
-			public const int avd_hide_password_1 = 2130837619;
-			
 			// aapt resource value: 0x7f020074
-			public const int avd_hide_password_2 = 2130837620;
+			public const int avd_hide_password_1 = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int avd_hide_password_3 = 2130837621;
+			public const int avd_hide_password_2 = 2130837621;
+			
+			// aapt resource value: 0x7f020076
+			public const int avd_hide_password_3 = 2130837622;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020076
-			public const int avd_show_password_1 = 2130837622;
-			
 			// aapt resource value: 0x7f020077
-			public const int avd_show_password_2 = 2130837623;
+			public const int avd_show_password_1 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int avd_show_password_3 = 2130837624;
+			public const int avd_show_password_2 = 2130837624;
+			
+			// aapt resource value: 0x7f020079
+			public const int avd_show_password_3 = 2130837625;
 			
 			// aapt resource value: 0x7f020055
 			public const int car = 2130837589;
@@ -2456,11 +2483,11 @@ namespace FuelCost
 			// aapt resource value: 0x7f02006a
 			public const int notification_icon_background = 2130837610;
 			
-			// aapt resource value: 0x7f020071
-			public const int notification_template_icon_bg = 2130837617;
-			
 			// aapt resource value: 0x7f020072
-			public const int notification_template_icon_low_bg = 2130837618;
+			public const int notification_template_icon_bg = 2130837618;
+			
+			// aapt resource value: 0x7f020073
+			public const int notification_template_icon_low_bg = 2130837619;
 			
 			// aapt resource value: 0x7f02006b
 			public const int notification_tile_bg = 2130837611;
@@ -2472,13 +2499,16 @@ namespace FuelCost
 			public const int petrol = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int splash_screen = 2130837614;
+			public const int SCB_bg = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int tooltip_frame_dark = 2130837615;
+			public const int splash_screen = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int tooltip_frame_light = 2130837616;
+			public const int tooltip_frame_dark = 2130837616;
+			
+			// aapt resource value: 0x7f020071
+			public const int tooltip_frame_light = 2130837617;
 			
 			static Drawable()
 			{
@@ -2511,8 +2541,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080037
 			public const int SYM = 2131230775;
 			
-			// aapt resource value: 0x7f0800ad
-			public const int action0 = 2131230893;
+			// aapt resource value: 0x7f0800b3
+			public const int action0 = 2131230899;
 			
 			// aapt resource value: 0x7f08007c
 			public const int action_bar = 2131230844;
@@ -2535,17 +2565,17 @@ namespace FuelCost
 			// aapt resource value: 0x7f08005a
 			public const int action_bar_title = 2131230810;
 			
-			// aapt resource value: 0x7f0800aa
-			public const int action_container = 2131230890;
+			// aapt resource value: 0x7f0800b0
+			public const int action_container = 2131230896;
 			
 			// aapt resource value: 0x7f08007d
 			public const int action_context_bar = 2131230845;
 			
-			// aapt resource value: 0x7f0800b1
-			public const int action_divider = 2131230897;
+			// aapt resource value: 0x7f0800b7
+			public const int action_divider = 2131230903;
 			
-			// aapt resource value: 0x7f0800ab
-			public const int action_image = 2131230891;
+			// aapt resource value: 0x7f0800b1
+			public const int action_image = 2131230897;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -2562,11 +2592,11 @@ namespace FuelCost
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
-			// aapt resource value: 0x7f0800ac
-			public const int action_text = 2131230892;
+			// aapt resource value: 0x7f0800b2
+			public const int action_text = 2131230898;
 			
-			// aapt resource value: 0x7f0800ba
-			public const int actions = 2131230906;
+			// aapt resource value: 0x7f0800c0
+			public const int actions = 2131230912;
 			
 			// aapt resource value: 0x7f08005d
 			public const int activity_chooser_view_content = 2131230813;
@@ -2601,17 +2631,17 @@ namespace FuelCost
 			// aapt resource value: 0x7f08003d
 			public const int bottom = 2131230781;
 			
-			// aapt resource value: 0x7f0800c1
-			public const int button1 = 2131230913;
+			// aapt resource value: 0x7f0800c8
+			public const int button1 = 2131230920;
 			
-			// aapt resource value: 0x7f0800c6
-			public const int button2 = 2131230918;
+			// aapt resource value: 0x7f0800a1
+			public const int button2 = 2131230881;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
 			
-			// aapt resource value: 0x7f0800ae
-			public const int cancel_action = 2131230894;
+			// aapt resource value: 0x7f0800b4
+			public const int cancel_action = 2131230900;
 			
 			// aapt resource value: 0x7f080045
 			public const int center = 2131230789;
@@ -2622,14 +2652,14 @@ namespace FuelCost
 			// aapt resource value: 0x7f080047
 			public const int center_vertical = 2131230791;
 			
-			// aapt resource value: 0x7f0800c0
-			public const int checkBox1 = 2131230912;
+			// aapt resource value: 0x7f0800c7
+			public const int checkBox1 = 2131230919;
 			
 			// aapt resource value: 0x7f080073
 			public const int checkbox = 2131230835;
 			
-			// aapt resource value: 0x7f0800b6
-			public const int chronometer = 2131230902;
+			// aapt resource value: 0x7f0800bc
+			public const int chronometer = 2131230908;
 			
 			// aapt resource value: 0x7f08004e
 			public const int clip_horizontal = 2131230798;
@@ -2646,17 +2676,17 @@ namespace FuelCost
 			// aapt resource value: 0x7f080098
 			public const int cons = 2131230872;
 			
-			// aapt resource value: 0x7f0800be
-			public const int consuption = 2131230910;
+			// aapt resource value: 0x7f0800c3
+			public const int consuption = 2131230915;
 			
-			// aapt resource value: 0x7f08009e
-			public const int container = 2131230878;
+			// aapt resource value: 0x7f0800a4
+			public const int container = 2131230884;
 			
 			// aapt resource value: 0x7f080066
 			public const int contentPanel = 2131230822;
 			
-			// aapt resource value: 0x7f08009f
-			public const int coordinator = 2131230879;
+			// aapt resource value: 0x7f0800a5
+			public const int coordinator = 2131230885;
 			
 			// aapt resource value: 0x7f08009b
 			public const int cost = 2131230875;
@@ -2676,20 +2706,20 @@ namespace FuelCost
 			// aapt resource value: 0x7f080060
 			public const int default_activity_button = 2131230816;
 			
-			// aapt resource value: 0x7f0800a1
-			public const int design_bottom_sheet = 2131230881;
-			
-			// aapt resource value: 0x7f0800a8
-			public const int design_menu_item_action_area = 2131230888;
-			
 			// aapt resource value: 0x7f0800a7
-			public const int design_menu_item_action_area_stub = 2131230887;
+			public const int design_bottom_sheet = 2131230887;
 			
-			// aapt resource value: 0x7f0800a6
-			public const int design_menu_item_text = 2131230886;
+			// aapt resource value: 0x7f0800ae
+			public const int design_menu_item_action_area = 2131230894;
 			
-			// aapt resource value: 0x7f0800a5
-			public const int design_navigation_view = 2131230885;
+			// aapt resource value: 0x7f0800ad
+			public const int design_menu_item_action_area_stub = 2131230893;
+			
+			// aapt resource value: 0x7f0800ac
+			public const int design_menu_item_text = 2131230892;
+			
+			// aapt resource value: 0x7f0800ab
+			public const int design_navigation_view = 2131230891;
 			
 			// aapt resource value: 0x7f080020
 			public const int disableHome = 2131230752;
@@ -2706,8 +2736,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080030
 			public const int end = 2131230768;
 			
-			// aapt resource value: 0x7f0800bc
-			public const int end_padder = 2131230908;
+			// aapt resource value: 0x7f0800c2
+			public const int end_padder = 2131230914;
 			
 			// aapt resource value: 0x7f08003f
 			public const int enterAlways = 2131230783;
@@ -2763,8 +2793,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080062
 			public const int icon = 2131230818;
 			
-			// aapt resource value: 0x7f0800bb
-			public const int icon_group = 2131230907;
+			// aapt resource value: 0x7f0800c1
+			public const int icon_group = 2131230913;
 			
 			// aapt resource value: 0x7f08003a
 			public const int ifRoom = 2131230778;
@@ -2772,8 +2802,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f0800b7
-			public const int info = 2131230903;
+			// aapt resource value: 0x7f0800bd
+			public const int info = 2131230909;
 			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
@@ -2781,8 +2811,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080000
 			public const int item_touch_helper_previous_elevation = 2131230720;
 			
-			// aapt resource value: 0x7f08009d
-			public const int largeLabel = 2131230877;
+			// aapt resource value: 0x7f0800a3
+			public const int largeLabel = 2131230883;
 			
 			// aapt resource value: 0x7f080049
 			public const int left = 2131230793;
@@ -2799,17 +2829,17 @@ namespace FuelCost
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800c3
-			public const int lpgprice = 2131230915;
+			// aapt resource value: 0x7f08009e
+			public const int lpgprice = 2131230878;
+			
+			// aapt resource value: 0x7f0800cb
+			public const int masked = 2131230923;
+			
+			// aapt resource value: 0x7f0800b6
+			public const int media_actions = 2131230902;
 			
 			// aapt resource value: 0x7f0800c9
-			public const int masked = 2131230921;
-			
-			// aapt resource value: 0x7f0800b0
-			public const int media_actions = 2131230896;
-			
-			// aapt resource value: 0x7f0800c7
-			public const int message = 2131230919;
+			public const int message = 2131230921;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2823,8 +2853,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080096
 			public const int name = 2131230870;
 			
-			// aapt resource value: 0x7f0800a4
-			public const int navigation_header_container = 2131230884;
+			// aapt resource value: 0x7f0800aa
+			public const int navigation_header_container = 2131230890;
 			
 			// aapt resource value: 0x7f08003b
 			public const int never = 2131230779;
@@ -2835,17 +2865,17 @@ namespace FuelCost
 			// aapt resource value: 0x7f08001e
 			public const int normal = 2131230750;
 			
+			// aapt resource value: 0x7f0800bf
+			public const int notification_background = 2131230911;
+			
 			// aapt resource value: 0x7f0800b9
-			public const int notification_background = 2131230905;
+			public const int notification_main_column = 2131230905;
 			
-			// aapt resource value: 0x7f0800b3
-			public const int notification_main_column = 2131230899;
+			// aapt resource value: 0x7f0800b8
+			public const int notification_main_column_container = 2131230904;
 			
-			// aapt resource value: 0x7f0800b2
-			public const int notification_main_column_container = 2131230898;
-			
-			// aapt resource value: 0x7f0800c5
-			public const int onprice = 2131230917;
+			// aapt resource value: 0x7f0800a0
+			public const int onprice = 2131230880;
 			
 			// aapt resource value: 0x7f08004c
 			public const int parallax = 2131230796;
@@ -2856,8 +2886,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08000b
 			public const int parent_matrix = 2131230731;
 			
-			// aapt resource value: 0x7f0800c4
-			public const int pbprice = 2131230916;
+			// aapt resource value: 0x7f08009f
+			public const int pbprice = 2131230879;
 			
 			// aapt resource value: 0x7f08004d
 			public const int pin = 2131230797;
@@ -2880,11 +2910,11 @@ namespace FuelCost
 			// aapt resource value: 0x7f08004a
 			public const int right = 2131230794;
 			
-			// aapt resource value: 0x7f0800b8
-			public const int right_icon = 2131230904;
+			// aapt resource value: 0x7f0800be
+			public const int right_icon = 2131230910;
 			
-			// aapt resource value: 0x7f0800b4
-			public const int right_side = 2131230900;
+			// aapt resource value: 0x7f0800ba
+			public const int right_side = 2131230906;
 			
 			// aapt resource value: 0x7f08008c
 			public const int rootLayout = 2131230860;
@@ -2961,23 +2991,29 @@ namespace FuelCost
 			// aapt resource value: 0x7f080025
 			public const int showTitle = 2131230757;
 			
-			// aapt resource value: 0x7f08009c
-			public const int smallLabel = 2131230876;
-			
-			// aapt resource value: 0x7f0800a3
-			public const int snackbar_action = 2131230883;
+			// aapt resource value: 0x7f0800c4
+			public const int slpg = 2131230916;
 			
 			// aapt resource value: 0x7f0800a2
-			public const int snackbar_text = 2131230882;
+			public const int smallLabel = 2131230882;
+			
+			// aapt resource value: 0x7f0800a9
+			public const int snackbar_action = 2131230889;
+			
+			// aapt resource value: 0x7f0800a8
+			public const int snackbar_text = 2131230888;
 			
 			// aapt resource value: 0x7f080043
 			public const int snap = 2131230787;
 			
+			// aapt resource value: 0x7f0800c6
+			public const int son = 2131230918;
+			
 			// aapt resource value: 0x7f080064
 			public const int spacer = 2131230820;
 			
-			// aapt resource value: 0x7f0800bf
-			public const int spinner = 2131230911;
+			// aapt resource value: 0x7f0800c5
+			public const int spb = 2131230917;
 			
 			// aapt resource value: 0x7f080008
 			public const int split_action_bar = 2131230728;
@@ -2994,8 +3030,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08004b
 			public const int start = 2131230795;
 			
-			// aapt resource value: 0x7f0800af
-			public const int status_bar_latest_event_content = 2131230895;
+			// aapt resource value: 0x7f0800b5
+			public const int status_bar_latest_event_content = 2131230901;
 			
 			// aapt resource value: 0x7f080076
 			public const int submenuarrow = 2131230838;
@@ -3021,11 +3057,11 @@ namespace FuelCost
 			// aapt resource value: 0x7f080069
 			public const int textSpacerNoTitle = 2131230825;
 			
-			// aapt resource value: 0x7f0800c2
-			public const int textView1 = 2131230914;
+			// aapt resource value: 0x7f08009d
+			public const int textView1 = 2131230877;
 			
-			// aapt resource value: 0x7f0800a9
-			public const int text_input_password_toggle = 2131230889;
+			// aapt resource value: 0x7f0800af
+			public const int text_input_password_toggle = 2131230895;
 			
 			// aapt resource value: 0x7f080014
 			public const int textinput_counter = 2131230740;
@@ -3033,8 +3069,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080015
 			public const int textinput_error = 2131230741;
 			
-			// aapt resource value: 0x7f0800b5
-			public const int time = 2131230901;
+			// aapt resource value: 0x7f0800bb
+			public const int time = 2131230907;
 			
 			// aapt resource value: 0x7f08001c
 			public const int title = 2131230748;
@@ -3048,8 +3084,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08008e
 			public const int toolbar = 2131230862;
 			
-			// aapt resource value: 0x7f0800bd
-			public const int toolbar2 = 2131230909;
+			// aapt resource value: 0x7f08009c
+			public const int toolbar2 = 2131230876;
 			
 			// aapt resource value: 0x7f08003e
 			public const int top = 2131230782;
@@ -3057,8 +3093,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08006e
 			public const int topPanel = 2131230830;
 			
-			// aapt resource value: 0x7f0800a0
-			public const int touch_outside = 2131230880;
+			// aapt resource value: 0x7f0800a6
+			public const int touch_outside = 2131230886;
 			
 			// aapt resource value: 0x7f08000f
 			public const int transition_current_scene = 2131230735;
@@ -3090,8 +3126,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800c8
-			public const int visible = 2131230920;
+			// aapt resource value: 0x7f0800ca
+			public const int visible = 2131230922;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
@@ -3243,109 +3279,115 @@ namespace FuelCost
 			public const int card_details = 2130968604;
 			
 			// aapt resource value: 0x7f04001d
-			public const int design_bottom_navigation_item = 2130968605;
+			public const int cost_layout = 2130968605;
 			
 			// aapt resource value: 0x7f04001e
-			public const int design_bottom_sheet_dialog = 2130968606;
+			public const int design_bottom_navigation_item = 2130968606;
 			
 			// aapt resource value: 0x7f04001f
-			public const int design_layout_snackbar = 2130968607;
+			public const int design_bottom_sheet_dialog = 2130968607;
 			
 			// aapt resource value: 0x7f040020
-			public const int design_layout_snackbar_include = 2130968608;
+			public const int design_layout_snackbar = 2130968608;
 			
 			// aapt resource value: 0x7f040021
-			public const int design_layout_tab_icon = 2130968609;
+			public const int design_layout_snackbar_include = 2130968609;
 			
 			// aapt resource value: 0x7f040022
-			public const int design_layout_tab_text = 2130968610;
+			public const int design_layout_tab_icon = 2130968610;
 			
 			// aapt resource value: 0x7f040023
-			public const int design_menu_item_action_area = 2130968611;
+			public const int design_layout_tab_text = 2130968611;
 			
 			// aapt resource value: 0x7f040024
-			public const int design_navigation_item = 2130968612;
+			public const int design_menu_item_action_area = 2130968612;
 			
 			// aapt resource value: 0x7f040025
-			public const int design_navigation_item_header = 2130968613;
+			public const int design_navigation_item = 2130968613;
 			
 			// aapt resource value: 0x7f040026
-			public const int design_navigation_item_separator = 2130968614;
+			public const int design_navigation_item_header = 2130968614;
 			
 			// aapt resource value: 0x7f040027
-			public const int design_navigation_item_subheader = 2130968615;
+			public const int design_navigation_item_separator = 2130968615;
 			
 			// aapt resource value: 0x7f040028
-			public const int design_navigation_menu = 2130968616;
+			public const int design_navigation_item_subheader = 2130968616;
 			
 			// aapt resource value: 0x7f040029
-			public const int design_navigation_menu_item = 2130968617;
+			public const int design_navigation_menu = 2130968617;
 			
 			// aapt resource value: 0x7f04002a
-			public const int design_text_input_password_icon = 2130968618;
+			public const int design_navigation_menu_item = 2130968618;
 			
 			// aapt resource value: 0x7f04002b
-			public const int notification_action = 2130968619;
+			public const int design_text_input_password_icon = 2130968619;
 			
 			// aapt resource value: 0x7f04002c
-			public const int notification_action_tombstone = 2130968620;
+			public const int log_layout = 2130968620;
 			
 			// aapt resource value: 0x7f04002d
-			public const int notification_media_action = 2130968621;
+			public const int notification_action = 2130968621;
 			
 			// aapt resource value: 0x7f04002e
-			public const int notification_media_cancel_action = 2130968622;
+			public const int notification_action_tombstone = 2130968622;
 			
 			// aapt resource value: 0x7f04002f
-			public const int notification_template_big_media = 2130968623;
+			public const int notification_media_action = 2130968623;
 			
 			// aapt resource value: 0x7f040030
-			public const int notification_template_big_media_custom = 2130968624;
+			public const int notification_media_cancel_action = 2130968624;
 			
 			// aapt resource value: 0x7f040031
-			public const int notification_template_big_media_narrow = 2130968625;
+			public const int notification_template_big_media = 2130968625;
 			
 			// aapt resource value: 0x7f040032
-			public const int notification_template_big_media_narrow_custom = 2130968626;
+			public const int notification_template_big_media_custom = 2130968626;
 			
 			// aapt resource value: 0x7f040033
-			public const int notification_template_custom_big = 2130968627;
+			public const int notification_template_big_media_narrow = 2130968627;
 			
 			// aapt resource value: 0x7f040034
-			public const int notification_template_icon_group = 2130968628;
+			public const int notification_template_big_media_narrow_custom = 2130968628;
 			
 			// aapt resource value: 0x7f040035
-			public const int notification_template_lines_media = 2130968629;
+			public const int notification_template_custom_big = 2130968629;
 			
 			// aapt resource value: 0x7f040036
-			public const int notification_template_media = 2130968630;
+			public const int notification_template_icon_group = 2130968630;
 			
 			// aapt resource value: 0x7f040037
-			public const int notification_template_media_custom = 2130968631;
+			public const int notification_template_lines_media = 2130968631;
 			
 			// aapt resource value: 0x7f040038
-			public const int notification_template_part_chronometer = 2130968632;
+			public const int notification_template_media = 2130968632;
 			
 			// aapt resource value: 0x7f040039
-			public const int notification_template_part_time = 2130968633;
+			public const int notification_template_media_custom = 2130968633;
 			
 			// aapt resource value: 0x7f04003a
-			public const int select_dialog_item_material = 2130968634;
+			public const int notification_template_part_chronometer = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int select_dialog_multichoice_material = 2130968635;
+			public const int notification_template_part_time = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int select_dialog_singlechoice_material = 2130968636;
+			public const int select_dialog_item_material = 2130968636;
 			
 			// aapt resource value: 0x7f04003d
-			public const int set = 2130968637;
+			public const int select_dialog_multichoice_material = 2130968637;
 			
 			// aapt resource value: 0x7f04003e
-			public const int support_simple_spinner_dropdown_item = 2130968638;
+			public const int select_dialog_singlechoice_material = 2130968638;
 			
 			// aapt resource value: 0x7f04003f
-			public const int tooltip = 2130968639;
+			public const int set = 2130968639;
+			
+			// aapt resource value: 0x7f040040
+			public const int support_simple_spinner_dropdown_item = 2130968640;
+			
+			// aapt resource value: 0x7f040041
+			public const int tooltip = 2130968641;
 			
 			static Layout()
 			{
@@ -4132,6 +4174,9 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f09003c
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131296316;
+			
+			// aapt resource value: 0x7f090187
+			public const int SegmentedControlButton = 2131296647;
 			
 			// aapt resource value: 0x7f0900cb
 			public const int TextAppearance_AppCompat = 2131296459;
@@ -6342,6 +6387,8 @@ namespace FuelCost
 			
 			// aapt resource value: 12
 			public const int SearchView_voiceIcon = 12;
+			
+			public static int[] SegmentedControlButton;
 			
 			public static int[] SnackbarLayout = new int[] {
 					16843039,

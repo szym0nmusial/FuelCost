@@ -60,9 +60,12 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\CostActicity.cs" />
     <Compile Include="Activity\AddVehicleActicity.cs" />
+    <Compile Include="Activity\LogActivity.cs" />
     <Compile Include="Activity\DetailsActivity.cs" />
     <Compile Include="LocalSet.cs" />
+    <Compile Include="User Interface\SegmentedControlButton.cs" />
     <Compile Include="User Interface\MyItemTouchHelper.cs" />
     <Compile Include="User Interface\RecyclerViewAdapter.cs" />
     <Compile Include="User Interface\RecyclerViewViewHolder.cs" />
@@ -164,6 +167,22 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\dream_car.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\cost_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\log_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\attrs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\SCB_bg.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

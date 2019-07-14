@@ -7,4 +7,14 @@
   <color name="navigationBarColor">#000000</color>
   <color name="colorAccent">#3498db</color>
   <color name="splash_background">#3498DB</color>
+
+
+    <color name="text_normal">#ff000000</color>
+    <color name="text_hilite">#ffffffff</color>
+
+    <color name="control_border">#ff0099cc</color>
+
+    <color name="button_pressed">#ff0099cc</color>
+    <color name="button_checked">#ff33b5e5</color>
+
 </resources>
