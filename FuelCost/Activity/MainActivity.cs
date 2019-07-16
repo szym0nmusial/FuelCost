@@ -28,7 +28,7 @@ namespace FuelCost
         RecyclerView.LayoutManager mLayoutManager;
         RecyclerViewAdapter mAdapter;
 
-
+        public static List<string> Debug = new List<string>();
 
         private static bool isFabOpen;
         private FloatingActionButton fab1;
@@ -162,7 +162,11 @@ namespace FuelCost
         }
 
 
-
+        public static string Log(string text)
+        {
+            Debug.Add(text);
+            return text;
+        }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {

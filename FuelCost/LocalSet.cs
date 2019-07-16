@@ -30,7 +30,8 @@ namespace FuelCost
                 Open();
                 ReadPrices();
                 ReadVehicles();
-                Console.WriteLine("Data ready");
+                Console.WriteLine(MainActivity.Log("Data ready"));
+                MainActivity.Log("data rdy");
             });
             task.Start();
             task.Wait();
@@ -46,7 +47,7 @@ namespace FuelCost
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(MainActivity.Log(MainActivity.Log(e.Message)));
             }
         }
 
@@ -59,7 +60,7 @@ namespace FuelCost
 
             if (!exists)
             {
-                Console.WriteLine("Creating database");
+                Console.WriteLine(MainActivity.Log("Creating database"));
                 // Need to create the database before seeding it with some data
                 SqliteConnection.CreateFile(dbPath);
                 connection = new SqliteConnection("Data Source=" + dbPath);
@@ -84,11 +85,11 @@ namespace FuelCost
                         try
                         {
                             var rowcount = c.ExecuteNonQuery();
-                            Console.WriteLine("\tExecuted " + command);
+                            Console.WriteLine(MainActivity.Log("\tExecuted " + command));
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("SQLite:\n" + e.Message);
+                            Console.WriteLine(MainActivity.Log("SQLite:\n" + e.Message));
                         }
 
                     }
@@ -97,7 +98,7 @@ namespace FuelCost
             }
             else
             {
-                Console.WriteLine("Database already exists");
+                Console.WriteLine(MainActivity.Log("Database already exists"));
             }
 
         }
@@ -188,7 +189,7 @@ namespace FuelCost
             }
             catch (Exception e)
             {
-                Console.WriteLine("Input double: " + value + "\nConvert Exception: " + e.Message);
+                Console.WriteLine(MainActivity.Log("Input double: " + value + "\nConvert Exception: " + e.Message));
             }
             return result;
         }
@@ -206,18 +207,18 @@ namespace FuelCost
                 if (tmp.Length == 1)
                 {
                     result = int.Parse(tmp[0]);
-                    Console.WriteLine("I: " + value + "; O: " + result);
+                    Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
                     return result;
                 }
 
                 result = int.Parse(tmp[0]);
                 result += int.Parse(tmp[1]) / Math.Pow(10, tmp[1].Length);
 
-                Console.WriteLine("I: " + value + "; O: " + result);
+                Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
             }
             catch (Exception e)
             {
-                Console.WriteLine("Input string: " + value + "\nConvert Exception: " + e.Message);
+                Console.WriteLine(MainActivity.Log("Input string: " + value + "\nConvert Exception: " + e.Message));
             }
             return result;
         }

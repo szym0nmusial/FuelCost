@@ -13,10 +13,9 @@ using Android.Widget;
 
 namespace FuelCost
 {
-    [Activity(/*Label = "DetailsActivity",*/ Theme = "@style/AppTheme", MainLauncher = false)]
+    [Activity( Theme = "@style/AppTheme", MainLauncher = false)]
     public class DetailsActivity : AppCompatActivity
     {
-
         public TextView Name { get; private set; }
         public TextView FuelType { get; private set; }
         public TextView Consuption { get; private set; }

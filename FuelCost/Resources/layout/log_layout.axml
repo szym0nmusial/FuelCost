@@ -52,12 +52,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <TextView
-                    android:text="Debug.."
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                <EditText
+                    style="@style/Widget.AppCompat.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView1"
+                    android:text="Debug.."
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                   
+                    android:id="@+id/DebugId"
                     android:foregroundGravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:layout_marginTop="20dp"/>
