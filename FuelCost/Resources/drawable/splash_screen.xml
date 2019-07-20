@@ -5,8 +5,9 @@
   </item>
   <item>
     <bitmap
-        android:src="@drawable/dream_car"
+        android:src="@drawable/Carres"
         android:tileMode="disabled"
-        android:gravity="center"/>
+        android:gravity="center"
+       />
   </item>
 </layer-list>

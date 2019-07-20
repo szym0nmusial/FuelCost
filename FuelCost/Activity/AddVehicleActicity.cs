@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
@@ -30,6 +31,8 @@ namespace FuelCost
         Button Slpg;
         Button Spb;
         Button Son;
+
+        LinearLayout RootLayout;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -62,6 +65,7 @@ namespace FuelCost
             Button btn = FindViewById<Button>(Resource.Id.button1);
             btn.Click += Btn_Click;
 
+            RootLayout = FindViewById<LinearLayout>(Resource.Id.AddRootLayout);
 
         }
 
@@ -106,6 +110,10 @@ namespace FuelCost
 
                    LocalSet.Write(data);
 
+
+
+                   var snackbar = Snackbar.Make(RootLayout, "Dodano pojazd " + data.Name + " o spalaniu: " + LocalSet.Convert(data.consumption) ,Snackbar.LengthLong);
+
                    //var index = LocalSet.VehicleDataList.Count;
                    //Intent intentdata = new Intent();
                    //intentdata.PutExtra("index",  index );
@@ -114,6 +122,7 @@ namespace FuelCost
 
                    RunOnUiThread(() =>
                    {
+                       snackbar.Show();
                        name.Text = "";
                        consuption.Text = "";
                    });
