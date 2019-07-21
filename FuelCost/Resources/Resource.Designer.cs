@@ -105,22 +105,6 @@ namespace FuelCost
 			}
 		}
 		
-		public partial class Array
-		{
-			
-			// aapt resource value: 0x7f0e0000
-			public const int planets_array = 2131623936;
-			
-			static Array()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Array()
-			{
-			}
-		}
-		
 		public partial class Attribute
 		{
 			
@@ -3564,9 +3548,6 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f0b0025
 			public const int path_password_strike_through = 2131427365;
-			
-			// aapt resource value: 0x7f0b0029
-			public const int planet_prompt = 2131427369;
 			
 			// aapt resource value: 0x7f0b0011
 			public const int search_menu_title = 2131427345;
