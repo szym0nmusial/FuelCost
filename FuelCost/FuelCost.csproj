@@ -60,9 +60,13 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\CostActicity.cs" />
     <Compile Include="Activity\AddVehicleActicity.cs" />
+    <Compile Include="Activity\LogActivity.cs" />
     <Compile Include="Activity\DetailsActivity.cs" />
+    <Compile Include="Activity\SplashActivityLayout.cs" />
     <Compile Include="LocalSet.cs" />
+    <Compile Include="User Interface\SegmentedControlButton.cs" />
     <Compile Include="User Interface\MyItemTouchHelper.cs" />
     <Compile Include="User Interface\RecyclerViewAdapter.cs" />
     <Compile Include="User Interface\RecyclerViewViewHolder.cs" />
@@ -71,6 +75,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VehicleData.cs" />
+    <Compile Include="User Interface\DiffCallback.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -151,6 +156,41 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\set.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\car.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\cash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\dev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\dream_car.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\cost_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\log_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\attrs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\SCB_bg.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Carres.jpg" />
+    <AndroidResource Include="Resources\drawable\Carres.jpg" />
+    <AndroidResource Include="Resources\layout\SplashLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

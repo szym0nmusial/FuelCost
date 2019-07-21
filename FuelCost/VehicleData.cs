@@ -17,14 +17,14 @@ namespace FuelCost
         public enum FuelTypeEnum
         {
             Gas = 0,
-            Benzya = 1,
+            Benzyna = 1,
             Diesel = 2,
         };
 
         public string Name;
         public FuelTypeEnum FuelType;
         public bool Pbinjection; // only on lpg
-        public float consumption;
+        public double consumption;
 
         public void AddRaw(string raw)
         {

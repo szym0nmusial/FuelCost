@@ -28,7 +28,7 @@ namespace FuelCost
                     {
                         if (LocalSet.VehicleDataList[position].Pbinjection)
                         {
-                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya] * 0.1);
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
                         }
                         else
                         {
@@ -36,9 +36,9 @@ namespace FuelCost
                         }
                         break;
                     }
-                case VehicleData.FuelTypeEnum.Benzya:
+                case VehicleData.FuelTypeEnum.Benzyna:
                     {
-                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya];
+                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
                         break;
                     }
                 case VehicleData.FuelTypeEnum.Diesel:
@@ -50,8 +50,8 @@ namespace FuelCost
             
             recyclerViewViewHolder.Name.Text = LocalSet.VehicleDataList[position].Name;
             recyclerViewViewHolder.FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
-            recyclerViewViewHolder.Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString();
-            recyclerViewViewHolder.Price.Text = Price.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            recyclerViewViewHolder.Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString("0.00");
+            recyclerViewViewHolder.Price.Text = Price.ToString("0.00" ,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

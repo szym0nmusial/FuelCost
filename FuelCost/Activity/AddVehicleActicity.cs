@@ -8,31 +8,31 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 
 namespace FuelCost
 {
-    [Activity(Label = "AddVehicleActicity", Theme = "@style/AppTheme")]
+    [Activity(Label = "Dodaj pojazd", Theme = "@style/AppTheme")]
     public class AddVehicleActicity : AppCompatActivity
     {
 
-        public VehicleData Data;
+        //  public VehicleData Data;
 
-        List<KeyValuePair<string, VehicleData.FuelTypeEnum>> planets;
 
-        CheckBox checkBox1;
+
+        Android.Support.V7.Widget.SwitchCompat addpb;
         EditText name;
         EditText consuption;
+        private VehicleData data = new VehicleData();
 
-        EditText lpgprice;
-        EditText pbprice;
-        EditText onprice;
+        Button Slpg;
+        Button Spb;
+        Button Son;
 
-
-        VehicleData data = new VehicleData();
-
+        LinearLayout RootLayout;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -48,95 +48,91 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
+            
 
-
-            Spinner spinner = FindViewById<Spinner>(Resource.Id.spinner);
-
-
-
-            planets = new List<KeyValuePair<string, VehicleData.FuelTypeEnum>>
-            {
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Gaz", VehicleData.FuelTypeEnum.Gas),
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Benzyna", VehicleData.FuelTypeEnum.Benzya),
-                new KeyValuePair<string, VehicleData.FuelTypeEnum>("Diesel", VehicleData.FuelTypeEnum.Diesel),
-            };
-
-            List<string> planetNames = new List<string>();
-            foreach (var item in planets)
-                planetNames.Add(item.Key);
-
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, planetNames);
-
-            spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
-
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinner.Adapter = adapter;
-
-
-            checkBox1 = FindViewById<CheckBox>(Resource.Id.checkBox1);
+            addpb = FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.checkBox1);
             name = FindViewById<EditText>(Resource.Id.name);
             consuption = FindViewById<EditText>(Resource.Id.consuption);
 
-            lpgprice = FindViewById<EditText>(Resource.Id.lpgprice);
-            pbprice = FindViewById<EditText>(Resource.Id.pbprice);
-            onprice = FindViewById<EditText>(Resource.Id.onprice);
+            Slpg = FindViewById<Button>(Resource.Id.slpg);
+            Son = FindViewById<Button>(Resource.Id.son);
+            Spb = FindViewById<Button>(Resource.Id.spb);
 
-            try
-            {
-                lpgprice.Text = LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Gas]);
-                pbprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya]));
-                onprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel]));
-            }
-            catch { }
-            FindViewById<Button>(Resource.Id.button2).Click += Set_Click;
-
+            Slpg.Click += S_Click;
+            Son.Click += S_Click;
+            Spb.Click += S_Click;
 
             Button btn = FindViewById<Button>(Resource.Id.button1);
             btn.Click += Btn_Click;
 
+            RootLayout = FindViewById<LinearLayout>(Resource.Id.AddRootLayout);
 
         }
 
-        private void Set_Click(object sender, EventArgs e)
+        private void S_Click(object sender, EventArgs e)
         {
-            try
+            var obj = sender as Button;
+            switch (obj.Id)
             {
-                new Thread(() =>
-                {
-                LocalSet.Write(VehicleData.FuelTypeEnum.Gas,LocalSet.Convert(lpgprice.Text));
-                LocalSet.Write(VehicleData.FuelTypeEnum.Benzya,LocalSet.Convert(pbprice.Text));
-                LocalSet.Write(VehicleData.FuelTypeEnum.Diesel, LocalSet.Convert(onprice.Text));
-
-                }).Start();
+                case Resource.Id.slpg:
+                    {
+                        data.FuelType = VehicleData.FuelTypeEnum.Gas;
+                        addpb.Visibility = ViewStates.Visible;
+                        
+                        break;
+                    }
+                case Resource.Id.spb:
+                    {
+                        data.FuelType = VehicleData.FuelTypeEnum.Benzyna;
+                        addpb.Visibility = ViewStates.Gone;
+                        break;
+                    }
+                case Resource.Id.son:
+                    {
+                        data.FuelType = VehicleData.FuelTypeEnum.Diesel;
+                        addpb.Visibility = ViewStates.Gone;
+                        break;
+                    }
+                default:
+                    break;
             }
-            catch { }
-
         }
 
         private void Btn_Click(object sender, EventArgs e)
         {
             new Thread(() =>
-            {
-                try
-                {
-                    data.Name = name.Text;
-                    data.consumption = float.Parse(consuption.Text, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                    data.Pbinjection = checkBox1.Checked;
+           {
+               try
+               {
+                   data.Name = name.Text;
+                   data.consumption = LocalSet.Convert(consuption.Text);
+                   data.Pbinjection = addpb.Checked;
 
-                    LocalSet.AddVehicle(data);
-                }
-                catch
-                { }
-            }).Start();
+                   LocalSet.Write(data);
+
+
+
+                   var snackbar = Snackbar.Make(RootLayout, "Dodano pojazd " + data.Name + " o spalaniu: " + LocalSet.Convert(data.consumption) ,Snackbar.LengthLong);
+
+                   //var index = LocalSet.VehicleDataList.Count;
+                   //Intent intentdata = new Intent();
+                   //intentdata.PutExtra("index",  index );
+                   //SetResult(Result.Ok, intentdata);
+
+
+                   RunOnUiThread(() =>
+                   {
+                       snackbar.Show();
+                       name.Text = "";
+                       consuption.Text = "";
+                   });
+               }
+               catch
+               { }
+           }).Start();
 
         }
 
-
-        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            Spinner spinner = (Spinner)sender;
-            data.FuelType = planets[e.Position].Value;
-        }
     }
 
 }

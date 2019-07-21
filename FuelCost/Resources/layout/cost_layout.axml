@@ -49,18 +49,26 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
-                android:id="@+id/AddRootLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
+                <TextView
+                    android:text="Ceny Paliw"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1"
+                    android:foregroundGravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="20dp"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText                    
-                        android:id="@+id/name"
-                        style="@style/Widget.AppCompat.EditText"
-                        android:hint="Nazwa pojazdu"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25.5dp">
+                    <EditText
+                        android:id="@+id/lpgprice"
+                        android:hint="Gas"
+                        android:inputType="numberDecimal|number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -69,64 +77,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25.5dp">
                     <EditText
-                        style="@style/Widget.AppCompat.EditText"
-                        android:id="@+id/consuption"
-                        android:hint="Spalanie"
+                        android:id="@+id/pbprice"
+                        android:hint="Benzyna"
                         android:inputType="numberDecimal|number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
-                <TextView
-                    
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
-                    android:text="@string/planet_prompt" />
-                <LinearLayout
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:text="Lpg"
-                        android:id="@+id/slpg"
-                        style="@style/SegmentedControlButton"
-                      
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <Button
-                        android:text="Benzyna"
-                        android:id="@+id/spb"
-                        style="@style/SegmentedControlButton"
-                      
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <Button
-                        android:text="Diesel"
-                        android:id="@+id/son"
-                        style="@style/SegmentedControlButton"
-                    
-                        android:layout_width="wrap_content"
+                    android:layout_marginTop="25.5dp">
+                    <EditText
+                        android:id="@+id/onprice"
+                        android:hint="Ropa"
+                        android:inputType="numberDecimal|number"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+                </android.support.design.widget.TextInputLayout>
 
-                </LinearLayout>
-                <android.support.v7.widget.SwitchCompat
-                   
-                style="@style/Widget.AppCompat.CompoundButton.Switch"
-                    android:text="Dostrysk Benzyny"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/checkBox1" 
-                android:visibility="gone"/>
                 <Button
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="Dodaj"
+                    android:text="Zmień"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button1" />
-
-
+                    android:id="@+id/button2" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

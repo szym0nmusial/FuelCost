@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -50,10 +50,11 @@ namespace FuelCost
         public override void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
         {
             int position = viewHolder.AdapterPosition;
-            LocalSet.DelVehicle(position);
+            var task = new Task(() => LocalSet.DelVehicle(position));
+            task.Start();
+            task.Wait();
             mAdapter.NotifyItemRemoved(position);
             mAdapter.NotifyItemRangeChanged(position, mAdapter.ItemCount);
-
         }
 
         public override void OnChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, bool isCurrentlyActive)

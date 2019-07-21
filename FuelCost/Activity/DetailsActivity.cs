@@ -13,10 +13,9 @@ using Android.Widget;
 
 namespace FuelCost
 {
-    [Activity(/*Label = "DetailsActivity",*/ Theme = "@style/AppTheme", MainLauncher = false)]
+    [Activity( Theme = "@style/AppTheme", MainLauncher = false)]
     public class DetailsActivity : AppCompatActivity
     {
-
         public TextView Name { get; private set; }
         public TextView FuelType { get; private set; }
         public TextView Consuption { get; private set; }
@@ -66,7 +65,7 @@ namespace FuelCost
                     {
                         if (LocalSet.VehicleDataList[position].Pbinjection)
                         {
-                            cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya] * 0.1);
+                            cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
                         }
                         else
                         {
@@ -74,9 +73,9 @@ namespace FuelCost
                         }
                         break;
                     }
-                case VehicleData.FuelTypeEnum.Benzya:
+                case VehicleData.FuelTypeEnum.Benzyna:
                     {
-                        cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzya];
+                        cost = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
                         break;
                     }
                 case VehicleData.FuelTypeEnum.Diesel:
@@ -88,8 +87,8 @@ namespace FuelCost
 
             Name.Text = LocalSet.VehicleDataList[position].Name;
             FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
-            Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString();
-            Price.Text = cost.ToString(System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString("0.00");
+            Price.Text = cost.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
         }
 
         private void Toolbar_NavigationClick(object sender, Android.Support.V7.Widget.Toolbar.NavigationClickEventArgs e)
