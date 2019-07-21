@@ -18,7 +18,7 @@ namespace FuelCost
     public class LogActivity : AppCompatActivity
     {
 
-        EditText editTextdebug;
+        TextView Textdebug;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,21 +32,14 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
-            editTextdebug = FindViewById<EditText>(Resource.Id.DebugId);
+            Textdebug = FindViewById<TextView>(Resource.Id.DebugId);
+            Textdebug.Text = "";
             foreach (var item in MainActivity.Debug)
             {
-                editTextdebug.Text += MainActivity.Debug[0] + "\n";
+                Textdebug.SetLines(MainActivity.Debug.Count);
+                Textdebug.Text += item + "\n";
             }
-            
-
-          
-
 
         }
-
-       
-
-
     }
-
 }

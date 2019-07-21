@@ -2535,6 +2535,9 @@ namespace FuelCost
 			// aapt resource value: 0x7f080033
 			public const int CTRL = 2131230771;
 			
+			// aapt resource value: 0x7f0800cd
+			public const int ContentLoadingProgressBar = 2131230925;
+			
 			// aapt resource value: 0x7f0800b1
 			public const int DebugId = 2131230897;
 			
@@ -2543,6 +2546,9 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f080035
 			public const int META = 2131230773;
+			
+			// aapt resource value: 0x7f0800cc
+			public const int MainLayout = 2131230924;
 			
 			// aapt resource value: 0x7f080036
 			public const int SHIFT = 2131230774;
@@ -2844,14 +2850,14 @@ namespace FuelCost
 			// aapt resource value: 0x7f08009e
 			public const int lpgprice = 2131230878;
 			
-			// aapt resource value: 0x7f0800ce
-			public const int masked = 2131230926;
+			// aapt resource value: 0x7f0800d0
+			public const int masked = 2131230928;
 			
 			// aapt resource value: 0x7f0800b8
 			public const int media_actions = 2131230904;
 			
-			// aapt resource value: 0x7f0800cc
-			public const int message = 2131230924;
+			// aapt resource value: 0x7f0800ce
+			public const int message = 2131230926;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -3138,8 +3144,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800cd
-			public const int visible = 2131230925;
+			// aapt resource value: 0x7f0800cf
+			public const int visible = 2131230927;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
@@ -3396,10 +3402,13 @@ namespace FuelCost
 			public const int set = 2130968639;
 			
 			// aapt resource value: 0x7f040040
-			public const int support_simple_spinner_dropdown_item = 2130968640;
+			public const int SplashLayout = 2130968640;
 			
 			// aapt resource value: 0x7f040041
-			public const int tooltip = 2130968641;
+			public const int support_simple_spinner_dropdown_item = 2130968641;
+			
+			// aapt resource value: 0x7f040042
+			public const int tooltip = 2130968642;
 			
 			static Layout()
 			{
@@ -3601,6 +3610,9 @@ namespace FuelCost
 			
 			// aapt resource value: 0x7f090186
 			public const int AppTheme_Splash = 2131296646;
+			
+			// aapt resource value: 0x7f090187
+			public const int AppTheme_SplashNoBackground = 2131296647;
 			
 			// aapt resource value: 0x7f09009e
 			public const int Base_AlertDialog_AppCompat = 2131296414;
@@ -4187,8 +4199,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f09003c
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131296316;
 			
-			// aapt resource value: 0x7f090187
-			public const int SegmentedControlButton = 2131296647;
+			// aapt resource value: 0x7f090188
+			public const int SegmentedControlButton = 2131296648;
 			
 			// aapt resource value: 0x7f0900cb
 			public const int TextAppearance_AppCompat = 2131296459;

@@ -64,6 +64,7 @@
     <Compile Include="Activity\AddVehicleActicity.cs" />
     <Compile Include="Activity\LogActivity.cs" />
     <Compile Include="Activity\DetailsActivity.cs" />
+    <Compile Include="Activity\SplashActivityLayout.cs" />
     <Compile Include="LocalSet.cs" />
     <Compile Include="User Interface\SegmentedControlButton.cs" />
     <Compile Include="User Interface\MyItemTouchHelper.cs" />
@@ -187,6 +188,9 @@
   <ItemGroup>
     <Content Include="Carres.jpg" />
     <AndroidResource Include="Resources\drawable\Carres.jpg" />
+    <AndroidResource Include="Resources\layout\SplashLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

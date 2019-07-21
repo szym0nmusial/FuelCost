@@ -23,19 +23,7 @@ namespace FuelCost
         /// <summary>
         /// Pobiera dane
         /// </summary>
-        public static void GetSetting()
-        {
-            var task = new Task(() =>
-            {
-                Open();
-                ReadPrices();
-                ReadVehicles();
-                Console.WriteLine(MainActivity.Log("Data ready"));
-                MainActivity.Log("data rdy");
-            });
-            task.Start();
-            task.Wait();
-        }
+
 
         public static void DelVehicle(int position)
         {
@@ -51,11 +39,11 @@ namespace FuelCost
             }
         }
 
-        private static void Open()
+        public static void Open()
         {
             // determine the path for the database file
             dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "db.db3");
-
+           // throw new Exception();
             bool exists = File.Exists(dbPath);
 
             if (!exists)
@@ -110,8 +98,15 @@ namespace FuelCost
 
             using (var c = connection.CreateCommand())
             {
-                c.CommandText = CommandText;
-                var rowcount = c.ExecuteNonQuery(); // rowcount will be 1
+                try
+                {
+                    c.CommandText = CommandText;
+                    var rowcount = c.ExecuteNonQuery(); // rowcount will be 1
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(MainActivity.Log("SQL write exception: " + e.Message));
+                }
             }
             connection.Close();
 
@@ -134,24 +129,32 @@ namespace FuelCost
 
         public static void ReadVehicles()
         {
+        
             connection = new SqliteConnection("Data Source=" + dbPath);
             connection.Open();
 
             using (var contents = connection.CreateCommand())
             {
                 contents.CommandText = "SELECT * FROM MAIN";
-                var r = contents.ExecuteReader();
-                while (r.Read())
+                try
                 {
-                    var Data = new VehicleData
+                    var r = contents.ExecuteReader();
+                    while (r.Read())
                     {
-                        Name = r["NAME"].ToString(),
-                        FuelType = (VehicleData.FuelTypeEnum)int.Parse(r["FUELTYPE"].ToString()),
-                        Pbinjection = bool.Parse(r["PBINJECTION"].ToString()),
-                        consumption = float.Parse(r["CONSUMPTION"].ToString())
-                    };
+                        var Data = new VehicleData
+                        {
+                            Name = r["NAME"].ToString(),
+                            FuelType = (VehicleData.FuelTypeEnum)int.Parse(r["FUELTYPE"].ToString()),
+                            Pbinjection = bool.Parse(r["PBINJECTION"].ToString()),
+                            consumption = float.Parse(r["CONSUMPTION"].ToString())
+                        };
 
-                    VehicleDatas.Add(Data);
+                        VehicleDatas.Add(Data);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(MainActivity.Log("SQL ask exception: " + e.Message));
                 }
             }
             connection.Close();
@@ -164,12 +167,19 @@ namespace FuelCost
             using (var contents = connection.CreateCommand())
             {
                 contents.CommandText = "SELECT * FROM PRICE";
-                var r = contents.ExecuteReader();
-                while (r.Read())
+                try
                 {
-                    var type = (FuelTypeEnum)int.Parse(r["FUEL"].ToString());
-                    var value = r["VALUE"].ToString();
-                    Prices[type] = Convert(value);
+                    var r = contents.ExecuteReader();
+                    while (r.Read())
+                    {
+                        var type = (FuelTypeEnum)int.Parse(r["FUEL"].ToString());
+                        var value = r["VALUE"].ToString();
+                        Prices[type] = Convert(value);
+                    }
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(MainActivity.Log("SQL ask exception: "+ e.Message));
                 }
             }
             connection.Close();
@@ -207,14 +217,14 @@ namespace FuelCost
                 if (tmp.Length == 1)
                 {
                     result = int.Parse(tmp[0]);
-                    Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
+                  //  Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
                     return result;
                 }
 
                 result = int.Parse(tmp[0]);
                 result += int.Parse(tmp[1]) / Math.Pow(10, tmp[1].Length);
 
-                Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
+              //  Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
             }
             catch (Exception e)
             {
