@@ -28,9 +28,11 @@ namespace FuelCost
         EditText consuption;
         private VehicleData data = new VehicleData();
 
-        Button Slpg;
-        Button Spb;
-        Button Son;
+        RadioButton Slpg;
+        RadioButton Spb;
+        RadioButton Son;
+
+        RadioGroup radioGroup;
 
         LinearLayout RootLayout;
 
@@ -54,13 +56,17 @@ namespace FuelCost
             name = FindViewById<EditText>(Resource.Id.name);
             consuption = FindViewById<EditText>(Resource.Id.consuption);
 
-            Slpg = FindViewById<Button>(Resource.Id.slpg);
-            Son = FindViewById<Button>(Resource.Id.son);
-            Spb = FindViewById<Button>(Resource.Id.spb);
+            Slpg = FindViewById<RadioButton>(Resource.Id.slpg);
+            Son = FindViewById<RadioButton>(Resource.Id.son);
+            Spb = FindViewById<RadioButton>(Resource.Id.spb);
+
+            // FindViewById<RadioGroup>(Resource.Id.SCBRB).Click += S_Click;
 
             Slpg.Click += S_Click;
             Son.Click += S_Click;
             Spb.Click += S_Click;
+
+            //  Slpg.
 
             Button btn = FindViewById<Button>(Resource.Id.button1);
             btn.Click += Btn_Click;
@@ -71,7 +77,11 @@ namespace FuelCost
 
         private void S_Click(object sender, EventArgs e)
         {
-            var obj = sender as Button;
+           
+            var obj = sender as RadioButton;
+
+            //obj.SetBackgroundResource()
+
             switch (obj.Id)
             {
                 case Resource.Id.slpg:
@@ -104,6 +114,13 @@ namespace FuelCost
            {
                try
                {
+                   if(name.Text == "" || consuption.Text == "")
+                   {
+                   RunOnUiThread(() => Snackbar.Make(RootLayout, "Pole nie może być puste", Snackbar.LengthLong).Show());
+                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                   }
+
+
                    data.Name = name.Text;
                    data.consumption = LocalSet.Convert(consuption.Text);
                    data.Pbinjection = addpb.Checked;
@@ -127,8 +144,10 @@ namespace FuelCost
                        consuption.Text = "";
                    });
                }
-               catch
-               { }
+               catch(Exception ex)
+               {
+                   Console.WriteLine(MainActivity.Log(ex.Message));
+               }
            }).Start();
 
         }
