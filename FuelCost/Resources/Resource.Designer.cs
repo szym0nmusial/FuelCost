@@ -2687,8 +2687,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08008d
 			public const int collapsingToolbarLayout = 2131230861;
 			
-			// aapt resource value: 0x7f080098
-			public const int cons = 2131230872;
+			// aapt resource value: 0x7f08009a
+			public const int cons = 2131230874;
 			
 			// aapt resource value: 0x7f0800cc
 			public const int consuption = 2131230924;
@@ -2705,8 +2705,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f0800a9
 			public const int coordinator = 2131230889;
 			
-			// aapt resource value: 0x7f08009b
-			public const int cost = 2131230875;
+			// aapt resource value: 0x7f080099
+			public const int cost = 2131230873;
 			
 			// aapt resource value: 0x7f08006d
 			public const int custom = 2131230829;
@@ -2741,8 +2741,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f080020
 			public const int disableHome = 2131230752;
 			
-			// aapt resource value: 0x7f08009a
-			public const int distance = 2131230874;
+			// aapt resource value: 0x7f080098
+			public const int distance = 2131230872;
 			
 			// aapt resource value: 0x7f08008b
 			public const int drawerLayout = 2131230859;
@@ -2924,8 +2924,8 @@ namespace FuelCost
 			// aapt resource value: 0x7f08004d
 			public const int pin = 2131230797;
 			
-			// aapt resource value: 0x7f080099
-			public const int price = 2131230873;
+			// aapt resource value: 0x7f08009b
+			public const int price = 2131230875;
 			
 			// aapt resource value: 0x7f080006
 			public const int progress_circular = 2131230726;

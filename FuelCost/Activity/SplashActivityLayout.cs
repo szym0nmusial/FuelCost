@@ -23,6 +23,7 @@ namespace FuelCost
         static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;
 
         static TextView TextView;
+        bool RunOnce = false;
 
         static CoordinatorLayout MainLayout;
 
@@ -31,6 +32,8 @@ namespace FuelCost
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+           
 
             SetContentView(Resource.Layout.SplashLayout);
 
@@ -56,10 +59,13 @@ namespace FuelCost
             {
                 try
                 {
+                    RunOnce = true;
                     LocalSet.Open();
                     RunOnUiThread(() => TextView.Text += "\nNawiązano połączenie z bazą");
+                    LocalSet.Prices = new Dictionary<VehicleData.FuelTypeEnum, double>();
                     LocalSet.ReadPrices();
                     RunOnUiThread(() => TextView.Text += "\nOdczytano ceny paliw");
+                    LocalSet.VehicleDataList = new List<VehicleData>();
                     LocalSet.ReadVehicles();
                     RunOnUiThread(() => TextView.Text += "\nOdczytano pojazdy");
 
@@ -67,13 +73,14 @@ namespace FuelCost
                 catch (Exception e)
                 {
                     TextView.Text += "\n" + e.Message;
+                    RunOnce = false;
                 }
                 finally
                 {
                     RunOnUiThread(() =>
                     {
                         TextView.Text += "\n";
-                        TextView.Text += MainActivity.Log("Zadanie wykonano pomyślnie");
+                        TextView.Text += MainActivity.Log("Zadanie wykonano");
                     });
 
 
@@ -83,7 +90,10 @@ namespace FuelCost
 
             // StartupTask.ContinueWith(StrtupWorkEnded);
 
-            StartupTask.Start();
+            if (!RunOnce)
+            {
+                StartupTask.Start();
+            }
             // StartupTask.Wait();
 
         }
@@ -122,9 +132,10 @@ namespace FuelCost
             //  }
 
             //  TextView.Text += "\n ..Completed";
-            Thread.Sleep(500);
+          //  Thread.Sleep(500);
             blocker.WaitOne();
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            Finish();
         }
 
         public override void OnBackPressed() { }

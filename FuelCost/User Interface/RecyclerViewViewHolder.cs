@@ -17,8 +17,8 @@ namespace FuelCost
     {
         public TextView Name { get; private set; }
         public TextView FuelType { get; private set; }
-        public TextView Consuption { get; private set; }
-        public TextView Price { get; private set; }
+        public double Consuption;// { get; private set; }
+        public double Price;//{ get; private set; }
 
         private EditText Cost;
 
@@ -30,8 +30,8 @@ namespace FuelCost
             // Locate and cache view references:
             Name = view.FindViewById<TextView>(Resource.Id.name);
             FuelType = view.FindViewById<TextView>(Resource.Id.typ);
-            Consuption = view.FindViewById<TextView>(Resource.Id.cons);
-            Price = view.FindViewById<TextView>(Resource.Id.price);
+          //    Consuption = view.FindViewById<TextView>(Resource.Id.cons);
+           // Price = view.FindViewById<TextView>(Resource.Id.price);
 
             Distance = view.FindViewById<EditText>(Resource.Id.distance);
             Distance.TextChanged += Distance_Changed;
@@ -47,7 +47,7 @@ namespace FuelCost
             try
             {
                     Distance.TextChanged -= Distance_Changed;
-                    var dist = double.Parse(Cost.Text) * 100 / LocalSet.Convert(Price.Text) / double.Parse(Consuption.Text);
+                    var dist = double.Parse(Cost.Text) * 100 /Price/* LocalSet.Convert(Price.Text)*/ / Consuption /* double.Parse(Consuption.Text)*/;
                     Distance.Text = dist.ToString();
                     Distance.TextChanged += Distance_Changed;
             }
@@ -62,7 +62,7 @@ namespace FuelCost
             try
             {
                     Cost.TextChanged -= Cost_Changed;
-                    var cost = double.Parse(Consuption.Text) * 0.01f * LocalSet.Convert(Price.Text) * double.Parse(Distance.Text);
+                    var cost = Consuption /*double.Parse(Consuption.Text)*/ * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * double.Parse(Distance.Text);
                     Cost.Text = cost.ToString();
                     Cost.TextChanged += Cost_Changed;
             }
