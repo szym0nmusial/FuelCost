@@ -198,6 +198,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\SegmentedControlButtonBackgroud.xml" />
     <AndroidResource Include="Resources\drawable\SegmentedControlButtonTextColor.xml" />
+    <AndroidResource Include="Resources\drawable\station.png" />
+    <AndroidResource Include="Resources\drawable\cars.png" />
+    <AndroidResource Include="Resources\drawable\develop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

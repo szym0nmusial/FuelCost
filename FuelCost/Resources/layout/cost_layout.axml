@@ -29,7 +29,7 @@
                     app:contentScrim="?attr/colorPrimary"
                     app:layout_collapseParallaxMultiplier="0.7"
                     android:background="?attr/colorPrimary"
-                    android:src="@drawable/petrol" />
+                    android:src="@drawable/station" />
 
                 <android.support.v7.widget.Toolbar
                     app:layout_collapseMode="pin"
