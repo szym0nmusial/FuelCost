@@ -87,6 +87,7 @@ namespace FuelCost
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
+            mAdapter.NotifyDataSetChanged();
             DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
             result.DispatchUpdatesTo(mAdapter);
         }

@@ -191,7 +191,6 @@
     <AndroidResource Include="Resources\drawable\SCB_bg.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Carres.jpg" />
     <AndroidResource Include="Resources\drawable\Carres.jpg" />
     <AndroidResource Include="Resources\layout\SplashLayout.axml">
       <SubType>Designer</SubType>
