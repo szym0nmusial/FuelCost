@@ -30,8 +30,13 @@
   <style name="SegmentedControlButton" parent="@style/Widget.AppCompat.Button.Borderless.Colored">
     <item name="android:gravity">center</item>
     <item name="android:layout_weight">1</item>
-<item name="colorAccent">@color/colorAccent</item>
-
+    <item name="android:background">@drawable/SegmentedControlButtonBackgroud</item>
+    <item name="android:textColor">@drawable/SegmentedControlButtonTextColor</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
   </style>
 
 

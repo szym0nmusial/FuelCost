@@ -24,12 +24,7 @@ namespace FuelCost
         protected override void OnResume()
         {
             base.OnResume();
-            //SetContentView(Resource.Layout.SplashLayout);
-            //Task startupWork = new Task(() => {LocalSet.GetSetting();});
-            //startupWork.Start();
-            //startupWork.Wait();
-            //StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-            StartActivity(new Intent(Application.Context, typeof(SplashActivityLayout)));
+            new System.Threading.Thread(() => StartActivity(new Intent(Application.Context, typeof(SplashActivityLayout)))).Start();
         }
 
         public override void OnBackPressed() { }      

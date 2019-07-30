@@ -29,7 +29,7 @@
                     app:contentScrim="?attr/colorPrimary"
                     app:layout_collapseParallaxMultiplier="0.7"
                     android:background="?attr/colorPrimary"
-                    android:src="@drawable/petrol" />
+                    android:src="@drawable/station" />
 
                 <android.support.v7.widget.Toolbar
                     app:layout_collapseMode="pin"
@@ -51,6 +51,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/CostRootLayout"
                 android:orientation="vertical">
                 <TextView
                     android:text="Ceny Paliw"
@@ -62,6 +63,10 @@
                     android:gravity="center_horizontal"
                     android:layout_marginTop="20dp"/>
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lpgpriceTil" 
+                    app:errorEnabled="true"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25.5dp">
@@ -74,6 +79,10 @@
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/pbpriceTil" 
+                    app:errorEnabled="true"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25.5dp">
                     <EditText
@@ -85,6 +94,10 @@
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/onpriceTil" 
+                    app:errorEnabled="true"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25.5dp">
                     <EditText

@@ -12,6 +12,8 @@
     <color name="text_normal">#ff000000</color>
     <color name="text_hilite">#ffffffff</color>
 
+  <color name="icon_bg">#afffffff</color>
+
     <color name="control_border">#ff0099cc</color>
 
     <color name="button_pressed">#ff0099cc</color>
