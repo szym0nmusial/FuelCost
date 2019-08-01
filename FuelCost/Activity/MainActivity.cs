@@ -33,10 +33,16 @@ namespace FuelCost
 
         private static bool isFabOpen;
 
+        private double SharedDistance = 0.0;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            //if(Intent!= null)
+            //{        
+                SharedDistance = Intent.GetDoubleExtra("SharedDistance", 0.0);
+            //}
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
@@ -50,7 +56,14 @@ namespace FuelCost
             mRecycleView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
             mLayoutManager = new LinearLayoutManager(this);
             mRecycleView.SetLayoutManager(mLayoutManager);
-            mAdapter = new RecyclerViewAdapter();
+            if (SharedDistance != 0.0)
+            {
+                mAdapter = new RecyclerViewAdapter(SharedDistance);
+            }
+            else
+            {
+                mAdapter = new RecyclerViewAdapter();
+            }
             mRecycleView.SetAdapter(mAdapter);
 
             mAdapter.NotifyDataSetChanged();

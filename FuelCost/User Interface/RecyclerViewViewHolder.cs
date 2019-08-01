@@ -17,12 +17,16 @@ namespace FuelCost
     {
         public TextView Name { get; private set; }
         public TextView FuelType { get; private set; }
+        public double SharedDistance { set  { if (value != 0.0) { Distance.Text = LocalSet.Convert(value); } } }
+
         public double Consuption;// { get; private set; }
         public double Price;//{ get; private set; }
+      //  private double sharedDistance = 0.0;
 
         private EditText Cost;
 
         private EditText Distance;
+       
 
         [Obsolete]
         public RecyclerViewViewHolder(View view, Action<int> listener) : base(view)
@@ -39,6 +43,11 @@ namespace FuelCost
             Cost.TextChanged += Cost_Changed;
 
             view.Click += (sender, e) => listener(Position);
+
+            //if(SharedDistance != 0.0)
+            //{
+            //    Distance.Text = LocalSet.Convert(SharedDistance);
+            //}
 
         }
 

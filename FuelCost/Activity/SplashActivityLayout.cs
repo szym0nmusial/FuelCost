@@ -32,7 +32,7 @@ namespace FuelCost
 
         ManualResetEvent blocker = new ManualResetEvent(true);
 
-
+        double SharedDistance = 0.0;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -53,7 +53,7 @@ namespace FuelCost
 
 
 
-            Thread StartupTask = new Thread(() =>
+            Task StartupTask = new Task(() =>
             {
                 try
                 {
@@ -82,18 +82,18 @@ namespace FuelCost
                     });
 
 
-                    StrtupWorkEnded();
+                  //  StrtupWorkEnded();
                 }
             });
 
             // StartupTask.ContinueWith(StrtupWorkEnded);
 
-            if (!RunOnce)
-            {
-                StartupTask.Start();
-            }
+            //if (!RunOnce)
+            //{
+            //    StartupTask.Start();
+            //}
             // StartupTask.Wait();
-            Thread DataShared = new Thread(() =>
+            Task DataShared = new Task(() =>
             {
                 try
                 {
@@ -126,7 +126,7 @@ namespace FuelCost
                                                     Console.WriteLine(MainActivity.Log("Udostępniono: " + textkm + " km trasy"));
                                                     timer.Stop();
                                                     Console.WriteLine(MainActivity.Log("Co zajeło tyle czasu: "+ timer.Elapsed ));
-                                                    LocalSet.Convert(textkm);
+                                                    SharedDistance = LocalSet.Convert(textkm);
                                                     return;
                                                 }
                                             }
@@ -193,9 +193,21 @@ Aby wyznaczyć najlepszą trasę z uwzględnieniem aktualnego ruchu, wejdź na h
                 }
                 catch { }
             });
-            DataShared.Start();
-        }
 
+            var Tasks = new Task[] { DataShared, StartupTask };
+
+            //DataShared.Start();
+            //StartupTask.Start();
+
+            foreach(var Task in Tasks)
+            {
+                Task.Start();
+            }
+            Task.WaitAll(Tasks);
+            StrtupWorkEnded();
+            
+        }
+        
         private void MainLayout_Touch(object sender, View.TouchEventArgs e)
         {
             switch (e.Event.Action)
@@ -232,7 +244,10 @@ Aby wyznaczyć najlepszą trasę z uwzględnieniem aktualnego ruchu, wejdź na h
             //  TextView.Text += "\n ..Completed";
             //  Thread.Sleep(500);
             blocker.WaitOne();
-            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+
+            var MainActivityIntent = new Intent(Application.Context, typeof(MainActivity));
+            MainActivityIntent.PutExtra("SharedDistance", SharedDistance);
+            StartActivity(MainActivityIntent);
             Finish();
         }
 

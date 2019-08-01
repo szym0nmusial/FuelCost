@@ -17,6 +17,20 @@ namespace FuelCost
     {
         public override int ItemCount => LocalSet.VehicleDataList.ToArray().Length;
         public event EventHandler<int> ItemClick;
+        double SharedDistance= 0.0;
+
+        /// <summary>
+        /// Jeśli został podany dystans
+        /// </summary>
+        /// <param name="SharedDistance">Dystans</param>
+        public  RecyclerViewAdapter(double SharedDistance)
+        {
+            this.SharedDistance = SharedDistance;
+        }
+        /// <summary>
+        /// Pusty konstruktor
+        /// </summary>
+        public RecyclerViewAdapter() { }
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             RecyclerViewViewHolder recyclerViewViewHolder = holder as RecyclerViewViewHolder;
@@ -52,6 +66,7 @@ namespace FuelCost
             recyclerViewViewHolder.FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
             recyclerViewViewHolder.Consuption = LocalSet.VehicleDataList[position].consumption;//.ToString("0.00");
             recyclerViewViewHolder.Price = Price;//.ToString("0.00" ,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            recyclerViewViewHolder.SharedDistance = SharedDistance;
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
