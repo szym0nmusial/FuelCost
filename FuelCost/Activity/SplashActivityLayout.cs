@@ -26,7 +26,7 @@ namespace FuelCost
         static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;
 
         static TextView TextView;
-        bool RunOnce = false;
+       // bool RunOnce = false;
 
         static CoordinatorLayout MainLayout;
 
@@ -57,7 +57,7 @@ namespace FuelCost
             {
                 try
                 {
-                    RunOnce = true;
+                    //RunOnce = true;
                     LocalSet.Open();
                     RunOnUiThread(() => TextView.Text += "\nNawiązano połączenie z bazą");
                     LocalSet.Prices = new Dictionary<VehicleData.FuelTypeEnum, double>();
@@ -71,7 +71,7 @@ namespace FuelCost
                 catch (Exception e)
                 {
                     TextView.Text += "\n" + e.Message;
-                    RunOnce = false;
+                    //RunOnce = false;
                 }
                 finally
                 {
@@ -102,7 +102,7 @@ namespace FuelCost
                     Intent intent = Intent;
                     var shareAction = intent.Action;
 
-                    if (Intent != null)
+                    if (Intent.Extras != null)
                     {
                         Console.WriteLine(MainActivity.Log("Recived share with type: " + intent.Type));
 

@@ -28,7 +28,7 @@ namespace FuelCost
         private EditText Distance;
        
 
-        [Obsolete]
+      
         public RecyclerViewViewHolder(View view, Action<int> listener) : base(view)
         {
             // Locate and cache view references:

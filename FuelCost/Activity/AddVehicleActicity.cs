@@ -62,7 +62,10 @@ namespace FuelCost
             NameTil = FindViewById<TextInputLayout>(Resource.Id.nameTil);
             ConsuptionTil = FindViewById<TextInputLayout>(Resource.Id.consuptionTil);
 
+
+            
             FindViewById<RadioGroup>(Resource.Id.SCBRB).CheckedChange += AddVehicleActicity_CheckedChange;
+            FindViewById<RadioButton>(Resource.Id.spb).Checked = true;
 
             //Slpg.Click += S_Click;
             //Son.Click += S_Click;
@@ -114,8 +117,6 @@ namespace FuelCost
 
         private void AddVehicleActicity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-
-
             switch (e.CheckedId)
             {
                 case Resource.Id.slpg:

@@ -17,6 +17,7 @@ using Android.Widget;
 using Android.Animation;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using System.Threading.Tasks;
+using Android.Views.InputMethods;
 
 namespace FuelCost
 {
@@ -35,13 +36,29 @@ namespace FuelCost
 
         private double SharedDistance = 0.0;
 
+        LinearLayout DetailLinearLayout;
+        Button MoreBtn;
+
+
+        Android.Support.V7.Widget.SwitchCompat addpb;
+        EditText consuption;
+        TextInputLayout NameTil;
+        TextInputLayout ConsuptionTil;
+
+        EditText Distance;
+        EditText Cost;
+
+        private VehicleData.FuelTypeEnum FuelType;
+
+        public double Price;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             //if(Intent!= null)
             //{        
-                SharedDistance = Intent.GetDoubleExtra("SharedDistance", 0.0);
+            SharedDistance = Intent.GetDoubleExtra("SharedDistance", 0.0);
             //}
 
             // Set our view from the "main" layout resource
@@ -80,9 +97,180 @@ namespace FuelCost
             FloatingActionMenuHelper.Buttons = new[] { FindViewById<FloatingActionButton>(Resource.Id.fabcar), FindViewById<FloatingActionButton>(Resource.Id.fabcash), FindViewById<FloatingActionButton>(Resource.Id.fabdev) };
             FloatingActionMenuHelper.ConnectEvents();
 
+            DetailLinearLayout = FindViewById<LinearLayout>(Resource.Id.DetailLinearLayout);
+
+            MoreBtn = FindViewById<Button>(Resource.Id.MoreBtn);
+            MoreBtn.Click += More_Click;
+            FindViewById<TextView>(Resource.Id.name).Click += More_Click;
+
+
+
+            addpb = FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.checkBox1);
+            consuption = FindViewById<EditText>(Resource.Id.consuption);
+            NameTil = FindViewById<TextInputLayout>(Resource.Id.nameTil);
+            ConsuptionTil = FindViewById<TextInputLayout>(Resource.Id.consuptionTil);
+
+            var SCBRB = FindViewById<RadioGroup>(Resource.Id.SCBRB);
+            SCBRB.CheckedChange += MainActivity_CheckedChange;
+            SCBRB.CheckedChange += ((o,e) => UpdatePrice());
+
+            FindViewById<RadioButton>(Resource.Id.spb).Checked = true;
+
+            consuption.FocusChange += Consuption_FocusChange;
+
+            addpb.CheckedChange += ((o,e) => UpdatePrice());
+
+            Distance = FindViewById<EditText>(Resource.Id.distance);
+            Cost = FindViewById<EditText>(Resource.Id.cost);
+
+            Distance.TextChanged += Distance_Changed;
+            Cost.TextChanged += Cost_Changed;
+
+           
+            addpb.Checked = true;
+
+           // SharedDistance = 10;
+
+            if(SharedDistance != 0.0)
+            Distance.Text = LocalSet.Convert(SharedDistance);
+
+            consuption.Click += Consuption_Click;
+            consuption.TextChanged += Distance_Changed;
+            consuption.TextChanged += Consuption_Click;
+     
         }
 
-      
+        private void Consuption_Click(object sender, EventArgs e)
+        {
+            ConsuptionTil.Error = "";
+        }
+
+        private void UpdatePrice()
+        {
+            switch (FuelType)
+            {
+                case VehicleData.FuelTypeEnum.Gas:
+                    {
+                        if (addpb.Checked)
+                        {
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
+                        }
+                        else
+                        {
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas];
+                        }
+                        break;
+                    }
+                case VehicleData.FuelTypeEnum.Benzyna:
+                    {
+                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
+                        break;
+                    }
+                case VehicleData.FuelTypeEnum.Diesel:
+                    {
+                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel];
+                        break;
+                    }
+            }
+
+            Distance_Changed(null,null);
+            Cost_Changed(null, null);
+        }
+
+        private void Consuption_FocusChange(object sender, View.FocusChangeEventArgs e)
+        {
+            if (!e.HasFocus)
+            {
+                InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
+            }
+        }
+
+        private void MainActivity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
+        {
+            switch (e.CheckedId)
+            {
+                case Resource.Id.slpg:
+                    {
+                        FuelType = VehicleData.FuelTypeEnum.Gas;
+                        addpb.Visibility = ViewStates.Visible;
+                        break;
+                    }
+                case Resource.Id.spb:
+                    {
+                        FuelType = VehicleData.FuelTypeEnum.Benzyna;
+                        addpb.Visibility = ViewStates.Gone;
+                        break;
+                    }
+                case Resource.Id.son:
+                    {
+                        FuelType = VehicleData.FuelTypeEnum.Diesel;
+                        addpb.Visibility = ViewStates.Gone;
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        private void Cost_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            try
+            {
+                if(consuption.Text == "")
+                {
+                    ConsuptionTil.Error = "Wpisz splalanie";
+                    return;
+                }
+                Distance.TextChanged -= Distance_Changed;
+                var dist = double.Parse(Cost.Text) * 100 / Price/* LocalSet.Convert(Price.Text)*/ /  double.Parse(consuption.Text);
+                Distance.Text = dist.ToString();
+                Distance.TextChanged += Distance_Changed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void Distance_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            try
+            {
+                if (consuption.Text == "")
+                {
+                    ConsuptionTil.Error = "Wpisz splalanie";
+                    return;
+                }
+                Cost.TextChanged -= Cost_Changed;
+                var cost = double.Parse(consuption.Text) * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * double.Parse(Distance.Text);
+                Cost.Text = cost.ToString();
+                Cost.TextChanged += Cost_Changed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void More_Click(object sender, EventArgs e)
+        {
+            switch (DetailLinearLayout.Visibility)
+            {
+                case ViewStates.Visible:
+                    {
+                        MoreBtn.Animate().Rotation(0f);
+                        DetailLinearLayout.Visibility = ViewStates.Gone;
+                        break;
+                    }
+                case ViewStates.Gone:
+                    {
+                        MoreBtn.Animate().Rotation(180f);
+                        DetailLinearLayout.Visibility = ViewStates.Visible;
+                        break;
+                    }
+            }
+        }
 
         private void MAdapter_ItemClick(object sender, int e)
         {
@@ -96,6 +284,7 @@ namespace FuelCost
             Debug.Add(text);
             return text;
         }
+
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
