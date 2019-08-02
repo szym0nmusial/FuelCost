@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -24,7 +24,7 @@ namespace FuelCost
 
 
 
-        Android.Support.V7.Widget.SwitchCompat addpb;
+        Android.Support.V7.Widget.SwitchCompat AddPb;
         EditText name;
         EditText consuption;
         private VehicleData data = new VehicleData();
@@ -51,7 +51,7 @@ namespace FuelCost
 
 
 
-            addpb = FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.checkBox1);
+            AddPb = FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.checkBox1);
             name = FindViewById<EditText>(Resource.Id.name);
             consuption = FindViewById<EditText>(Resource.Id.consuption);
 
@@ -62,7 +62,10 @@ namespace FuelCost
             NameTil = FindViewById<TextInputLayout>(Resource.Id.nameTil);
             ConsuptionTil = FindViewById<TextInputLayout>(Resource.Id.consuptionTil);
 
+
+            
             FindViewById<RadioGroup>(Resource.Id.SCBRB).CheckedChange += AddVehicleActicity_CheckedChange;
+            FindViewById<RadioButton>(Resource.Id.spb).Checked = true;
 
             //Slpg.Click += S_Click;
             //Son.Click += S_Click;
@@ -70,11 +73,11 @@ namespace FuelCost
 
             //  Slpg.
 
-            name.Click += Name_Click;
-            consuption.Click += Consuption_Click;
+            name.Click += ((o,e)=> NameTil.Error="");
+            consuption.Click += ((o,e) => ConsuptionTil.Error = "");
 
-            name.FocusChange += Name_FocusChange;
-            consuption.FocusChange += Consuption_FocusChange;
+            name.FocusChange +=  ((o,e) => HideKeyboard());  //Name_FocusChange;
+            consuption.FocusChange += ((o, e) => HideKeyboard()); //Consuption_FocusChange;
             
 
             Button btn = FindViewById<Button>(Resource.Id.button1);
@@ -84,89 +87,92 @@ namespace FuelCost
 
         }
 
-        private void Consuption_FocusChange(object sender, View.FocusChangeEventArgs e)
+        //private void Consuption_FocusChange(object sender, View.FocusChangeEventArgs e)
+        //{
+        //    if (!e.HasFocus)
+        //    {
+        //        InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+        //        inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
+        //    }
+        //}
+
+        //private void Name_FocusChange(object sender, View.FocusChangeEventArgs e)
+        //{
+        //   if(!e.HasFocus)        //private void Consuption_Click(object sender, EventArgs e)
+        //{
+        //    ConsuptionTil.Error = "";
+        //}
+
+        //private void Name_Click(object sender, EventArgs e)
+        //{
+        //     NameTil.Error = "";
+        //}
+        //    {
+        //        InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+        //        inputMethodManager.HideSoftInputFromWindow(NameTil.WindowToken, HideSoftInputFlags.None);
+        //    }
+        //}
+
+
+
+        private async void AddVehicleActicity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            if (!e.HasFocus)
+            var Visibility = ViewStates.Gone;
+            await Task.Run(() =>
+            {
+                HideKeyboard();
+                switch (e.CheckedId)
+                {
+                    case Resource.Id.slpg:
+                        {
+                            data.FuelType = VehicleData.FuelTypeEnum.Gas;
+                            Visibility = ViewStates.Visible;
+
+                            break;
+                        }
+                    case Resource.Id.spb:
+                        {
+                            data.FuelType = VehicleData.FuelTypeEnum.Benzyna;
+                            Visibility = ViewStates.Gone;
+                            break;
+                        }
+                    case Resource.Id.son:
+                        {
+                            data.FuelType = VehicleData.FuelTypeEnum.Diesel;
+                            Visibility = ViewStates.Gone;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            });
+            AddPb.Visibility = Visibility;
+        }
+
+        private void HideKeyboard()
+        {
+            if (!consuption.HasFocus)
             {
                 InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
                 inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
             }
-        }
 
-        private void Name_FocusChange(object sender, View.FocusChangeEventArgs e)
-        {
-           if(!e.HasFocus)
+            if (!name.HasFocus)
             {
                 InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
                 inputMethodManager.HideSoftInputFromWindow(NameTil.WindowToken, HideSoftInputFlags.None);
             }
+
         }
 
-        private void Consuption_Click(object sender, EventArgs e)
+        private async void Btn_Click(object sender, EventArgs e)
         {
-            ConsuptionTil.Error = "";
-        }
-
-        private void Name_Click(object sender, EventArgs e)
-        {
-             NameTil.Error = "";
-        }
-
-        private void AddVehicleActicity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
-        {
-
-
-            switch (e.CheckedId)
-            {
-                case Resource.Id.slpg:
-                    {
-                        data.FuelType = VehicleData.FuelTypeEnum.Gas;
-                        addpb.Visibility = ViewStates.Visible;
-
-                        break;
-                    }
-                case Resource.Id.spb:
-                    {
-                        data.FuelType = VehicleData.FuelTypeEnum.Benzyna;
-                        addpb.Visibility = ViewStates.Gone;
-                        break;
-                    }
-                case Resource.Id.son:
-                    {
-                        data.FuelType = VehicleData.FuelTypeEnum.Diesel;
-                        addpb.Visibility = ViewStates.Gone;
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-
-        private void Btn_Click(object sender, EventArgs e)
-        {
-            new Thread(() =>
+           await Task.Run(() =>
            {
                try
                {
-
-                       if (!consuption.HasFocus)
-                       {
-                           InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
-                           inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
-                       }
-                   
-
-                  
-                       if (!name.HasFocus)
-                       {
-                           InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
-                           inputMethodManager.HideSoftInputFromWindow(NameTil.WindowToken, HideSoftInputFlags.None);
-                       }
-                   
-
-
-
-
+                   HideKeyboard();
+                      
                    if (consuption.Text == "" && name.Text == "")
                    {
                        RunOnUiThread(() =>
@@ -175,7 +181,7 @@ namespace FuelCost
                            NameTil.Error = "Musisz podać nazwę";
                            Snackbar.Make(RootLayout, "Pola nie mogą być puste", Snackbar.LengthLong).Show();
                        });
-                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                       throw new ArgumentNullException("Pola", "Nie podano danych");
                    }
 
                    if (name.Text == "")
@@ -185,7 +191,7 @@ namespace FuelCost
                            NameTil.Error = "Musisz podać nazwę";
                            Snackbar.Make(RootLayout, "Nazwa może być pusta", Snackbar.LengthLong).Show();                           
                        });
-                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                       throw new ArgumentNullException("Pola", "Nie podano danych");
                    }
 
                    if (consuption.Text == "")
@@ -195,12 +201,25 @@ namespace FuelCost
                            ConsuptionTil.Error = "Musisz podać spalanie";
                            Snackbar.Make(RootLayout, "Spalanie nie może być puste", Snackbar.LengthLong).Show();
                        });
-                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                       throw new ArgumentNullException("Pola", "Nie podano danych");
+                   }
+
+                   foreach( var vehicleData in LocalSet.VehicleDataList)
+                   {
+                       if(vehicleData.Name == name.Text)
+                       {
+                           RunOnUiThread(() =>
+                           {
+                               NameTil.Error = "Musisz podać inną nazwe";
+                               Snackbar.Make(RootLayout, "Musisz podać inną nazwe", Snackbar.LengthLong).Show();
+                           });
+                           throw new ArgumentNullException("Pola", "Taka sama nazwa");
+                       }
                    }
 
                    data.Name = name.Text;
                    data.consumption = LocalSet.Convert(consuption.Text);
-                   data.Pbinjection = addpb.Checked;
+                   data.Pbinjection = AddPb.Checked;
 
                    LocalSet.Write(data);
 
@@ -220,12 +239,13 @@ namespace FuelCost
                        name.Text = "";
                        consuption.Text = "";
                    });
+                   Finish();
                }
                catch (Exception ex)
                {
                    Console.WriteLine(MainActivity.Log(ex.Message));
                }
-           }).Start();
+           });
 
         }
 

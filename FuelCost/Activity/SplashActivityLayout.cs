@@ -14,26 +14,30 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using System.Threading;
+using System.Diagnostics;
 
 namespace FuelCost
 {
+
     [Activity(Theme = "@style/AppTheme.SplashNoBackground", MainLauncher = false, NoHistory = true)]
+    [IntentFilter(new[] { Intent.ActionSend },Label =  "Oblicz koszta trasy", Categories = new[] { Intent.CategoryDefault }, DataMimeTypes = new[] { "text/*"/*, "/"*/ })]
     public class SplashActivityLayout : AppCompatActivity
     {
-        static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;
+      //  static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;
 
         static TextView TextView;
-        bool RunOnce = false;
+       // bool RunOnce = false;
 
         static CoordinatorLayout MainLayout;
+        readonly ManualResetEvent blocker = new ManualResetEvent(true);
 
-        ManualResetEvent blocker = new ManualResetEvent(true);
+        double SharedDistance = 0.0;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
             base.OnCreate(savedInstanceState);
-
-           
 
             SetContentView(Resource.Layout.SplashLayout);
 
@@ -45,21 +49,14 @@ namespace FuelCost
 
             MainLayout.Touch += MainLayout_Touch;
 
-            //StartupTaskList.Add(new Task(delegate () { LocalSet.Open(); }));
-            //StartupTaskList.Add(new Task(delegate () { LocalSet.ReadPrices(); }));
-            //StartupTaskList.Add(new Task(delegate () { LocalSet.ReadVehicles(); }));
-
-            //StartupTaskList[0].ContinueWith(((Task) => StartupTaskList[1].Start()));
-            //StartupTaskList[1].ContinueWith(((Task) => StartupTaskList[2].Start()));
-            //StartupTaskList[2].ContinueWith(StrtupWorkEnded);
-            //StartupTaskList[0].Start();
 
 
-            Thread StartupTask = new Thread(() =>
+
+            Task StartupTask = new Task(() =>
             {
                 try
                 {
-                    RunOnce = true;
+                    //RunOnce = true;
                     LocalSet.Open();
                     RunOnUiThread(() => TextView.Text += "\nNawiązano połączenie z bazą");
                     LocalSet.Prices = new Dictionary<VehicleData.FuelTypeEnum, double>();
@@ -73,31 +70,142 @@ namespace FuelCost
                 catch (Exception e)
                 {
                     TextView.Text += "\n" + e.Message;
-                    RunOnce = false;
+                    //RunOnce = false;
                 }
-                finally
-                {
-                    RunOnUiThread(() =>
-                    {
-                        TextView.Text += "\n";
-                        TextView.Text += MainActivity.Log("Zadanie wykonano");
-                    });
-
-
-                    StrtupWorkEnded();
-                }
+               
             });
 
             // StartupTask.ContinueWith(StrtupWorkEnded);
 
-            if (!RunOnce)
-            {
-                StartupTask.Start();
-            }
+            //if (!RunOnce)
+            //{
+            //    StartupTask.Start();
+            //}
             // StartupTask.Wait();
+            Task DataShared = new Task(() =>
+            {
+                try
+                {
+                    Intent intent = Intent;
+                    var shareAction = intent.Action;
 
+                    if (Intent.Extras != null)
+                    {
+                        Console.WriteLine(MainActivity.Log("Recived share with type: " + intent.Type));
+
+                        if (intent.Type.Contains("text/plain"))
+                        {
+                            var Data = intent.GetStringExtra("android.intent.extra.TEXT");
+
+                            for (int a = 0; a < Data.Length; a++)
+                            {            
+                               // var o2 = Data.IndexOf(')');
+                                if(Data[a] == ')')
+                                    if(Data[a-2] == 'k')
+                                        if(Data[a-1] == 'm')
+                                        {
+                                            Console.WriteLine("Found km)");
+                                            for(int b = a-3; b>=0;b--)
+                                            {
+                                                if (Data[b] == '(')
+                                                {
+                                                    var textkm = Data.Substring(b + 1, a-b-4);
+                                                    RunOnUiThread(()=> TextView.Text += "\n Udostępniono: " + textkm + " km trasy");
+                                                    Console.WriteLine(MainActivity.Log("Udostępniono: " + textkm + " km trasy"));
+                                                    SharedDistance = LocalSet.Convert(textkm);
+                                                    return;
+                                                }
+                                            }
+                                        }
+                            }
+                            #region Przykładowy string
+                            /*
+                             * Udostępniona trasa Z (53.6267613,10.1001760) do Praca przez Steilshooper Str.. 39 min (14 km) 39 min przy bieżącym natężeniu ruchu 1. Kieruj się Am Stühm-Süd na południe w stronę Quittenweg 2. Skręć w prawo, pozostając na Am Stühm-Süd 3. Wybierz dowolny pas, aby skręcić w lewo w Bramfelder Chaussee 4. Skręć w prawo w Steilshooper Allee 5. Skręć w lewo w Steilshooper Str. 6. Trzymaj się lewej strony, pozostając na Steilshooper Str. 7. Skręć w lewo w Wachtelstraße 8. Skręć w prawo w Bramfelder Str. 9. Wjedź na Hamburger Str. 10. Wybierz jeden z dwóch lewych pasów, aby skręcić w lewo w Hamburger Str./B5 11. Dalej prosto po Schürbeker Str. 12. Wybierz jeden z trzech prawych pasów, aby skręcić w prawo w Bürgerweide/B75 13. Wybierz jeden z dwóch prawych pasów, aby skręcić w prawo w Spaldingstraße 14. Skręć w lewo w Nagelsweg 15. Skręć w prawo w Amsinckstraße/B4 16. Skręć w prawo w Am Mittelkanal/Mittelkanalbrücke 17. Dojedź do lokalizacji: Sonninstraße 8 Aby wyznaczyć najlepszą trasę z uwzględnieniem aktualnego ruchu, wejdź na https://maps.app.goo.gl/EEXM3fzisZ6WSXwK8
+                             */
+                            #endregion
+                            #region Sprawdzenie jakie dane zawiera intent
+                            /*
+                            var index = Intent.Extras.KeySet();
+                            foreach (var temp in index)
+                            {
+                                Console.WriteLine(MainActivity.Log("Key:"));
+                                Console.WriteLine(MainActivity.Log(temp));
+                                Console.WriteLine(MainActivity.Log("Value:"));
+                                Console.WriteLine(MainActivity.Log(intent.GetStringExtra(temp)));
+                            }
+                            */
+                            #endregion
+                            #region Output
+                            /*
+
+Recived share with type: text/plain
+
+Key:
+android.intent.extra.SUBJECT
+Value:
+Udostępniona trasa
+Key:
+android.intent.extra.TEXT
+Value:
+Udostępniona trasa
+Z (53.6267613,10.1001760) do Praca przez Steilshooper Str..
+
+39 min (14 km)
+39 min przy bieżącym natężeniu ruchu
+
+
+1. Kieruj się Am Stühm-Süd na południe w stronę Quittenweg
+2. Skręć w prawo, pozostając na Am Stühm-Süd
+3. Wybierz dowolny pas, aby skręcić w lewo w Bramfelder Chaussee
+4. Skręć w prawo w Steilshooper Allee
+5. Skręć w lewo w Steilshooper Str.
+6. Trzymaj się lewej strony, pozostając na Steilshooper Str.
+7. Skręć w lewo w Wachtelstraße
+8. Skręć w prawo w Bramfelder Str.
+9. Wjedź na Hamburger Str.
+10. Wybierz jeden z dwóch lewych pasów, aby skręcić w lewo w Hamburger Str./B5
+11. Dalej prosto po Schürbeker Str.
+12. Wybierz jeden z trzech prawych pasów, aby skręcić w prawo w Bürgerweide/B75
+13. Wybierz jeden z dwóch prawych pasów, aby skręcić w prawo w Spaldingstraße
+14. Skręć w lewo w Nagelsweg
+15. Skręć w prawo w Amsinckstraße/B4
+16. Skręć w prawo w Am Mittelkanal/Mittelkanalbrücke
+17. Dojedź do lokalizacji: Sonninstraße 8
+Aby wyznaczyć najlepszą trasę z uwzględnieniem aktualnego ruchu, wejdź na https://maps.app.goo.gl/EEXM3fzisZ6WSXwK8
+                            */
+                            #endregion
+                        }
+                    }
+                }
+                catch { }
+            });
+
+            var Tasks = new Task[] { DataShared, StartupTask };
+
+            //DataShared.Start();
+            //StartupTask.Start();
+
+            foreach(var Task in Tasks)
+            {
+                Task.Start();                
+            }
+
+            foreach (var Task in Tasks)
+            {
+                await Task;
+            }
+
+            TextView.Text += "\n";
+            TextView.Text += MainActivity.Log("Zadanie wykonano");
+
+            timer.Stop();
+            Console.WriteLine(MainActivity.Log("Start time: " + timer.Elapsed));
+
+            //Task.WaitAll(Tasks);
+            StrtupWorkEnded();
+            
         }
-
+        
         private void MainLayout_Touch(object sender, View.TouchEventArgs e)
         {
             switch (e.Event.Action)
@@ -132,9 +240,12 @@ namespace FuelCost
             //  }
 
             //  TextView.Text += "\n ..Completed";
-          //  Thread.Sleep(500);
+            //  Thread.Sleep(500);
             blocker.WaitOne();
-            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+
+            var MainActivityIntent = new Intent(Application.Context, typeof(MainActivity));
+            MainActivityIntent.PutExtra("SharedDistance", SharedDistance);
+            StartActivity(MainActivityIntent);
             Finish();
         }
 

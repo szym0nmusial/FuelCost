@@ -31,11 +31,11 @@ namespace FuelCost
             {
                 Write(string.Format("DELETE FROM main WHERE name='{0}'", VehicleDatas[position].Name));
                 VehicleDatas.Remove(VehicleDatas[position]);
-                VehicleDatas.Sort();
+                //VehicleDatas.Sort();
             }
             catch (Exception e)
             {
-                Console.WriteLine(MainActivity.Log(MainActivity.Log(e.Message)));
+                Console.WriteLine(MainActivity.Log(e));
             }
         }
 
@@ -43,7 +43,7 @@ namespace FuelCost
         {
             // determine the path for the database file
             dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "db.db3");
-           // throw new Exception();
+            // throw new Exception();
             bool exists = File.Exists(dbPath);
 
             if (!exists)
@@ -115,10 +115,20 @@ namespace FuelCost
         {
             try
             {
-                VehicleDatas.Add(vehicle);
-                Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
+                lock (VehicleDatas)
+                {
+                 //   VehicleDatas.Insert(VehicleDatas.Count, vehicle);
+                    VehicleDatas.Add(vehicle);// 2 klasa jest zapisywana jako na 1 i 2 pozycji
+                    /*
+                     * Bug rozwiązany prze kazdorazowe konczenie intenta
+                     */
+                    Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
+                }
             }
-            catch { }
+            catch(Exception e)
+            {
+                Console.WriteLine(MainActivity.Log(e));
+            }
         }
 
         public static void Write(VehicleData.FuelTypeEnum fuelType, double price)
@@ -129,7 +139,7 @@ namespace FuelCost
 
         public static void ReadVehicles()
         {
-        
+
             connection = new SqliteConnection("Data Source=" + dbPath);
             connection.Open();
 
@@ -177,9 +187,9 @@ namespace FuelCost
                         Prices[type] = Convert(value);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    Console.WriteLine(MainActivity.Log("SQL ask exception: "+ e.Message));
+                    Console.WriteLine(MainActivity.Log("SQL ask exception: " + e.Message));
                 }
             }
             connection.Close();
@@ -188,48 +198,61 @@ namespace FuelCost
         public static string Convert(double value)//2,12 out 2.12
         {
             string result = "";
-            if (value == -1)
-            {
-                return result;
-            }
-            try
-            {
-                result = value.ToString();
-                result = result.Replace(',', '.');
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(MainActivity.Log("Input double: " + value + "\nConvert Exception: " + e.Message));
-            }
+            Task.Run(() =>
+           {
+               if (value == -1)
+               {
+                   return;
+               }
+               try
+               {
+                   result = value.ToString();
+                   result = result.Replace(',', '.');
+               }
+               catch (Exception e)
+               {
+                   Console.WriteLine(MainActivity.Log("Input double: " + value + "\nConvert Exception: " + e.Message));
+               }
+           }).Wait();
             return result;
         }
 
         public static double Convert(string value) // 2,12
         {
-            double result = -1;
-            try
-            {
-                string[] tmp = value.Split(',');
-                if (tmp.Length == 1)
-                {
-                    tmp = value.Split('.');
-                }
-                if (tmp.Length == 1)
-                {
-                    result = int.Parse(tmp[0]);
-                  //  Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
-                    return result;
-                }
+            double result = 0;
+            Task.Run(() =>
+               {
+                   try
+                   {
+                       if (value == "")
+                       {
+                           throw new KeyNotFoundException("Pusty ciąg znaków");
+                       }
 
-                result = int.Parse(tmp[0]);
-                result += int.Parse(tmp[1]) / Math.Pow(10, tmp[1].Length);
+                       string[] tmp = value.Split(',');
+                       if (tmp.Length == 1)
+                       {
+                           tmp = value.Split('.');
+                       }
+                       if (tmp.Length == 1)
+                       {
+                           result = double.Parse(tmp[0]);
+                           //  Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
+                           return;// result;
+                       }
 
-              //  Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(MainActivity.Log("Input string: " + value + "\nConvert Exception: " + e.Message));
-            }
+
+                       result = double.Parse(tmp[0]);
+                       result += double.Parse(tmp[1]) / Math.Pow(10, tmp[1].Length);
+
+                       //  Console.WriteLine(MainActivity.Log("I: " + value + "; O: " + result));
+                   }
+                   catch (Exception e)
+                   {
+                       Console.WriteLine(MainActivity.Log("Input string: " + value + "\nConvert Exception: " + e.Message));
+                   }
+               }).Wait();
+
             return result;
         }
 

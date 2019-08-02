@@ -17,13 +17,14 @@ using Android.Widget;
 using Android.Animation;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using System.Threading.Tasks;
+using Android.Views.InputMethods;
 
 namespace FuelCost
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
     public class MainActivity : AppCompatActivity
     {
-        List<VehicleData> OldVehicleDataList = new List<VehicleData>();
+        static List<VehicleData> OldVehicleDataList = new List<VehicleData>();
 
         RecyclerView mRecycleView;
         RecyclerView.LayoutManager mLayoutManager;
@@ -33,12 +34,34 @@ namespace FuelCost
 
         private static bool isFabOpen;
 
+        private double SharedDistance = 0.0;
+
+        LinearLayout DetailLinearLayout;
+        Button MoreBtn;
+
+
+        SwitchCompat AddPb;
+        EditText Distance;
+        EditText Cost;
+        EditText Consuption;
+        TextInputLayout DistanceTil;
+        TextInputLayout CostTil;
+        TextInputLayout ConsuptionTil;
+
+        CoordinatorLayout RootLayout;
+
+        private VehicleData.FuelTypeEnum FuelType;
+
+        public double Price;
+
+        TextView WelcomeTextView;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            SharedDistance = Intent.GetDoubleExtra("SharedDistance", 0.0);
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
             using (var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar))
@@ -50,14 +73,25 @@ namespace FuelCost
             mRecycleView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
             mLayoutManager = new LinearLayoutManager(this);
             mRecycleView.SetLayoutManager(mLayoutManager);
-            mAdapter = new RecyclerViewAdapter();
+            if (SharedDistance != 0.0)
+            {
+                mAdapter = new RecyclerViewAdapter(SharedDistance);
+            }
+            else
+            {
+                mAdapter = new RecyclerViewAdapter();
+            }
             mRecycleView.SetAdapter(mAdapter);
 
             mAdapter.NotifyDataSetChanged();
 
+            RootLayout = FindViewById<CoordinatorLayout>(Resource.Id.rootLayout);
+
             ItemTouchHelper.Callback callback = new MyItemTouchHelper(this, mAdapter);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-            itemTouchHelper.AttachToRecyclerView(mRecycleView);
+            using (ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback))
+            {
+                itemTouchHelper.AttachToRecyclerView(mRecycleView);
+            }
 
             mAdapter.ItemClick += MAdapter_ItemClick;
 
@@ -67,29 +101,295 @@ namespace FuelCost
             FloatingActionMenuHelper.Buttons = new[] { FindViewById<FloatingActionButton>(Resource.Id.fabcar), FindViewById<FloatingActionButton>(Resource.Id.fabcash), FindViewById<FloatingActionButton>(Resource.Id.fabdev) };
             FloatingActionMenuHelper.ConnectEvents();
 
+            DetailLinearLayout = FindViewById<LinearLayout>(Resource.Id.DetailLinearLayout);
+
+            MoreBtn = FindViewById<Button>(Resource.Id.MoreBtn);
+            MoreBtn.Click += More_Click;
+            FindViewById<TextView>(Resource.Id.name).Click += More_Click;
+
+            AddPb = FindViewById<SwitchCompat>(Resource.Id.checkBox1);
+            Consuption = FindViewById<EditText>(Resource.Id.consuption);
+            ConsuptionTil = FindViewById<TextInputLayout>(Resource.Id.consuptionTil);
+
+            WelcomeTextView = FindViewById<TextView>(Resource.Id.Welcome);
+
+            var SCBRB = FindViewById<RadioGroup>(Resource.Id.SCBRB);
+            SCBRB.CheckedChange += MainActivity_CheckedChange;//(async (o,e) => await MainActivity_CheckedChange(o, e));
+            SCBRB.CheckedChange += (async (o, e) => await UpdatePrice());
+
+            FindViewById<RadioButton>(Resource.Id.spb).Checked = true;
+
+            Consuption.FocusChange += Consuption_FocusChange;
+
+            AddPb.CheckedChange += (async (o, e) => await UpdatePrice());
+            AddPb.Checked = true;
+
+            Distance = FindViewById<EditText>(Resource.Id.distance);
+            Cost = FindViewById<EditText>(Resource.Id.cost);
+
+            DistanceTil = FindViewById<TextInputLayout>(Resource.Id.distanceTil);
+            CostTil = FindViewById<TextInputLayout>(Resource.Id.costTil);
+
+            Distance.TextChanged += Distance_Changed;
+            Cost.TextChanged += Cost_Changed;
+
+            if (SharedDistance != 0.0)
+                Distance.Text = LocalSet.Convert(SharedDistance);
+
+            Consuption.Click += Consuption_Click;
+            Consuption.TextChanged += Distance_Changed;
+            Consuption.TextChanged += Consuption_Click;
+
+            Consuption.FocusChange += (async (o, e) => await HideKeyboard());
+            Distance.FocusChange += (async (o, e) => await HideKeyboard());
+            Cost.FocusChange += (async (o, e) => await HideKeyboard());
+
+            HideWelcome();
+
         }
 
-      
+        private void Consuption_Click(object sender, EventArgs e)
+        {
+            ConsuptionTil.Error = "";
+        }
+
+        private async void HideWelcome()
+        {
+            await Task.Run(async () =>
+            {
+                if (LocalSet.VehicleDataList.Count == 0)
+                {
+                    RunOnUiThread(() => WelcomeTextView.Visibility= ViewStates.Visible );
+                    var Snackbars = new[] {
+                        Snackbar.Make(RootLayout, "Witaj", 3500),
+                        Snackbar.Make(RootLayout,"Może udostępnij mi trasę z Google Maps", 3500),
+                        Snackbar.Make(RootLayout, "Albo oblicz bez zapisywania", 3500)
+                    };
+
+                    Snackbars[0].SetAction("Dodaj pojazd", async v =>
+                    {
+                        await Task.Run(async () =>
+                        {
+                            FloatingActionMenuHelper.ShowFabMenu();
+                            await Task.Delay(1000);
+                            FloatingActionMenuHelper.Button_Click(FindViewById<FloatingActionButton>(Resource.Id.fabcar), null);
+                        });
+                    });
+                    foreach(var Snack in Snackbars) //  zeby duzo razy nie uzywac runonuithread
+                    {
+                        RunOnUiThread(() => Snack.Show());
+                        await Task.Delay(5000);
+                    }
+                }
+                else
+                {
+                    RunOnUiThread(() => WelcomeTextView.Visibility = ViewStates.Gone);
+                }
+            });
+        }
+
+        private async Task HideKeyboard()
+        {
+            await Task.Run(() =>
+            {
+                if (!Consuption.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
+                }
+
+                if (!Distance.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(DistanceTil.WindowToken, HideSoftInputFlags.None);
+                }
+                if (!Cost.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(CostTil.WindowToken, HideSoftInputFlags.None);
+                }
+            });
+        }
+
+
+        private async Task UpdatePrice()
+        {
+            await Task.Run(() =>
+            {
+                switch (FuelType)
+                {
+                    case VehicleData.FuelTypeEnum.Gas:
+                        {
+                            if (AddPb.Checked)
+                            {
+                                Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
+                            }
+                            else
+                            {
+                                Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas];
+                            }
+                            break;
+                        }
+                    case VehicleData.FuelTypeEnum.Benzyna:
+                        {
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
+                            break;
+                        }
+                    case VehicleData.FuelTypeEnum.Diesel:
+                        {
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel];
+                            break;
+                        }
+                }
+
+
+            });//.Start();
+            Distance_Changed(null, null);
+            Cost_Changed(null, null);
+        }
+
+        private void Consuption_FocusChange(object sender, View.FocusChangeEventArgs e)
+        {
+            new Task(() =>
+            {
+                if (!e.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
+                }
+            }).Start();
+        }
+
+        private async void MainActivity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
+        {
+            ViewStates Visibility = ViewStates.Visible;
+            await Task.Run(() =>
+            {                
+                switch (e.CheckedId)
+                {
+                    case Resource.Id.slpg:
+                        {
+                            FuelType = VehicleData.FuelTypeEnum.Gas;
+                            Visibility = ViewStates.Visible;
+                            break;
+                        }
+                    case Resource.Id.spb:
+                        {
+                            FuelType = VehicleData.FuelTypeEnum.Benzyna;
+                            Visibility = ViewStates.Gone;
+                            break;
+                        }
+                    case Resource.Id.son:
+                        {
+                            FuelType = VehicleData.FuelTypeEnum.Diesel;
+                            Visibility = ViewStates.Gone;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            });//.Start();
+            AddPb.Visibility = Visibility;
+        }
+
+        private void Cost_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+
+            try
+            {
+                if (Consuption.Text == "")
+                {
+                    ConsuptionTil.Error = "Wpisz splalanie";
+                    return;
+                }
+                Distance.TextChanged -= Distance_Changed;
+                var dist = LocalSet.Convert(Cost.Text) * 100 / Price/* LocalSet.Convert(Price.Text)*/ / LocalSet.Convert(Consuption.Text);
+                Distance.Text = String.Format("{0:0.00}", dist); //dist.ToString();
+                Distance.TextChanged += Distance_Changed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(MainActivity.Log(ex));
+            }
+
+        }
+
+        private void Distance_Changed(object sender, Android.Text.TextChangedEventArgs e)
+        {
+
+            try
+            {
+                if (Consuption.Text == "")
+                {
+                    ConsuptionTil.Error = "Wpisz splalanie";
+                    return;
+                }
+                Cost.TextChanged -= Cost_Changed;
+                var cost = LocalSet.Convert(Consuption.Text) * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * LocalSet.Convert(Distance.Text);
+                Cost.Text = String.Format("{0:0.00}", cost); //cost.ToString("{0:0.00}");
+                Cost.TextChanged += Cost_Changed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(MainActivity.Log(ex));
+            }
+        }
+
+        private void More_Click(object sender, EventArgs e)
+        {
+            switch (DetailLinearLayout.Visibility)
+            {
+                case ViewStates.Visible:
+                    {
+                        MoreBtn.Animate().Rotation(0f);
+                        DetailLinearLayout.Visibility = ViewStates.Gone;
+                        break;
+                    }
+                case ViewStates.Gone:
+                    {
+                        MoreBtn.Animate().Rotation(180f);
+                        DetailLinearLayout.Visibility = ViewStates.Visible;
+                        break;
+                    }
+            }
+        }
 
         private void MAdapter_ItemClick(object sender, int e)
         {
-            Intent intent = new Intent(this, typeof(DetailsActivity));
-            intent.PutExtra("position", e);
-            StartActivity(intent);
+            new Task(() =>
+            {
+                Intent intent = new Intent(this, typeof(DetailsActivity));
+                intent.PutExtra("position", e);
+                StartActivity(intent);
+            }).Start();
         }
 
         public static string Log(string text)
         {
-            Debug.Add(text);
-            return text;
+            var LogTask = new Task<string>(() =>
+            {
+                Debug.Add(text);
+                return text;
+            });
+            LogTask.Start();
+            LogTask.Wait();
+            return LogTask.Result;
+        }
+        public static string Log(Exception exception)
+        {
+            return Log(exception.Message);
         }
 
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        protected override async void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            base.OnActivityResult(requestCode, resultCode, data);
-            mAdapter.NotifyDataSetChanged();
-            DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
-            result.DispatchUpdatesTo(mAdapter);
+            await Task.Run(() =>
+            {
+                base.OnActivityResult(requestCode, resultCode, data);
+                RunOnUiThread(() => mAdapter.NotifyDataSetChanged());
+                DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
+                RunOnUiThread(() => result.DispatchUpdatesTo(mAdapter));
+                HideWelcome();
+            });//.Start();
         }
 
         static class FloatingActionMenuHelper
@@ -134,7 +434,7 @@ namespace FuelCost
             /// </summary>
             /// <param name="sender"></param>
             /// <param name="e"></param>
-            private static void Button_Click(object sender, EventArgs e)
+            public static void Button_Click(object sender, EventArgs e)
             {
                 CloseFabMenu();
                 var type = typeof(Nullable);
@@ -143,6 +443,7 @@ namespace FuelCost
                     case Resource.Id.fabcar:
                         {
                             type = typeof(AddVehicleActicity);
+                            OldVehicleDataList = LocalSet.VehicleDataList;
                             break;
                         }
                     case Resource.Id.fabcash:
@@ -163,7 +464,7 @@ namespace FuelCost
             /// <summary>
             /// Pokaż Menu
             /// </summary>
-            static void ShowFabMenu()
+            public static void ShowFabMenu()
             {
                 new Task(() =>
                 {
@@ -220,7 +521,7 @@ namespace FuelCost
         }
         private class FabAnimatorListener : Java.Lang.Object, Animator.IAnimatorListener
         {
-            View[] viewsToHide;
+            readonly View[] viewsToHide;
 
             public FabAnimatorListener(params View[] viewsToHide)
             {

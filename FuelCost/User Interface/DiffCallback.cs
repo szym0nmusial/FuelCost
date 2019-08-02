@@ -33,7 +33,8 @@ namespace FuelCost
         public override bool AreContentsTheSame(int oldItemPosition, int newItemPosition)
         {
             //throw new NotImplementedException();
-            return true;// oldList[oldItemPosition].
+            //return true;// oldList[oldItemPosition].
+            return oldList[oldItemPosition].Name == newList[newItemPosition].Name;
         }
 
         public override bool AreItemsTheSame(int oldItemPosition, int newItemPosition)
@@ -41,9 +42,11 @@ namespace FuelCost
             //return false;
             //throw new NotImplementedException();
             //  return JsonConvert
-            return false;
-            return oldList[OldListSize].Equals(newList[newItemPosition]);
-            
+            // return false;
+           // return oldList[oldItemPosition].Name == newList[newItemPosition].Name;
+
+             return oldList[oldItemPosition].Equals(newList[newItemPosition]);
+
         }
     }
 }
