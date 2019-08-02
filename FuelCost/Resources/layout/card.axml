@@ -11,31 +11,52 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:id="@+id/cv"
-		
-        >
+        android:id="@+id/cv">
         <LinearLayout
+             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/name"               
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="60sp"
-                android:text="Nazwa"			
-			 />
-            <TextView
-                android:id="@+id/typ"
+                android:text="Nazwa"/>
+            
+            <LinearLayout
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="30sp"
-                android:text="Typ paliwa"			
-			 />
+                android:padding="16dp"
+                android:visibility="gone"
+                android:id="@+id/MoreLinearLayout"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/typ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="30sp"
+                    android:text="Typ paliwa"/>
+                <TextView
+                    android:id="@+id/cons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="30sp"
+                    android:text="spalanie"	/>
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="30sp"
+                    android:text="cena"	/>
+            </LinearLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

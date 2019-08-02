@@ -31,7 +31,7 @@ namespace FuelCost
             {
                 Write(string.Format("DELETE FROM main WHERE name='{0}'", VehicleDatas[position].Name));
                 VehicleDatas.Remove(VehicleDatas[position]);
-                VehicleDatas.Sort();
+                //VehicleDatas.Sort();
             }
             catch (Exception e)
             {

@@ -64,8 +64,8 @@ namespace FuelCost
             
             recyclerViewViewHolder.Name.Text = LocalSet.VehicleDataList[position].Name;
             recyclerViewViewHolder.FuelType.Text = LocalSet.VehicleDataList[position].FuelType.ToString();
-            recyclerViewViewHolder.Consuption = LocalSet.VehicleDataList[position].consumption;//.ToString("0.00");
-            recyclerViewViewHolder.Price = Price;//.ToString("0.00" ,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+            recyclerViewViewHolder.Consuption.Text = LocalSet.VehicleDataList[position].consumption.ToString("0.00");
+            recyclerViewViewHolder.Price.Text = Price.ToString("0.00" ,System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
             recyclerViewViewHolder.SharedDistance = SharedDistance;
         }
 

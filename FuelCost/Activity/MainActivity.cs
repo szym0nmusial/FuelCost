@@ -24,7 +24,7 @@ namespace FuelCost
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
     public class MainActivity : AppCompatActivity
     {
-        List<VehicleData> OldVehicleDataList = new List<VehicleData>();
+        static List<VehicleData> OldVehicleDataList = new List<VehicleData>();
 
         RecyclerView mRecycleView;
         RecyclerView.LayoutManager mLayoutManager;
@@ -88,8 +88,10 @@ namespace FuelCost
             RootLayout = FindViewById<CoordinatorLayout>(Resource.Id.rootLayout);
 
             ItemTouchHelper.Callback callback = new MyItemTouchHelper(this, mAdapter);
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-            itemTouchHelper.AttachToRecyclerView(mRecycleView);
+            using (ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback))
+            {
+                itemTouchHelper.AttachToRecyclerView(mRecycleView);
+            }
 
             mAdapter.ItemClick += MAdapter_ItemClick;
 
@@ -138,7 +140,7 @@ namespace FuelCost
             Consuption.TextChanged += Distance_Changed;
             Consuption.TextChanged += Consuption_Click;
 
-            Consuption.FocusChange += (async (o,e) => await HideKeyboard());
+            Consuption.FocusChange += (async (o, e) => await HideKeyboard());
             Distance.FocusChange += (async (o, e) => await HideKeyboard());
             Cost.FocusChange += (async (o, e) => await HideKeyboard());
 
@@ -441,6 +443,7 @@ namespace FuelCost
                     case Resource.Id.fabcar:
                         {
                             type = typeof(AddVehicleActicity);
+                            OldVehicleDataList = LocalSet.VehicleDataList;
                             break;
                         }
                     case Resource.Id.fabcash:
@@ -518,7 +521,7 @@ namespace FuelCost
         }
         private class FabAnimatorListener : Java.Lang.Object, Animator.IAnimatorListener
         {
-            View[] viewsToHide;
+            readonly View[] viewsToHide;
 
             public FabAnimatorListener(params View[] viewsToHide)
             {
