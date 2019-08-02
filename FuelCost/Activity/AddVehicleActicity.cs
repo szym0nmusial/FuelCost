@@ -181,7 +181,7 @@ namespace FuelCost
                            NameTil.Error = "Musisz podać nazwę";
                            Snackbar.Make(RootLayout, "Pola nie mogą być puste", Snackbar.LengthLong).Show();
                        });
-                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                       throw new ArgumentNullException("Pola", "Nie podano danych");
                    }
 
                    if (name.Text == "")
@@ -191,7 +191,7 @@ namespace FuelCost
                            NameTil.Error = "Musisz podać nazwę";
                            Snackbar.Make(RootLayout, "Nazwa może być pusta", Snackbar.LengthLong).Show();                           
                        });
-                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                       throw new ArgumentNullException("Pola", "Nie podano danych");
                    }
 
                    if (consuption.Text == "")
@@ -201,7 +201,20 @@ namespace FuelCost
                            ConsuptionTil.Error = "Musisz podać spalanie";
                            Snackbar.Make(RootLayout, "Spalanie nie może być puste", Snackbar.LengthLong).Show();
                        });
-                       throw new ArgumentNullException("puste pola", "Nie podano danych");
+                       throw new ArgumentNullException("Pola", "Nie podano danych");
+                   }
+
+                   foreach( var vehicleData in LocalSet.VehicleDataList)
+                   {
+                       if(vehicleData.Name == name.Text)
+                       {
+                           RunOnUiThread(() =>
+                           {
+                               NameTil.Error = "Musisz podać inną nazwe";
+                               Snackbar.Make(RootLayout, "Musisz podać inną nazwe", Snackbar.LengthLong).Show();
+                           });
+                           throw new ArgumentNullException("Pola", "Taka sama nazwa");
+                       }
                    }
 
                    data.Name = name.Text;
@@ -226,6 +239,7 @@ namespace FuelCost
                        name.Text = "";
                        consuption.Text = "";
                    });
+                   Finish();
                }
                catch (Exception ex)
                {

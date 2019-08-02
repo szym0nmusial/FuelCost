@@ -115,8 +115,15 @@ namespace FuelCost
         {
             try
             {
-                VehicleDatas.Add(vehicle);
-                Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
+                lock (VehicleDatas)
+                {
+                 //   VehicleDatas.Insert(VehicleDatas.Count, vehicle);
+                    VehicleDatas.Add(vehicle);// 2 klasa jest zapisywana jako na 1 i 2 pozycji
+                    /*
+                     * Bug rozwiązany prze kazdorazowe konczenie intenta
+                     */
+                    Write(String.Format("INSERT INTO MAIN ( NAME, FUELTYPE, PBINJECTION, CONSUMPTION) VALUES ('{0}', {1}, {2}, {3});", vehicle.Name, ((int)vehicle.FuelType).ToString(), vehicle.Pbinjection.ToString(), Convert(vehicle.consumption)));
+                }
             }
             catch(Exception e)
             {

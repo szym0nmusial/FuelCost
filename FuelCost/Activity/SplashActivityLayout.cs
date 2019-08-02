@@ -72,17 +72,7 @@ namespace FuelCost
                     TextView.Text += "\n" + e.Message;
                     //RunOnce = false;
                 }
-                finally
-                {
-                    RunOnUiThread(() =>
-                    {
-                        TextView.Text += "\n";
-                        TextView.Text += MainActivity.Log("Zadanie wykonano");
-                    });
-
-
-                  //  StrtupWorkEnded();
-                }
+               
             });
 
             // StartupTask.ContinueWith(StrtupWorkEnded);
@@ -120,7 +110,7 @@ namespace FuelCost
                                                 if (Data[b] == '(')
                                                 {
                                                     var textkm = Data.Substring(b + 1, a-b-4);
-
+                                                    TextView.Text += "\n";
                                                     TextView.Text += "Udostępniono: " + textkm + " km trasy";
                                                     Console.WriteLine(MainActivity.Log("Udostępniono: " + textkm + " km trasy"));
                                                     SharedDistance = LocalSet.Convert(textkm);
@@ -205,6 +195,9 @@ Aby wyznaczyć najlepszą trasę z uwzględnieniem aktualnego ruchu, wejdź na h
             {
                 await Task;
             }
+
+            TextView.Text += "\n";
+            TextView.Text += MainActivity.Log("Zadanie wykonano");
 
             timer.Stop();
             Console.WriteLine(MainActivity.Log("Start time: " + timer.Elapsed));

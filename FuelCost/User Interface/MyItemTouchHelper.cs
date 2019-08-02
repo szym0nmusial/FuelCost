@@ -47,12 +47,12 @@ namespace FuelCost
         }
 
 
-        public override void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
+        public override async void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
         {
             int position = viewHolder.AdapterPosition;
-            var task = new Task(() => LocalSet.DelVehicle(position));
-            task.Start();
-            task.Wait();
+            await Task.Run(() => LocalSet.DelVehicle(position));
+            //task.Start();
+            //task.Wait();
             mAdapter.NotifyItemRemoved(position);
             mAdapter.NotifyItemRangeChanged(position, mAdapter.ItemCount);
         }
