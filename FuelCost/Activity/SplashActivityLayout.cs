@@ -110,8 +110,7 @@ namespace FuelCost
                                                 if (Data[b] == '(')
                                                 {
                                                     var textkm = Data.Substring(b + 1, a-b-4);
-                                                    TextView.Text += "\n";
-                                                    TextView.Text += "Udostępniono: " + textkm + " km trasy";
+                                                    RunOnUiThread(()=> TextView.Text += "\n Udostępniono: " + textkm + " km trasy");
                                                     Console.WriteLine(MainActivity.Log("Udostępniono: " + textkm + " km trasy"));
                                                     SharedDistance = LocalSet.Convert(textkm);
                                                     return;
