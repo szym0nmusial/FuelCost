@@ -43,9 +43,6 @@ namespace FuelCost
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             }
 
-
-
-
             lpgprice = FindViewById<EditText>(Resource.Id.lpgprice);
             pbprice = FindViewById<EditText>(Resource.Id.pbprice);
             onprice = FindViewById<EditText>(Resource.Id.onprice);
@@ -66,8 +63,8 @@ namespace FuelCost
             try
             {
                 lpgprice.Text = LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Gas]);
-                pbprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna]));
-                onprice.Text = (LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel]));
+                pbprice.Text =  LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna]);
+                onprice.Text =  LocalSet.Convert(LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel]);
             }
             catch { }
             FindViewById<Button>(Resource.Id.button2).Click += Set_Click;

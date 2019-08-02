@@ -40,28 +40,28 @@ namespace FuelCost
         Button MoreBtn;
 
 
-        Android.Support.V7.Widget.SwitchCompat addpb;
-        EditText consuption;
-        TextInputLayout NameTil;
-        TextInputLayout ConsuptionTil;
-
+        SwitchCompat AddPb;
         EditText Distance;
         EditText Cost;
+        EditText Consuption;
+        TextInputLayout DistanceTil;
+        TextInputLayout CostTil;
+        TextInputLayout ConsuptionTil;
+
+        CoordinatorLayout RootLayout;
 
         private VehicleData.FuelTypeEnum FuelType;
 
         public double Price;
 
+        TextView WelcomeTextView;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            //if(Intent!= null)
-            //{        
             SharedDistance = Intent.GetDoubleExtra("SharedDistance", 0.0);
-            //}
 
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
             using (var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar))
@@ -85,6 +85,8 @@ namespace FuelCost
 
             mAdapter.NotifyDataSetChanged();
 
+            RootLayout = FindViewById<CoordinatorLayout>(Resource.Id.rootLayout);
+
             ItemTouchHelper.Callback callback = new MyItemTouchHelper(this, mAdapter);
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
             itemTouchHelper.AttachToRecyclerView(mRecycleView);
@@ -103,41 +105,45 @@ namespace FuelCost
             MoreBtn.Click += More_Click;
             FindViewById<TextView>(Resource.Id.name).Click += More_Click;
 
-
-
-            addpb = FindViewById<Android.Support.V7.Widget.SwitchCompat>(Resource.Id.checkBox1);
-            consuption = FindViewById<EditText>(Resource.Id.consuption);
-            NameTil = FindViewById<TextInputLayout>(Resource.Id.nameTil);
+            AddPb = FindViewById<SwitchCompat>(Resource.Id.checkBox1);
+            Consuption = FindViewById<EditText>(Resource.Id.consuption);
             ConsuptionTil = FindViewById<TextInputLayout>(Resource.Id.consuptionTil);
 
+            WelcomeTextView = FindViewById<TextView>(Resource.Id.Welcome);
+
             var SCBRB = FindViewById<RadioGroup>(Resource.Id.SCBRB);
-            SCBRB.CheckedChange += MainActivity_CheckedChange;
-            SCBRB.CheckedChange += ((o,e) => UpdatePrice());
+            SCBRB.CheckedChange += MainActivity_CheckedChange;//(async (o,e) => await MainActivity_CheckedChange(o, e));
+            SCBRB.CheckedChange += (async (o, e) => await UpdatePrice());
 
             FindViewById<RadioButton>(Resource.Id.spb).Checked = true;
 
-            consuption.FocusChange += Consuption_FocusChange;
+            Consuption.FocusChange += Consuption_FocusChange;
 
-            addpb.CheckedChange += ((o,e) => UpdatePrice());
+            AddPb.CheckedChange += (async (o, e) => await UpdatePrice());
+            AddPb.Checked = true;
 
             Distance = FindViewById<EditText>(Resource.Id.distance);
             Cost = FindViewById<EditText>(Resource.Id.cost);
 
+            DistanceTil = FindViewById<TextInputLayout>(Resource.Id.distanceTil);
+            CostTil = FindViewById<TextInputLayout>(Resource.Id.costTil);
+
             Distance.TextChanged += Distance_Changed;
             Cost.TextChanged += Cost_Changed;
 
-           
-            addpb.Checked = true;
+            if (SharedDistance != 0.0)
+                Distance.Text = LocalSet.Convert(SharedDistance);
 
-           // SharedDistance = 10;
+            Consuption.Click += Consuption_Click;
+            Consuption.TextChanged += Distance_Changed;
+            Consuption.TextChanged += Consuption_Click;
 
-            if(SharedDistance != 0.0)
-            Distance.Text = LocalSet.Convert(SharedDistance);
+            Consuption.FocusChange += (async (o,e) => await HideKeyboard());
+            Distance.FocusChange += (async (o, e) => await HideKeyboard());
+            Cost.FocusChange += (async (o, e) => await HideKeyboard());
 
-            consuption.Click += Consuption_Click;
-            consuption.TextChanged += Distance_Changed;
-            consuption.TextChanged += Consuption_Click;
-     
+            HideWelcome();
+
         }
 
         private void Consuption_Click(object sender, EventArgs e)
@@ -145,111 +151,185 @@ namespace FuelCost
             ConsuptionTil.Error = "";
         }
 
-        private void UpdatePrice()
+        private async void HideWelcome()
         {
-            switch (FuelType)
+            await Task.Run(async () =>
             {
-                case VehicleData.FuelTypeEnum.Gas:
-                    {
-                        if (addpb.Checked)
-                        {
-                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
-                        }
-                        else
-                        {
-                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas];
-                        }
-                        break;
-                    }
-                case VehicleData.FuelTypeEnum.Benzyna:
-                    {
-                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
-                        break;
-                    }
-                case VehicleData.FuelTypeEnum.Diesel:
-                    {
-                        Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel];
-                        break;
-                    }
-            }
+                if (LocalSet.VehicleDataList.Count == 0)
+                {
+                    RunOnUiThread(() => WelcomeTextView.Visibility= ViewStates.Visible );
+                    var Snackbars = new[] {
+                        Snackbar.Make(RootLayout, "Witaj", 3500),
+                        Snackbar.Make(RootLayout,"Może udostępnij mi trasę z Google Maps", 3500),
+                        Snackbar.Make(RootLayout, "Albo oblicz bez zapisywania", 3500)
+                    };
 
-            Distance_Changed(null,null);
+                    Snackbars[0].SetAction("Dodaj pojazd", async v =>
+                    {
+                        await Task.Run(async () =>
+                        {
+                            FloatingActionMenuHelper.ShowFabMenu();
+                            await Task.Delay(1000);
+                            FloatingActionMenuHelper.Button_Click(FindViewById<FloatingActionButton>(Resource.Id.fabcar), null);
+                        });
+                    });
+                    foreach(var Snack in Snackbars) //  zeby duzo razy nie uzywac runonuithread
+                    {
+                        RunOnUiThread(() => Snack.Show());
+                        await Task.Delay(5000);
+                    }
+                }
+                else
+                {
+                    RunOnUiThread(() => WelcomeTextView.Visibility = ViewStates.Gone);
+                }
+            });
+        }
+
+        private async Task HideKeyboard()
+        {
+            await Task.Run(() =>
+            {
+                if (!Consuption.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
+                }
+
+                if (!Distance.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(DistanceTil.WindowToken, HideSoftInputFlags.None);
+                }
+                if (!Cost.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(CostTil.WindowToken, HideSoftInputFlags.None);
+                }
+            });
+        }
+
+
+        private async Task UpdatePrice()
+        {
+            await Task.Run(() =>
+            {
+                switch (FuelType)
+                {
+                    case VehicleData.FuelTypeEnum.Gas:
+                        {
+                            if (AddPb.Checked)
+                            {
+                                Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas] + (LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna] * 0.1);
+                            }
+                            else
+                            {
+                                Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Gas];
+                            }
+                            break;
+                        }
+                    case VehicleData.FuelTypeEnum.Benzyna:
+                        {
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Benzyna];
+                            break;
+                        }
+                    case VehicleData.FuelTypeEnum.Diesel:
+                        {
+                            Price = LocalSet.Prices[VehicleData.FuelTypeEnum.Diesel];
+                            break;
+                        }
+                }
+
+
+            });//.Start();
+            Distance_Changed(null, null);
             Cost_Changed(null, null);
         }
 
         private void Consuption_FocusChange(object sender, View.FocusChangeEventArgs e)
         {
-            if (!e.HasFocus)
+            new Task(() =>
             {
-                InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
-                inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
-            }
+                if (!e.HasFocus)
+                {
+                    InputMethodManager inputMethodManager = (InputMethodManager)GetSystemService(Activity.InputMethodService);
+                    inputMethodManager.HideSoftInputFromWindow(ConsuptionTil.WindowToken, HideSoftInputFlags.None);
+                }
+            }).Start();
         }
 
-        private void MainActivity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
+        private async void MainActivity_CheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
         {
-            switch (e.CheckedId)
-            {
-                case Resource.Id.slpg:
-                    {
-                        FuelType = VehicleData.FuelTypeEnum.Gas;
-                        addpb.Visibility = ViewStates.Visible;
+            ViewStates Visibility = ViewStates.Visible;
+            await Task.Run(() =>
+            {                
+                switch (e.CheckedId)
+                {
+                    case Resource.Id.slpg:
+                        {
+                            FuelType = VehicleData.FuelTypeEnum.Gas;
+                            Visibility = ViewStates.Visible;
+                            break;
+                        }
+                    case Resource.Id.spb:
+                        {
+                            FuelType = VehicleData.FuelTypeEnum.Benzyna;
+                            Visibility = ViewStates.Gone;
+                            break;
+                        }
+                    case Resource.Id.son:
+                        {
+                            FuelType = VehicleData.FuelTypeEnum.Diesel;
+                            Visibility = ViewStates.Gone;
+                            break;
+                        }
+                    default:
                         break;
-                    }
-                case Resource.Id.spb:
-                    {
-                        FuelType = VehicleData.FuelTypeEnum.Benzyna;
-                        addpb.Visibility = ViewStates.Gone;
-                        break;
-                    }
-                case Resource.Id.son:
-                    {
-                        FuelType = VehicleData.FuelTypeEnum.Diesel;
-                        addpb.Visibility = ViewStates.Gone;
-                        break;
-                    }
-                default:
-                    break;
-            }
+                }
+            });//.Start();
+            AddPb.Visibility = Visibility;
         }
 
         private void Cost_Changed(object sender, Android.Text.TextChangedEventArgs e)
         {
+
             try
             {
-                if(consuption.Text == "")
+                if (Consuption.Text == "")
                 {
                     ConsuptionTil.Error = "Wpisz splalanie";
                     return;
                 }
                 Distance.TextChanged -= Distance_Changed;
-                var dist = double.Parse(Cost.Text) * 100 / Price/* LocalSet.Convert(Price.Text)*/ /  double.Parse(consuption.Text);
-                Distance.Text = dist.ToString();
+                var dist = LocalSet.Convert(Cost.Text) * 100 / Price/* LocalSet.Convert(Price.Text)*/ / LocalSet.Convert(Consuption.Text);
+                Distance.Text = String.Format("{0:0.00}", dist); //dist.ToString();
                 Distance.TextChanged += Distance_Changed;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(MainActivity.Log(ex));
             }
+
         }
 
         private void Distance_Changed(object sender, Android.Text.TextChangedEventArgs e)
         {
+
             try
             {
-                if (consuption.Text == "")
+                if (Consuption.Text == "")
                 {
                     ConsuptionTil.Error = "Wpisz splalanie";
                     return;
                 }
                 Cost.TextChanged -= Cost_Changed;
-                var cost = double.Parse(consuption.Text) * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * double.Parse(Distance.Text);
-                Cost.Text = cost.ToString();
+                var cost = LocalSet.Convert(Consuption.Text) * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * LocalSet.Convert(Distance.Text);
+                Cost.Text = String.Format("{0:0.00}", cost); //cost.ToString("{0:0.00}");
                 Cost.TextChanged += Cost_Changed;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(MainActivity.Log(ex));
             }
         }
 
@@ -274,24 +354,40 @@ namespace FuelCost
 
         private void MAdapter_ItemClick(object sender, int e)
         {
-            Intent intent = new Intent(this, typeof(DetailsActivity));
-            intent.PutExtra("position", e);
-            StartActivity(intent);
+            new Task(() =>
+            {
+                Intent intent = new Intent(this, typeof(DetailsActivity));
+                intent.PutExtra("position", e);
+                StartActivity(intent);
+            }).Start();
         }
 
         public static string Log(string text)
         {
-            Debug.Add(text);
-            return text;
+            var LogTask = new Task<string>(() =>
+            {
+                Debug.Add(text);
+                return text;
+            });
+            LogTask.Start();
+            LogTask.Wait();
+            return LogTask.Result;
+        }
+        public static string Log(Exception exception)
+        {
+            return Log(exception.Message);
         }
 
-
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        protected override async void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            base.OnActivityResult(requestCode, resultCode, data);
-            mAdapter.NotifyDataSetChanged();
-            DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
-            result.DispatchUpdatesTo(mAdapter);
+            await Task.Run(() =>
+            {
+                base.OnActivityResult(requestCode, resultCode, data);
+                RunOnUiThread(() => mAdapter.NotifyDataSetChanged());
+                DiffUtil.DiffResult result = DiffUtil.CalculateDiff(new DiffCallback(LocalSet.VehicleDataList, OldVehicleDataList), true);
+                RunOnUiThread(() => result.DispatchUpdatesTo(mAdapter));
+                HideWelcome();
+            });//.Start();
         }
 
         static class FloatingActionMenuHelper
@@ -336,7 +432,7 @@ namespace FuelCost
             /// </summary>
             /// <param name="sender"></param>
             /// <param name="e"></param>
-            private static void Button_Click(object sender, EventArgs e)
+            public static void Button_Click(object sender, EventArgs e)
             {
                 CloseFabMenu();
                 var type = typeof(Nullable);
@@ -365,7 +461,7 @@ namespace FuelCost
             /// <summary>
             /// Pokaż Menu
             /// </summary>
-            static void ShowFabMenu()
+            public static void ShowFabMenu()
             {
                 new Task(() =>
                 {

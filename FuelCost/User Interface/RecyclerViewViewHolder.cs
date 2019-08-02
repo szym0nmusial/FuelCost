@@ -56,8 +56,8 @@ namespace FuelCost
             try
             {
                     Distance.TextChanged -= Distance_Changed;
-                    var dist = double.Parse(Cost.Text) * 100 /Price/* LocalSet.Convert(Price.Text)*/ / Consuption /* double.Parse(Consuption.Text)*/;
-                    Distance.Text = dist.ToString();
+                    var dist = LocalSet.Convert(Cost.Text) * 100 /Price/* LocalSet.Convert(Price.Text)*/ / Consuption /* double.Parse(Consuption.Text)*/;
+                    Distance.Text = String.Format("{0:0.00}", dist); //dist.ToString();
                     Distance.TextChanged += Distance_Changed;
             }
             catch (Exception ex)
@@ -71,9 +71,9 @@ namespace FuelCost
             try
             {
                     Cost.TextChanged -= Cost_Changed;
-                    var cost = Consuption /*double.Parse(Consuption.Text)*/ * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * double.Parse(Distance.Text);
-                    Cost.Text = cost.ToString();
-                    Cost.TextChanged += Cost_Changed;
+                    var cost = Consuption /*double.Parse(Consuption.Text)*/ * 0.01f * Price/* LocalSet.Convert(Price.Text)*/ * LocalSet.Convert(Distance.Text);
+                    Cost.Text = String.Format("{0:0.00}", cost);// cost.ToString();
+                Cost.TextChanged += Cost_Changed;
             }
             catch (Exception ex)
             {

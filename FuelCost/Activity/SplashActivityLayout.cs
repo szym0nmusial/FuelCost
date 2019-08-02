@@ -20,7 +20,7 @@ namespace FuelCost
 {
 
     [Activity(Theme = "@style/AppTheme.SplashNoBackground", MainLauncher = false, NoHistory = true)]
-    [IntentFilter(new[] { Intent.ActionSend }, Categories = new[] { Intent.CategoryDefault }, DataMimeTypes = new[] { "text/*"/*, "/"*/ })]
+    [IntentFilter(new[] { Intent.ActionSend },Label =  "Oblicz koszta trasy", Categories = new[] { Intent.CategoryDefault }, DataMimeTypes = new[] { "text/*"/*, "/"*/ })]
     public class SplashActivityLayout : AppCompatActivity
     {
         static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;

@@ -53,7 +53,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="56dp"
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:animateLayoutChanges="true"
+                    android:id="@+id/cv">
+                     <TextView
+                        android:padding="20dp"
+                            android:id="@+id/Welcome"                            
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"                            
+                            android:layout_gravity="center"
+                            android:textSize="18sp"
+                            android:text="~ Dodaj pojazd \n~ Udostępnij mi trasę w Google mapach\n~ Albo oblicz bez zapisywania"/>
+                    </android.support.v7.widget.CardView>
+
                 <android.support.v7.widget.CardView
                     android:layout_marginTop="56dp"
                     android:layout_margin="12dp"
@@ -76,6 +96,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
+                            android:layout_gravity="center"
                             android:textSize="40sp"
                             android:text="Oblicz"/>
                         <Button
@@ -83,19 +104,21 @@
                              android:layout_weight="1"
                             android:text="˅"
                             android:textSize="40sp"
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"/>
+                            android:layout_gravity="center"/>
                     </LinearLayout>
 
                     <LinearLayout
+                         android:animateLayoutChanges="true"
                         android:layout_marginTop="30dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/DetailLinearLayout"
                         android:padding="16dp"
                         android:visibility="gone"
+                        android:focusableInTouchMode="true"
                         android:orientation="vertical">
 
                         <android.support.design.widget.TextInputLayout
@@ -115,17 +138,20 @@
                                 android:layout_height="wrap_content" />
                         </android.support.design.widget.TextInputLayout>
                         <TextView
+                            android:focusableInTouchMode="true"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dip"
                             android:text="Wybierz paliwo" />
                         <RadioGroup
+                            android:focusableInTouchMode="true"
                             android:id="@+id/SCBRB"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <RadioButton
+                                android:focusableInTouchMode="true"
                                 android:text="Lpg"
                                 android:id="@+id/slpg"
                                 style="@style/SegmentedControlButton"
@@ -133,6 +159,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <RadioButton
+                                android:focusableInTouchMode="true"
                                 android:text="Benzyna"
                                 android:id="@+id/spb"
                                 style="@style/SegmentedControlButton"
@@ -141,6 +168,7 @@
                                 android:layout_height="wrap_content"/>
 
                             <RadioButton
+                                android:focusableInTouchMode="true"
                                 android:text="Diesel"
                                 android:id="@+id/son"
                                 style="@style/SegmentedControlButton"
@@ -150,6 +178,7 @@
 
                         </RadioGroup>
                         <android.support.v7.widget.SwitchCompat
+                            android:focusableInTouchMode="true"
                             style="@style/Widget.AppCompat.CompoundButton.Switch"
                             android:text="Dostrysk Benzyny"
                             android:layout_width="match_parent"
@@ -158,6 +187,9 @@
                             android:visibility="gone"/>
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                             android:id="@+id/distanceTil"
+                            android:clickable="true"
+                            android:focusableInTouchMode="true"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25.5dp">
                             <EditText
@@ -169,6 +201,10 @@
                         </android.support.design.widget.TextInputLayout>
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                              android:id="@+id/costTil"
+                      
+                            android:clickable="true"
+                            android:focusableInTouchMode="true"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25.5dp">
                             <EditText
@@ -184,6 +220,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.RecyclerView
+                     android:animateLayoutChanges="true"
                     android:id="@+id/recyclerView"
                     android:scrollbars="vertical"
                     android:layout_width="fill_parent"

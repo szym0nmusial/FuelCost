@@ -41,8 +41,8 @@ namespace FuelCost
             //return false;
             //throw new NotImplementedException();
             //  return JsonConvert
-            return false;
-            return oldList[OldListSize].Equals(newList[newItemPosition]);
+           // return false;
+            return oldList[oldItemPosition].Equals(newList[newItemPosition]);
             
         }
     }
