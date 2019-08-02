@@ -23,22 +23,21 @@ namespace FuelCost
     [IntentFilter(new[] { Intent.ActionSend },Label =  "Oblicz koszta trasy", Categories = new[] { Intent.CategoryDefault }, DataMimeTypes = new[] { "text/*"/*, "/"*/ })]
     public class SplashActivityLayout : AppCompatActivity
     {
-        static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;
+      //  static readonly string TAG = "X:" + typeof(SplashActivityLayout).Name;
 
         static TextView TextView;
        // bool RunOnce = false;
 
         static CoordinatorLayout MainLayout;
-
-        ManualResetEvent blocker = new ManualResetEvent(true);
+        readonly ManualResetEvent blocker = new ManualResetEvent(true);
 
         double SharedDistance = 0.0;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
             base.OnCreate(savedInstanceState);
-
-
 
             SetContentView(Resource.Layout.SplashLayout);
 
@@ -97,8 +96,6 @@ namespace FuelCost
             {
                 try
                 {
-                    Stopwatch timer = new Stopwatch();
-                    timer.Start();
                     Intent intent = Intent;
                     var shareAction = intent.Action;
 
@@ -123,9 +120,9 @@ namespace FuelCost
                                                 if (Data[b] == '(')
                                                 {
                                                     var textkm = Data.Substring(b + 1, a-b-4);
+
+                                                    TextView.Text += "Udostępniono: " + textkm + " km trasy";
                                                     Console.WriteLine(MainActivity.Log("Udostępniono: " + textkm + " km trasy"));
-                                                    timer.Stop();
-                                                    Console.WriteLine(MainActivity.Log("Co zajeło tyle czasu: "+ timer.Elapsed ));
                                                     SharedDistance = LocalSet.Convert(textkm);
                                                     return;
                                                 }
@@ -201,9 +198,18 @@ Aby wyznaczyć najlepszą trasę z uwzględnieniem aktualnego ruchu, wejdź na h
 
             foreach(var Task in Tasks)
             {
-                Task.Start();
+                Task.Start();                
             }
-            Task.WaitAll(Tasks);
+
+            foreach (var Task in Tasks)
+            {
+                await Task;
+            }
+
+            timer.Stop();
+            Console.WriteLine(MainActivity.Log("Start time: " + timer.Elapsed));
+
+            //Task.WaitAll(Tasks);
             StrtupWorkEnded();
             
         }

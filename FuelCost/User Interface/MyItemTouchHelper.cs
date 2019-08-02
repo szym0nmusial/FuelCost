@@ -19,7 +19,7 @@ namespace FuelCost
 {
     public class MyItemTouchHelper : ItemTouchHelper.Callback
     {
-        Context Context;
+        readonly Context Context;
         public RecyclerViewAdapter mAdapter;
 
         public MyItemTouchHelper(Context context, RecyclerViewAdapter adapter)
@@ -65,18 +65,19 @@ namespace FuelCost
 
             if (isCanceled)
             {
-                clearCanvas(c, itemView.Right + dX, (float)itemView.Top, (float)itemView.Right, (float)itemView.Bottom);
+                ClearCanvas(c, itemView.Right + dX, (float)itemView.Top, (float)itemView.Right, (float)itemView.Bottom);
                 base.OnChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 return;
             }
 
             // Draw the red delete background
 
-            var background = new ColorDrawable();
-
-            background.Color = Color.ParseColor("#f44336");
-            background.SetBounds(itemView.Right + (int)dX, itemView.Top, itemView.Right, itemView.Bottom);
-            background.Draw(c);
+            using (var background = new ColorDrawable())
+            {
+                background.Color = Color.ParseColor("#f44336");
+                background.SetBounds(itemView.Right + (int)dX, itemView.Top, itemView.Right, itemView.Bottom);
+                background.Draw(c);
+            }
 
             var deleteIcon = ContextCompat.GetDrawable(Context, Resource.Drawable.del);
             var intrinsicHeight = deleteIcon.IntrinsicHeight;
@@ -96,11 +97,13 @@ namespace FuelCost
             base.OnChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
 
-        private void clearCanvas(Canvas c, float left, float top, float right, float bottom)
+        private void ClearCanvas(Canvas c, float left, float top, float right, float bottom)
         {
-            Paint clearPaint = new Paint();
-            clearPaint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
-            c?.DrawRect(left, top, right, bottom, clearPaint);
+            using (Paint clearPaint = new Paint())
+            {
+                clearPaint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
+                c?.DrawRect(left, top, right, bottom, clearPaint);
+            }
         }
     }
 }
